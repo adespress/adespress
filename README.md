@@ -1,5 +1,5 @@
 # climatechange-pinball
-Pinball: Climate Change Emergency via Gemini Canvas 2026
+Pinball: Climate Change Emergency (via Google Gemini Canvas 2026)
 
 
 🌍 Pinball: Climate Change Emergency
