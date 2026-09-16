@@ -1,9 +1,13 @@
 # climatechange-pinball
 Pinball: Climate Change Emergency (via Google Gemini Canvas 2026)
 
+Link to the game = https://adespress.github.io/climatechange-pinball/
+
 
 🌍 Pinball: Climate Change Emergency
+
 "Our Mother Earth is on the edge. Restore planetary equilibrium before time runs out."
+
 Pinball: Climate Change Emergency is a fast-paced, high-fidelity retro-arcade pinball simulation running entirely in the browser. Players navigate ecological tipping points, steer clear of industrial carbon culprits, and unlock regenerative clean technologies to cool planetary temperature anomalies and avert thermal runaway.
 
 🎮 Core Objectives & Rules
@@ -13,6 +17,7 @@ Climate Collapse Threshold: In Crisis Mode, hazardous impacts deduct points and 
 
 🔄 Two Dynamic Playfield Modes
 The table physically changes its bumpers, targets, geometry, and ambient soundscapes between two operational states:
+
 1. Deniability Zone (Crisis Mode)
 Visuals & Atmosphere: High-heat CRT neon aesthetics, smoking charred snags, smoldering tree stumps, and rising ember particles.
 Culprit Hazards (Point Penalties & Warming):
@@ -23,6 +28,7 @@ Slingshots: Hydraulic Fracking (-120 pts), Petrochemical Plastics (-120 pts).
 Emergency Lifelines:
 ⚡ Geo-Tech Invest Nodes: Strike the dual lightning nodes for instant speed boosts, temporary score rebounds (+300 pts), and atmospheric cooling.
 The Central Portal: Shoot the ball into the central swirling portal to transition the table into Harmonic Mode.
+
 3. Harmony Zone (Harmonic Mode)
 Visuals & Atmosphere: Luminous emerald playfield, living multi-canopy climax rainforest, floating seed motes, singing birds, and honeybees.
 Regenerative Solutions (Points & Cooling):
@@ -31,8 +37,8 @@ Targets: Sufficiency & Degrowth (+250 pts), Cleaner Ocean (+250 pts, with splash
 Slingshots: Organic Lifestyle (+60 pts), Biodiversity Meadow (+120 pts).
 Crisis Sink Hazard: The central vortex contracts into a red hazard zone marked KEEP OUT. Falling back in triggers a Deniability Surge, reverting the table back to Crisis Mode.
 Biosphere Resilience Shield: Above 10,000 points, every 500 points builds resilience buffering. In Harmonic mode, ball drops into the bottom basin have a scaled percentage chance to cleanly rebound without mode regression or point loss.
-🕹️ Controls
 
+🕹️ Controls
 
 Action
 Desktop Keyboard
