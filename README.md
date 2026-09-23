@@ -134,3 +134,9 @@ The interface includes mobile viewport defenses (`touch-action: none;`, `-webkit
 * **Creator / Design:** Ade mc (2026).
 * **Literary Tie-In:** Discover more ecological literature and projects through [Ade's Press](https://paragraph.com/@adespress), including *The Power of Pruning: Your Mind and Your Life*.
 * **Music:** Dedicated soundtrack integration featuring [Embertime on Spotify](https://open.spotify.com/artist/7ekDOUV7qs60NE5g1E7KaR?si=wHMZDPdhQ5GtaSCVS6q-aw).
+
+
+
+
+
+Credits & Provenance Concept, Game Design & Direction: Ade M. Campbell Development & Tooling: Prompted and edited by Ade M. Campbell, September 2026, in Gemini Canvas principally using Flash 3.8 and Extended. Publication & Related Works: Produced in connection with Ade's Press (art, writing etc. by Ade mc). This project is open-source and distributed under the MIT License.
