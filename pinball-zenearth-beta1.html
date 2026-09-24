@@ -166,21 +166,21 @@
               <div class="bgm-bar w-[3.5px] h-[3.5px] sm:w-[4px] sm:h-[4px] bg-emerald-400 rounded-[1px] shadow-[0_0_3px_rgba(52,211,153,0.8)] transition-colors"></div>
               <div class="bgm-bar w-[3.5px] h-[3.5px] sm:w-[4px] sm:h-[4px] bg-emerald-400 rounded-[1px] shadow-[0_0_3px_rgba(52,211,153,0.8)] transition-colors"></div>
             </button>
-            <!-- Sound Toggle -->
-            <button id="musicToggleBtn" type="button" title="Sound: ON (Click to mute)" class="relative px-1.5 py-0.5 rounded-md bg-slate-900/90 hover:bg-slate-800 border border-cyan-400/70 text-cyan-300 hover:text-cyan-200 transition-all flex items-center justify-center shadow-[0_0_8px_rgba(0,243,255,0.35)] active:scale-95 shrink-0 select-none">
-              <svg id="soundSpeakerIcon" class="w-3 h-3 sm:w-3.5 sm:h-3.5 overflow-visible" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path id="soundSpeakerBody" d="M3.5 7.5H6.5L11 4V16L6.5 12.5H3.5A1 1 0 0 1 2.5 11.5V8.5A1 1 0 0 1 3.5 7.5Z" fill="#38bdf8" stroke="#0284c7" stroke-width="0.8"/>
-                <path id="soundWave1" d="M14 6.5C15 7.5 15.5 8.7 15.5 10C15.5 11.3 15 12.5 14 13.5" stroke="#00f3ff" stroke-width="1.3" stroke-linecap="round"/>
-                <path id="soundWave2" d="M16.5 4.5C18.2 6.1 19 8 19 10C19 12 18.2 13.9 16.5 15.5" stroke="#00f3ff" stroke-width="1.3" stroke-linecap="round"/>
+            <!-- Sound Toggle Button -->
+            <button id="musicToggleBtn" type="button" title="Sound: ON (Click to mute)" class="h-[22px] sm:h-[24px] px-1.5 rounded-md bg-slate-900/90 hover:bg-slate-800 border border-cyan-400/70 text-cyan-300 hover:text-cyan-200 transition-all flex items-center justify-center shadow-[0_0_8px_rgba(0,243,255,0.35)] active:scale-95 shrink-0 select-none">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon id="soundSpeakerBody" points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="#38bdf8" stroke="#0284c7"></polygon>
+                <path id="soundWave1" d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="#00f3ff"></path>
+                <path id="soundWave2" d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="#00f3ff"></path>
                 <g id="soundMuteStrikeGroup" class="hidden">
-                  <line x1="1" y1="1" x2="19" y2="19" stroke="#000000" stroke-width="3.4" stroke-linecap="round"/>
-                  <line x1="1" y1="1" x2="19" y2="19" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" style="filter: drop-shadow(0 0 4px rgba(239, 68, 68, 0.95));"/>
+                  <line x1="1" y1="1" x2="23" y2="23" stroke="#475569" stroke-width="4"></line>
+                  <line x1="2" y1="2" x2="22" y2="22" stroke="#ef4444" stroke-width="2" style="filter: drop-shadow(0px 0px 3px #ef4444);"></line>
                 </g>
               </svg>
             </button>
-            <button id="headerResetBtn" class="flex-1 px-2 py-0.5 rounded-md bg-rose-950/90 hover:bg-rose-900 border border-rose-500/60 font-arcade text-[6.5px] sm:text-[7.5px] text-rose-300 hover:text-rose-100 transition-all flex items-center justify-center gap-1 shadow active:scale-95">
-              <span>🔄</span>
-              <span>RESET</span>
+            <button id="headerResetBtn" class="flex-1 px-2 py-0.5 rounded-md bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/60 font-arcade text-[6.5px] sm:text-[7.5px] text-cyan-300 hover:text-cyan-100 transition-all flex items-center justify-center gap-1 shadow active:scale-95">
+              <span>⏸️</span>
+              <span>PAUSE</span>
             </button>
           </div>
           <!-- Ade's Press & Scores -->
@@ -192,6 +192,14 @@
             <button id="viewLeaderboardHeaderBtn" class="flex-1 px-2 rounded-md bg-indigo-900/80 hover:bg-indigo-800 border border-amber-400/60 font-arcade text-[6.5px] sm:text-[7.5px] text-amber-300 hover:text-amber-200 transition-all flex items-center justify-center gap-1 shadow active:scale-95">
               <span>🏆</span>
               <span>SCORES</span>
+            </button>
+            <!-- Glowing Green Algiz Rune Button (Solutions Codex) -->
+            <button id="solutionsCodexBtn" type="button" title="Regenerative Solutions Codex (ᛉ)" class="w-[22px] sm:w-[24px] h-[22px] sm:h-[24px] rounded-full bg-slate-900/90 hover:bg-emerald-950/90 border border-emerald-400/80 shadow-[0_0_9px_rgba(57,255,20,0.6)] flex items-center justify-center shrink-0 active:scale-90 transition-all select-none group">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#39ff14" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-[0_0_5px_#39ff14] group-hover:scale-110 transition-transform">
+                <line x1="12" y1="22" x2="12" y2="2"></line>
+                <line x1="12" y1="11" x2="3" y2="2"></line>
+                <line x1="12" y1="11" x2="21" y2="2"></line>
+              </svg>
             </button>
           </div>
         </div>
@@ -241,7 +249,7 @@
         </div>
         
         <h2 class="font-sci-fi font-black text-base sm:text-xl text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 mb-0.5">
-          PURE HARMONIOUS FLOW
+          BECOME the CHANGE
         </h2>
         <p class="font-arcade text-[7.5px] sm:text-[8.5px] text-amber-300 mb-2 tracking-widest uppercase">
           REVEAL THE CENTRAL TREE OF LIFE
@@ -250,16 +258,16 @@
         <!-- CORE OBJECTIVE PROMPT CARD -->
         <div class="w-full max-w-[400px] bg-emerald-950/50 border border-emerald-500/60 rounded-lg p-2 sm:p-2.5 mb-2.5 text-center space-y-1 shadow-lg shadow-emerald-950/40">
           <p class="font-mono text-[10px] sm:text-xs leading-snug text-emerald-200 font-bold">
-            Enter a state of flow. Strike clean energy solutions, awaken wildlife pollinators, and nurture the central <span class="text-emerald-300 underline font-black">Tree of Life</span> to reach Syntropy at 80,000 PTS!
+            Enter a state of flow. REVEAL the many harmonious solutions, awaken wildlife pollinators, and nurture the central <span class="text-emerald-300 font-black">Tree of Life</span> to reach Syntropy at <span class="text-amber-300 underline font-black">80,000 PTS</span>!
           </p>
           <p class="font-arcade text-[8px] sm:text-[9.5px] text-cyan-300 tracking-wider animate-pulse font-bold">
-            10-Minute Zen session • Safe rebounds active
+            You have 10 minutes to Transform your Awareness...
           </p>
         </div>
 
         <!-- MAIN ACTION BUTTON -->
         <button id="insertHarmoniousCoinBtn" type="button" class="w-full max-w-[320px] py-2.5 sm:py-3 rounded-lg bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 hover:from-green-500 hover:to-teal-500 font-arcade text-[8.5px] sm:text-[10px] text-white tracking-widest shadow-lg border border-emerald-300 active:scale-95 transition-transform animate-pulse mb-2.5 cursor-pointer">
-          🌿 START HARMONIOUS FLOW 🌿
+          🌿 INSERT EARTH into NATURE 🌿
         </button>
 
         <!-- ZONE & MECHANICS GUIDE -->
@@ -472,52 +480,56 @@
         </div>
       </div>
 
-      <!-- RESET CONFIRMATION MODAL -->
+      <!-- PAUSE / RESET MODAL -->
       <div id="resetConfirmModal" class="hidden absolute inset-0 z-50 bg-black/95 backdrop-blur-md rounded-xl flex flex-col items-center justify-center p-3 sm:p-5 text-center crt-screen overflow-y-auto" style="touch-action: pan-y;">
-        <div class="w-14 h-14 sm:w-16 sm:h-16 mb-2 rounded-full border-2 border-emerald-500 p-2 animate-bounce flex items-center justify-center bg-gradient-to-tr from-emerald-950 to-teal-900 shadow-xl shadow-emerald-950/50">
-          <span class="text-3xl">🔄🌿</span>
+        <div class="w-14 h-14 sm:w-16 sm:h-16 mb-2 rounded-full border-2 border-cyan-500 p-2 animate-pulse flex items-center justify-center bg-gradient-to-tr from-cyan-950 to-teal-900 shadow-xl shadow-cyan-950/50">
+          <span class="text-3xl">⏸️🌿</span>
         </div>
-        <h2 class="font-sci-fi font-black text-base sm:text-lg text-emerald-300 glow-green mb-1">
-          RESET ZEN SESSION?
+        <h2 class="font-sci-fi font-black text-base sm:text-lg text-cyan-300 glow-cyan mb-1">
+          SESSION PAUSED
         </h2>
         <p class="font-arcade text-[7px] sm:text-[8px] text-amber-300 mb-2 tracking-widest uppercase">
-          ★ PROGRESS LOSS WARNING ★
+          ★ TAKE A MINDFUL BREATH ★
         </p>
 
-        <div class="w-full max-w-xs bg-slate-950/80 border border-emerald-500/60 rounded-lg p-2.5 mb-3 text-left font-mono text-[9.5px] leading-relaxed text-slate-200 space-y-1.5 shadow">
+        <div class="w-full max-w-xs bg-slate-950/80 border border-cyan-500/60 rounded-lg p-2.5 mb-3 text-left font-mono text-[9.5px] leading-relaxed text-slate-200 space-y-1.5 shadow">
           <p>
-            The table will reset directly to the initial screen with score and tree progression returned to baseline.
+            The biosphere is resting. You can resume your current flow or completely restart the session.
           </p>
         </div>
 
         <div class="w-full max-w-xs flex flex-col gap-1.5">
-          <button id="confirmResetBtn" type="button" class="w-full py-2.5 px-3 rounded-lg bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 font-arcade text-[8.5px] sm:text-[9.5px] text-white tracking-wider border border-amber-300 shadow active:scale-95 transition-all">
-            🔄 YES, RESET PROGRESS
+          <button id="cancelResetBtn" type="button" class="w-full py-2.5 px-3 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 font-arcade text-[8.5px] sm:text-[9.5px] text-white tracking-wider border border-emerald-300 shadow active:scale-95 transition-all">
+            ▶️ RESUME SESSION
           </button>
-          <button id="cancelResetBtn" type="button" class="w-full py-2 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 border border-cyan-400/60 font-arcade text-[8px] sm:text-[8.5px] text-cyan-300 tracking-wider active:scale-95 transition-all">
-            ✕ CANCEL & KEEP PLAYING
+          <button id="confirmResetBtn" type="button" class="w-full py-2 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 border border-rose-500/60 font-arcade text-[8px] sm:text-[8.5px] text-rose-400 hover:text-rose-300 tracking-wider active:scale-95 transition-all">
+            🔄 RESTART PROGRESS
           </button>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="w-full max-w-[540px] shrink-0 flex flex-col gap-1 z-20 safe-area-bottom">
-    <div class="w-full grid grid-cols-2 gap-1.5 font-arcade">
-      <button id="leftFlipperBtn" type="button" class="py-2 px-2 bg-gradient-to-b from-emerald-600 via-green-700 to-emerald-950 text-white rounded-lg border border-emerald-400 arcade-btn-green active:bg-emerald-800 flex items-center justify-center gap-1.5 select-none active:scale-[0.98] shadow-md shadow-emerald-950/40">
-        <span class="text-[10px] sm:text-xs font-bold tracking-wide">LEFT INFLUENCER</span>
-        <span class="text-[7.5px] sm:text-[8.5px] text-emerald-200 font-mono">[A/◄]</span>
-      </button>
+      <!-- REGENERATIVE SOLUTIONS CODEX MODAL -->
+      <div id="solutionsModal" class="hidden absolute inset-0 z-50 bg-black/95 backdrop-blur-md rounded-xl flex flex-col items-center justify-between p-3 sm:p-4 text-center crt-screen overflow-hidden" style="touch-action: pan-y;">
+        <div class="shrink-0 mb-1.5 w-full">
+          <div class="flex items-center justify-center gap-2 mb-0.5">
+            <span class="text-emerald-400 text-base sm:text-lg drop-shadow-[0_0_8px_#39ff14]">ᛉ</span>
+            <h2 class="font-sci-fi font-black text-sm sm:text-base text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 glow-green">
+              SOLUTIONS CODEX
+            </h2>
+            <span class="text-emerald-400 text-base sm:text-lg drop-shadow-[0_0_8px_#39ff14]">ᛉ</span>
+          </div>
+          <p class="font-arcade text-[6.5px] sm:text-[7.5px] text-amber-300 tracking-wider">
+            ★ ALL 135 ACTIONABLE HARMONIOUS SOLUTIONS ★
+          </p>
+        </div>
 
-      <button id="rightFlipperBtn" type="button" class="py-2 px-2 bg-gradient-to-b from-emerald-600 via-green-700 to-emerald-950 text-white rounded-lg border border-emerald-400 arcade-btn-green active:bg-emerald-800 flex items-center justify-center gap-1.5 select-none active:scale-[0.98] shadow-md shadow-emerald-950/40">
-        <span class="text-[10px] sm:text-xs font-bold tracking-wide">RIGHT INFLUENCER</span>
-        <span class="text-[7.5px] sm:text-[8.5px] text-emerald-200 font-mono">[D/►]</span>
-      </button>
-    </div>
+        <div id="solutionsModalList" class="w-full flex-1 overflow-y-auto space-y-2 pr-1 text-left max-h-[52vh] sm:max-h-[56vh]"></div>
 
-    <div class="w-full">
-      <div class="w-full py-1.5 sm:py-2 bg-gradient-to-r from-emerald-800 via-teal-800 to-cyan-900 text-emerald-100 font-arcade text-[7.5px] sm:text-[9px] rounded-lg border border-emerald-400/80 flex items-center justify-center gap-1.5 select-none leading-none shadow-md shadow-emerald-950/50">
-        <span>🌱 HARMONIOUS REGENERATION • TREE OF LIFE ACTIVE 🌱</span>
+        <div class="shrink-0 w-full max-w-xs pt-2">
+          <button id="closeSolutionsModalBtn" type="button" class="w-full py-2 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 border border-emerald-400/70 font-arcade text-[8px] sm:text-[9px] text-emerald-300 tracking-wider shadow active:scale-95 transition-all">
+            CLOSE CODEX
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -825,6 +837,31 @@
         }
       }
 
+      playWarningChime(urgency = 1) {
+        this.init();
+        if (!this.ctx || this.isMuted) return;
+        try {
+          if (urgency === 1) {
+            // 9:00 (60s remaining): Warm two-tone alert
+            this.playTone(440, 0.16, 'triangle', 0.22);
+            setTimeout(() => this.playTone(554.37, 0.22, 'sine', 0.22), 150);
+          } else {
+            // 9:30 (30s remaining): 3 ascending urgent harmonic alerts
+            this.playTone(523.25, 0.12, 'triangle', 0.24);
+            setTimeout(() => this.playTone(659.25, 0.12, 'triangle', 0.24), 110);
+            setTimeout(() => this.playTone(880.00, 0.26, 'sine', 0.26), 220);
+          }
+        } catch (e) {}
+      }
+
+      playCountdownTick() {
+        this.init();
+        if (!this.ctx || this.isMuted) return;
+        try {
+          this.playTone(620, 0.035, 'sine', 0.07);
+        } catch (e) {}
+      }
+
       playHealingChime() {
         this.init();
         const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
@@ -1026,9 +1063,10 @@
     });
     const bgMusic = new HybridJukebox(proceduralBGM);
     bgMusic.setPlaylist([
-      "https://adespress.github.io/climatechange-pinball/Your%20Land%20Eternal%20(into%20Nature).mp3",
-      "https://adespress.github.io/climatechange-pinball/Green%20Game-Keepers%20(Let's%20Go)%20-%20synth%202.mp3",
-      "https://adespress.github.io/climatechange-pinball/Hope%20in%20this%20Old%20GameWorld%20-%20Retro%20Synth%20Power%202.mp3"
+      "https://adespress.github.io/adespress/Your%20Land%20Eternal%20(into%20Nature).mp3",
+      "https://adespress.github.io/adespress/Green%20Game-Keepers%20(Let's%20Go)%20-%20synth%202.mp3",
+      "https://adespress.github.io/adespress/Hope%20in%20this%20Old%20GameWorld%20-%20Retro%20Synth%20Power%202.mp3",
+      "https://adespress.github.io/adespress/FireInside(mEmbershard2).mp3"
     ]);
 
     const WIDTH = 500;
@@ -1048,6 +1086,11 @@
     let timeRemaining = GAME_DURATION_SECONDS;
     let lastRenderedTimeStr = '';
     let isEndlessMode = false;
+
+    // Clock reminder flags for 9:00 and 9:30 marks
+    let warnedOneMinute = false;
+    let warnedThirtySeconds = false;
+    let lastSecondTicked = -1;
 
     let leftBtnIllumTimer = 0;
     let rightBtnIllumTimer = 0;
@@ -1093,7 +1136,12 @@
       "PEROVSKITE TANDEM CELLS",
       "PASSIVE SOLAR DESIGN",
       "SOLAR CANAL CANOPIES",
-      "VIRTUAL POWER PLANTS"
+      "VIRTUAL POWER PLANTS",
+      "BIPV SOLAR GLASS",
+      "SOLAR DISTRICT HEATING",
+      "PHOTOVOLTAIC PAVEMENT",
+      "ORGANIC PRINTABLE SOLAR",
+      "COMMUNITY SOLAR GARDENS"
     ];
     const WIND_ACTIONS = [
       "OFFSHORE WIND HARVEST",
@@ -1105,7 +1153,12 @@
       "BLADELESS WIND HARVEST",
       "BAT-SAFE SMART SENSORS",
       "AIRBORNE WIND TETHERS",
-      "RECYCLABLE BLADE DESIGN"
+      "RECYCLABLE BLADE DESIGN",
+      "VERTICAL-AXIS TURBINES",
+      "MICRO-WIND URBAN ROOFS",
+      "COLD-CLIMATE DE-ICING",
+      "ACOUSTIC BLADE TUNING",
+      "COMMUNITY WIND TRUSTS"
     ];
     const REGEN_AGRI_ACTIONS = [
       "COVER CROPPING",
@@ -1117,7 +1170,12 @@
       "AGROFORESTRY ALLEYWAYS",
       "HOLISTIC PLANNED GRAZING",
       "PERENNIAL GRAIN CROPS",
-      "NATURAL NITROGEN FIXING"
+      "NATURAL NITROGEN FIXING",
+      "COMPOST TEA INOCULATION",
+      "FUNGAL ROOT GUILDS",
+      "INTEGRATED DUCK WEEDING",
+      "VERMICULTURE RESTORATION",
+      "POLYCULTURE PASTURES"
     ];
     const PERMACULTURE_ACTIONS = [
       "PERENNIAL FOOD FORESTS",
@@ -1129,7 +1187,12 @@
       "HUGELKULTUR WATER BEDS",
       "INTEGRATED EDIBLE EDGES",
       "GREYWATER REED BIOFILTERS",
-      "CANOPY STACKING GUILDS"
+      "CANOPY STACKING GUILDS",
+      "EARTHEN CONTOUR BUNDS",
+      "CHICKEN TRACTOR FORAGING",
+      "CHINAMPA WATER GARDENS",
+      "BENEFICIAL INSECT GUILDS",
+      "ZERO-DIG BED EDGES"
     ];
     const CIRCULARITY_ACTIONS = [
       "ZERO WASTE DESIGN",
@@ -1141,7 +1204,12 @@
       "CIRCULAR TEXTILE LOOPS",
       "MODULAR ELECTRONICS",
       "COMPOSTABLE BIOPLASTICS",
-      "BUILDING DECONSTRUCTION"
+      "BUILDING DECONSTRUCTION",
+      "ALGAE-BASED POLYMERS",
+      "URBAN TIMBER SALVAGE",
+      "RECIRCULATING SHOWERS",
+      "CLOSED-LOOP PACKAGING",
+      "REMANUFACTURING HUBS"
     ];
     const SUFFICIENCY_ACTIONS = [
       "RIGHT TO REPAIR",
@@ -1153,7 +1221,12 @@
       "LOW-IMPACT MOBILITY",
       "ENERGY SUFFICIENCY",
       "COMMUNITY REPAIR CAFES",
-      "15-MINUTE NEIGHBORHOODS"
+      "15-MINUTE NEIGHBORHOODS",
+      "CAR-FREE URBAN PLAZAS",
+      "MUTUAL AID KITCHENS",
+      "SEED SAVING LIBRARIES",
+      "DECOMMERCIALIZED COMMONS",
+      "OPEN SOURCE HARDWARE"
     ];
     const OCEAN_ACTIONS = [
       "KELP REFORESTATION",
@@ -1165,7 +1238,12 @@
       "OYSTER REEF BIOFILTERS",
       "OCEAN TRASH INTERCEPTORS",
       "ACOUSTIC MARINE REFUGES",
-      "HIGH-SEAS SANCTUARIES"
+      "HIGH-SEAS SANCTUARIES",
+      "BENTHIC REEF ANCHORING",
+      "SEAWEED BIOFILTRATION",
+      "ESTUARY TIDAL RESTORATION",
+      "WHALE CARBON PUMPS",
+      "SALTMARSH BIO-SHIELDS"
     ];
     const LIFESTYLE_ACTIONS = [
       "HOME COMPOSTING",
@@ -1177,7 +1255,12 @@
       "HEAT PUMP RETROFITTING",
       "SEASONAL LOCAL EATING",
       "LOW-CARBON TRAVEL",
-      "MINDFUL DIGITAL HABITS"
+      "MINDFUL DIGITAL HABITS",
+      "INDUCTION COOKING",
+      "ACTIVE COMMUTE CYCLING",
+      "COMMUNITY BULK BUYING",
+      "CLOTHES SWAP CIRCLES",
+      "RAINWATER GARDEN HARVEST"
     ];
     const BIODIVERSITY_ACTIONS = [
       "SOIL IMPROVEMENT",
@@ -1189,7 +1272,12 @@
       "RIPARIAN BUFFER STRIPS",
       "KEYSTONE REINTRODUCTION",
       "SEED VAULT PRESERVATION",
-      "URBAN MICRO-FORESTS"
+      "URBAN MICRO-FORESTS",
+      "HEDGEROW CORRIDORS",
+      "DEADWOOD INSECT HOTELS",
+      "VERNAL POOL REFUGES",
+      "BAT BOX SANCTUARIES",
+      "NATIVE WILDFLOWER BERMS"
     ];
 
     function triggerActionPopup(actionList) {
@@ -1227,6 +1315,8 @@
     const greenWiseAwardModal = document.getElementById('greenWiseAwardModal');
     const leaderboardModal = document.getElementById('leaderboardModal');
     const resetConfirmModal = document.getElementById('resetConfirmModal');
+    const solutionsModal = document.getElementById('solutionsModal');
+    let solutionsPreviousState = 'START';
 
     const earthBall = {
       x: 250,
@@ -1344,8 +1434,13 @@
       // Only trees that have matured past the baby sprout stage possess bouncing canopies
       if (growProg < 0.28) return null;
 
-      const currentH = Math.max(14, tree.maxHeight * growProg);
-      const cScale = (0.55 + growProg * 0.45);
+      let ancientBoost = 0;
+      if (currentScore >= 90000 && (tree.id <= 4 || tree.id >= 12)) {
+        ancientBoost = Math.min(1.0, (currentScore - 90000) / 10000);
+      }
+
+      const currentH = Math.max(14, tree.maxHeight * (growProg + ancientBoost * 0.35));
+      const cScale = (0.55 + growProg * 0.45) * (1.0 + ancientBoost * 0.25);
       const cx = tree.rootX;
       const cy = 715 - currentH;
 
@@ -1370,6 +1465,8 @@
     const buzzingBees = [];
     const lifestyleLeaves = [];
     const poppingFish = [];
+    const oceanPlankton = [];
+    const fireflies = [];
 
     function closestPointOnSegment(px, py, ax, ay, bx, by) {
       const abx = bx - ax;
@@ -1408,7 +1505,7 @@
       });
     }
 
-    function spawnPoppingFish(cx, cy, count = 6) {
+    function spawnPoppingFish(cx, cy, count = 2) {
       const speciesList = [
         { color: '#ff7b00', finColor: '#ffea00', tailColor: '#ffffff', hasStripes: true },
         { color: '#00f3ff', finColor: '#0284c7', tailColor: '#facc15', hasStripes: false },
@@ -1435,6 +1532,30 @@
           hasStripes: spec.hasStripes,
           life: 1.0,
           decay: 0.012 + Math.random() * 0.006
+        });
+      }
+    }
+
+    function spawnOceanPlankton(count = 8) {
+      const colors = ['#00f3ff', '#38bdf8', '#2dd4bf', '#a7f3d0', '#f472b6', '#fed7aa'];
+      for (let i = 0; i < count; i++) {
+        const isBubble = Math.random() < 0.40;
+        // Float within the right gutter shelf area (x: 418 to 472, y: 280 to 450)
+        const rx = 418 + Math.random() * 54;
+        const ry = 280 + Math.random() * 150;
+        oceanPlankton.push({
+          x: rx,
+          y: ry,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: -(0.55 + Math.random() * 1.1),
+          r: isBubble ? (2.0 + Math.random() * 2.6) : (1.2 + Math.random() * 1.8),
+          type: isBubble ? 'bubble' : 'spore',
+          color: isBubble ? '#00f3ff' : colors[Math.floor(Math.random() * colors.length)],
+          wobble: Math.random() * Math.PI * 2,
+          wobbleSpeed: 0.04 + Math.random() * 0.04,
+          glowBlur: isBubble ? 5 : 8,
+          life: 1.0,
+          decay: 0.008 + Math.random() * 0.008
         });
       }
     }
@@ -1922,7 +2043,8 @@
 
               if (t.category === 'OCEAN_WILDLIFE') {
                 soundFX.playBubblePop();
-                spawnPoppingFish(nearestX, nearestY, 6);
+                spawnPoppingFish(nearestX, nearestY, 3);
+                spawnOceanPlankton(10);
                 addFloater(nearestX, nearestY - 26, '🌊 TIDAL ESCAPE! +250', '#00f3ff', 'bold 8.5px "Press Start 2P"');
               } else {
                 addFloater(nearestX, nearestY - 26, '🍃 BREEZE DEFLECTION! +250', '#39ff14', 'bold 8.5px "Press Start 2P"');
@@ -1977,6 +2099,9 @@
               addFloater(nearestX, nearestY - 24, `✨ ${t.label.replace('\n', ' ')} AWAKENED! ✨`, '#ffea00', 'bold 8px "Press Start 2P"');
               createSparks(nearestX, nearestY, '#ffffff', 14);
               soundFX.playTone(880, 0.16, 'triangle', 0.22);
+              if (t.category === 'OCEAN_WILDLIFE') {
+                spawnOceanPlankton(14);
+              }
               checkAllObstaclesAwakened();
             }
 
@@ -1989,7 +2114,8 @@
 
             if (t.category === 'OCEAN_WILDLIFE') {
               soundFX.playBubblePop();
-              spawnPoppingFish(nearestX, nearestY, 6);
+              spawnPoppingFish(nearestX, nearestY, 2);
+              spawnOceanPlankton(8);
               addFloater(nearestX, nearestY - 24, '🐟 CLEAN WATER RESTORED!', '#38bdf8', 'bold 8px "Press Start 2P"');
             }
 
@@ -2346,9 +2472,9 @@
       if (rightBtnIllumTimer > 0) rightBtnIllumTimer--;
       updateInfluencerButtonVisuals();
 
-      // Solenoid upward swing speed calibrated to a 3-frame (~50ms) sweep for distinct timing windows
-      const upSpeed = 0.58;
-      const downSpeed = 0.24;
+      // Relaxed flipper swing speed for a smoother, more mindful feel
+      const upSpeed = 0.46;
+      const downSpeed = 0.20;
 
       ['left', 'right'].forEach(key => {
         const f = flippers[key];
@@ -2431,7 +2557,7 @@
         } else if (currentTier === 3) {
           addFloater(WIDTH / 2, 230, '🦅 30,000 PTS: SOARING FLOCK ARRIVES!', '#00f3ff', 'bold 8px "Press Start 2P"');
         } else if (currentTier === 4) {
-          addFloater(WIDTH / 2, 230, '✨ 40,000 PTS: BIOLUMINESCENT FIREFLIES!', '#39ff14', 'bold 8px "Press Start 2P"');
+          addFloater(WIDTH / 2, 230, '🐦 40,000 PTS: BASIN SONGBIRDS NESTING!', '#39ff14', 'bold 8px "Press Start 2P"');
           soundFX.playTone(523, 0.15, 'triangle', 0.2);
         } else if (currentTier >= 5) {
           addFloater(WIDTH / 2, 230, '🌈 50,000 PTS: SOLAR AURORA ACTIVATED!', '#ffea00', 'bold 8px "Press Start 2P"');
@@ -2526,6 +2652,7 @@
       drawRegenerativeTrees();
       drawHarmonicMilestoneFauna();
       drawCentralTreeOfLife();
+      drawFireflies();
       drawAmbientParticles();
       drawObstacles();
       drawGlobalCollabLamp();
@@ -2539,6 +2666,7 @@
       drawBuzzingBees();
       drawLifestyleLeaves();
       drawPoppingFish();
+      drawOceanPlankton();
     }
 
     function drawTableTopBanner() {
@@ -2554,10 +2682,17 @@
       }
       const mins = Math.floor(curRemaining / 60);
       const secs = curRemaining % 60;
-      const timeText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      const timeText = isEndlessMode ? '∞ FREE FLOW' : `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
       const targetText = ' • GOAL: 80,000 PTS!';
 
-      ctx.font = '900 16px "Orbitron", sans-serif';
+      const isWarningStage2 = !isEndlessMode && gameState === 'PLAYING' && curRemaining <= 30 && curRemaining > 0;
+      const isWarningStage1 = !isEndlessMode && gameState === 'PLAYING' && curRemaining <= 60 && curRemaining > 30;
+
+      // Dynamic sizing and throbbing pulse in stage 2
+      const pulseScale = isWarningStage2 ? (1.0 + Math.max(0, Math.sin(Date.now() * 0.012) * 0.14)) : 1.0;
+      const timeFontSize = Math.floor(16 * pulseScale);
+
+      ctx.font = `900 ${timeFontSize}px "Orbitron", sans-serif`;
       const timeWidth = ctx.measureText(timeText).width;
       ctx.font = '900 10.5px "Orbitron", sans-serif';
       const targetWidth = ctx.measureText(targetText).width;
@@ -2566,34 +2701,91 @@
       ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
 
-      ctx.font = '900 16px "Orbitron", sans-serif';
+      // 1. CLOCK RENDERING
+      ctx.font = `900 ${timeFontSize}px "Orbitron", sans-serif`;
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 4;
       ctx.strokeText(timeText, startX, clockY);
-      ctx.fillStyle = '#ffea00';
-      setGlow('#ffea00', 10);
-      ctx.fillText(timeText, startX, clockY);
 
+      if (isWarningStage2) {
+        // Red to yellow urgent flash
+        const fastFlash = Math.floor(Date.now() / 220) % 2 === 0;
+        const color = fastFlash ? '#ef4444' : '#ffea00';
+        ctx.fillStyle = color;
+        setGlow('#ef4444', 16);
+        ctx.fillText(timeText, startX, clockY);
+      } else if (isWarningStage1) {
+        // Orange / amber reminder flash
+        const medFlash = Math.floor(Date.now() / 380) % 2 === 0;
+        const color = medFlash ? '#f97316' : '#ffea00';
+        ctx.fillStyle = color;
+        setGlow('#f97316', 12);
+        ctx.fillText(timeText, startX, clockY);
+      } else {
+        ctx.fillStyle = isEndlessMode ? '#00f3ff' : '#ffea00';
+        setGlow(isEndlessMode ? '#00f3ff' : '#ffea00', 10);
+        ctx.fillText(timeText, startX, clockY);
+      }
+
+      // 2. GOAL TEXT RENDERING (Flashing reminder effects)
       ctx.font = '900 10.5px "Orbitron", sans-serif';
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 3.2;
       ctx.strokeText(targetText, startX + timeWidth, clockY);
-      ctx.fillStyle = '#39ff14';
-      setGlow('#39ff14', 8);
+
+      if (isWarningStage2) {
+        const fastFlash = Math.floor(Date.now() / 220) % 2 === 0;
+        ctx.fillStyle = fastFlash ? '#ffea00' : '#ffffff';
+        setGlow(fastFlash ? '#ef4444' : '#ffea00', 12);
+      } else if (isWarningStage1) {
+        const medFlash = Math.floor(Date.now() / 380) % 2 === 0;
+        ctx.fillStyle = medFlash ? '#ffffff' : '#ffea00';
+        setGlow('#f97316', 10);
+      } else {
+        ctx.fillStyle = '#39ff14';
+        setGlow('#39ff14', 8);
+      }
       ctx.fillText(targetText, startX + timeWidth, clockY);
 
-      const text = 'ZEN HARMONY: NURTURE THE TREE OF LIFE';
+      // 3. BANNER SUBTEXT
+      let text = 'ZEN HARMONY: NURTURE THE TREE OF LIFE';
+      let subtextColor = '#39ff14';
+      let subtextGlow = '#39ff14';
+
+      if (isEndlessMode) {
+        text = 'ZEN FREE FLOW: CONTINUAL REGENERATION';
+        subtextColor = '#00f3ff';
+        subtextGlow = '#00f3ff';
+      } else if (isWarningStage2) {
+        const fastFlash = Math.floor(Date.now() / 220) % 2 === 0;
+        text = '🚨 URGENT: HARMONIZE THE EARTH NOW! 🚨';
+        subtextColor = fastFlash ? '#ef4444' : '#ffea00';
+        subtextGlow = '#ef4444';
+      } else if (isWarningStage1) {
+        text = '⏳ FINAL MINUTE: ACCELERATE REGENERATION!';
+        subtextColor = '#f59e0b';
+        subtextGlow = '#f59e0b';
+      }
+
       ctx.font = '900 11px "Orbitron", sans-serif';
       ctx.textAlign = 'center';
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 4;
       ctx.strokeText(text, bannerX, bannerY);
-      ctx.fillStyle = '#39ff14';
-      setGlow('#39ff14', 12);
+      ctx.fillStyle = subtextColor;
+      setGlow(subtextGlow, 12);
       ctx.fillText(text, bannerX, bannerY);
 
+      // Accent underline
       ctx.lineWidth = 1.5;
-      ctx.strokeStyle = 'rgba(57, 255, 20, 0.45)';
+      if (isWarningStage2) {
+        const fastFlash = Math.floor(Date.now() / 220) % 2 === 0;
+        ctx.strokeStyle = fastFlash ? 'rgba(239, 68, 68, 0.9)' : 'rgba(255, 234, 0, 0.7)';
+      } else if (isWarningStage1) {
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.75)';
+      } else {
+        ctx.strokeStyle = 'rgba(57, 255, 20, 0.45)';
+      }
       ctx.beginPath();
       ctx.moveTo(bannerX - 175, bannerY + 12);
       ctx.lineTo(bannerX + 175, bannerY + 12);
@@ -2619,6 +2811,91 @@
         ctx.lineTo(w.x2, w.y2);
         ctx.stroke();
       });
+
+      // Creeping Moss & Climbing Micro-Vines (linked to global temperature cooling toward +0.40°C)
+      const coolProg = Math.max(0, Math.min(1.0, (0.95 - globalTemp) / 0.55));
+      if (coolProg > 0.03) {
+        const vineMaxClimb = 515; // Climbs from baseline y: 715 up toward y: 200
+        const currentTopY = 715 - coolProg * vineMaxClimb;
+        const vTime = Date.now() * 0.002;
+        const flowerColors = ['#ffea00', '#f472b6', '#38bdf8', '#ffffff', '#a7f3d0'];
+
+        [
+          { railX: 25,  inDir: 1 },  // Left rail: vines curve inward to the right
+          { railX: 475, inDir: -1 }  // Right rail: vines curve inward to the left
+        ].forEach(side => {
+          ctx.save();
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+
+          // 1. Clinging Lichen & Moss Patches along the rail
+          const lichenAlpha = Math.min(0.65, coolProg * 0.75);
+          ctx.fillStyle = `rgba(34, 197, 94, ${lichenAlpha})`;
+          for (let ly = 705; ly >= currentTopY; ly -= 24) {
+            const patchW = 3.5 + Math.sin(ly * 0.12) * 1.8;
+            const patchH = 8.0 + Math.cos(ly * 0.08) * 3.0;
+            ctx.beginPath();
+            ctx.ellipse(side.railX + side.inDir * (patchW * 0.5), ly, patchW, patchH * 0.5, 0, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          // 2. Sinuous Micro-Vine Tendril Stem
+          ctx.strokeStyle = coolProg > 0.55 ? '#22c55e' : '#15803d';
+          ctx.lineWidth = 1.35;
+          setGlow(coolProg > 0.65 ? '#39ff14' : 'rgba(34, 197, 94, 0.3)', coolProg * 6);
+          ctx.beginPath();
+          ctx.moveTo(side.railX, 715);
+          for (let vy = 710; vy >= currentTopY; vy -= 10) {
+            const wave = Math.sin(vy * 0.05 + vTime + (side.railX * 0.02)) * 2.6;
+            const vx = side.railX + side.inDir * (Math.abs(wave) + 1.2);
+            ctx.lineTo(vx, vy);
+          }
+          ctx.stroke();
+
+          // 3. Clinging Micro-Leaves & Blossoming Floral Nodes
+          for (let ny = 700; ny >= currentTopY; ny -= 28) {
+            const nodeWave = Math.sin(ny * 0.05 + vTime + (side.railX * 0.02)) * 2.6;
+            const nx = side.railX + side.inDir * (Math.abs(nodeWave) + 1.2);
+            const nodeIdx = Math.floor(ny / 28);
+
+            // Micro-Leaf pair at node
+            ctx.fillStyle = coolProg > 0.5 ? '#4ade80' : '#16a34a';
+            ctx.beginPath();
+            ctx.ellipse(nx + side.inDir * 2.2, ny - 1.5, 2.8, 1.3, side.inDir * 0.45, 0, Math.PI * 2);
+            ctx.ellipse(nx - side.inDir * 0.8, ny + 1.5, 2.2, 1.1, -side.inDir * 0.35, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Blooming Starflower (appears as planet cools below +0.75°C)
+            const bloomThreshold = 0.32 + ((nodeIdx % 4) * 0.12);
+            if (coolProg >= bloomThreshold) {
+              const fColor = flowerColors[Math.abs(nodeIdx) % flowerColors.length];
+              const bloomSize = 1.6 + (coolProg - bloomThreshold) * 2.2;
+
+              ctx.save();
+              ctx.translate(nx + side.inDir * 1.5, ny);
+              setGlow(fColor, 5);
+
+              // 4 Petal Star
+              ctx.fillStyle = fColor;
+              [-1, 1].forEach(sign => {
+                ctx.beginPath();
+                ctx.arc(sign * bloomSize, 0, bloomSize * 0.55, 0, Math.PI * 2);
+                ctx.arc(0, sign * bloomSize, bloomSize * 0.55, 0, Math.PI * 2);
+                ctx.fill();
+              });
+
+              // Golden Pollen Heart
+              ctx.fillStyle = '#fef08a';
+              ctx.beginPath();
+              ctx.arc(0, 0, bloomSize * 0.38, 0, Math.PI * 2);
+              ctx.fill();
+              ctx.restore();
+            }
+          }
+          ctx.restore();
+        });
+      }
+
       ctx.restore();
     }
 
@@ -2664,9 +2941,14 @@
         const rawProg = (score - tree.minScore) / scoreSpan;
         const growProg = Math.max(0.08, Math.min(1.0, rawProg));
 
+        let ancientBoost = 0;
+        if (score >= 90000 && (tree.id <= 4 || tree.id >= 12)) {
+          ancientBoost = Math.min(1.0, (score - 90000) / 10000);
+        }
+
         const rx = tree.rootX;
-        const currentH = Math.max(14, tree.maxHeight * growProg);
-        const currentW = Math.max(1.8, tree.baseWidth * (0.35 + growProg * 0.65));
+        const currentH = Math.max(14, tree.maxHeight * (growProg + ancientBoost * 0.35));
+        const currentW = Math.max(1.8, tree.baseWidth * (0.35 + growProg * 0.65 + ancientBoost * 0.4));
         const isTreeHit = tree.hitTimer > 0;
         const hitShudder = isTreeHit ? Math.sin(tree.hitTimer * 1.2) * (tree.hitTimer / 22) * 5.0 : 0;
         const swayPhase = time * 1.6 + rx * 0.05;
@@ -2781,7 +3063,7 @@
         // 3. Species-Specific Canopy & Foliage Rendering
         const cx = tipX;
         const cy = crownCenterY;
-        const cScale = (0.55 + growProg * 0.45);
+        const cScale = (0.55 + growProg * 0.45) * (1.0 + ancientBoost * 0.25);
 
         // Radiant glow reaction when struck by the ball
         if (isTreeHit) {
@@ -3023,6 +3305,166 @@
           }
         }
 
+        // Ancient Sentinel Details: Dangling bioluminescent Spanish moss
+        if (ancientBoost > 0) {
+          const numTendrils = 4 + Math.floor(ancientBoost * 3);
+          ctx.strokeStyle = `rgba(167, 243, 208, ${0.4 + ancientBoost * 0.4})`;
+          ctx.lineWidth = 1.0 + ancientBoost * 0.5;
+          setGlow('#86efac', 8 * ancientBoost);
+          
+          for (let m = 0; m < numTendrils; m++) {
+            const tendrilX = cx - (cScale * 14) + (m * cScale * (28 / numTendrils));
+            const tendrilY = cy + (cScale * 4);
+            const tLen = (18 + (m % 3) * 12) * ancientBoost * cScale;
+            const tSway = Math.sin(time * 2.5 + m * 1.5 + tree.id) * 4 * ancientBoost;
+            
+            ctx.beginPath();
+            ctx.moveTo(tendrilX, tendrilY);
+            ctx.quadraticCurveTo(tendrilX + tSway, tendrilY + tLen * 0.6, tendrilX + tSway * 1.2, tendrilY + tLen);
+            ctx.stroke();
+
+            // Glowing firefly tips on the moss
+            ctx.fillStyle = (m % 2 === 0) ? '#ffea00' : '#a7f3d0';
+            setGlow((m % 2 === 0) ? '#ffea00' : '#39ff14', 6 * ancientBoost);
+            ctx.beginPath();
+            ctx.arc(tendrilX + tSway * 1.2, tendrilY + tLen, 1.2 + ancientBoost * 0.8, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        // Perched Basin Songbirds (40,000+ PTS) atop mature Oak, Pine, and Sakura crowns
+        if (score >= 40000 && growProg >= 0.5 && ['oak', 'pine', 'sakura'].includes(tree.type)) {
+          const birdSpecies = {
+            1:  { name: 'goldfinch', bodyCol: '#eab308', breastCol: '#fde047', headCol: '#eab308', capCol: '#0f172a', wingCol: '#0f172a', tailCol: '#0f172a', barCol: '#ffffff' },
+            2:  { name: 'bluebird',  bodyCol: '#0284c7', breastCol: '#c2410c', headCol: '#0284c7', capCol: null,      wingCol: '#0369a1', tailCol: '#075985', barCol: '#bae6fd' },
+            3:  { name: 'robin',     bodyCol: '#78350f', breastCol: '#ea580c', headCol: '#78350f', capCol: null,      wingCol: '#451a03', tailCol: '#451a03', barCol: '#fed7aa' },
+            13: { name: 'robin',     bodyCol: '#78350f', breastCol: '#ea580c', headCol: '#78350f', capCol: null,      wingCol: '#451a03', tailCol: '#451a03', barCol: '#fed7aa' },
+            14: { name: 'bluebird',  bodyCol: '#0284c7', breastCol: '#c2410c', headCol: '#0284c7', capCol: null,      wingCol: '#0369a1', tailCol: '#075985', barCol: '#bae6fd' },
+            15: { name: 'goldfinch', bodyCol: '#eab308', breastCol: '#fde047', headCol: '#eab308', capCol: '#0f172a', wingCol: '#0f172a', tailCol: '#0f172a', barCol: '#ffffff' }
+          };
+
+          const bird = birdSpecies[tree.id];
+          if (bird) {
+            // Perch coordinates calculated at the top rim of the foliage crown
+            let perchOffset = (18 + currentH * 0.16) * 0.85 * cScale;
+            if (tree.type === 'pine') perchOffset = (currentH * 0.28 * 0.65) * cScale;
+            else if (tree.type === 'sakura') perchOffset = (16 + currentH * 0.14) * 0.78 * cScale;
+
+            const isLeftFlank = tree.id < 8;
+            const perchX = cx + (isLeftFlank ? 6.5 : -6.5) * cScale;
+            const perchY = cy - perchOffset;
+
+            // Startled flutter hop when ball bounces off tree canopy
+            let hopY = 0;
+            const isStartled = tree.hitTimer > 0;
+            if (isStartled) {
+              const hopProgress = tree.hitTimer / 22; // 1.0 down to 0.0
+              hopY = Math.sin(hopProgress * Math.PI) * 14.5;
+            }
+            const tailBob = isStartled ? 0 : Math.sin(time * 3.5 + tree.id) * 0.8;
+
+            ctx.save();
+            ctx.translate(perchX, perchY - hopY);
+            // Birds naturally face inward toward the center of the playfield
+            ctx.scale(isLeftFlank ? 1 : -1, 1);
+            setGlow(bird.breastCol, 4);
+
+            // Tail feathers
+            ctx.fillStyle = bird.tailCol;
+            ctx.beginPath();
+            ctx.moveTo(-2.2, 0.4);
+            ctx.lineTo(-6.5, 1.8 + tailBob);
+            ctx.lineTo(-5.2, 0.1 + tailBob);
+            ctx.closePath();
+            ctx.fill();
+
+            // Plump body
+            ctx.fillStyle = bird.bodyCol;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 3.5, 2.5, 0.1, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Colorful chest/throat
+            ctx.fillStyle = bird.breastCol;
+            ctx.beginPath();
+            ctx.ellipse(1.1, 0.7, 2.1, 1.7, 0.25, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Head
+            ctx.fillStyle = bird.headCol;
+            ctx.beginPath();
+            ctx.arc(2.8, -1.5, 1.8, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Cap / crown marking (Goldfinch)
+            if (bird.capCol) {
+              ctx.fillStyle = bird.capCol;
+              ctx.beginPath();
+              ctx.arc(2.8, -2.1, 1.2, Math.PI, Math.PI * 2);
+              ctx.fill();
+            }
+
+            // Sharp beak
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.moveTo(4.2, -1.8);
+            ctx.lineTo(6.2, -1.3);
+            ctx.lineTo(4.2, -0.8);
+            ctx.closePath();
+            ctx.fill();
+
+            // Eye dot
+            ctx.fillStyle = '#0f172a';
+            ctx.beginPath();
+            ctx.arc(3.2, -1.8, 0.55, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Wing (flaps when startled, neatly folded when calm)
+            if (isStartled) {
+              const wingFlap = Math.sin(Date.now() * 0.05 + tree.id) * 0.9 - 0.35;
+              ctx.save();
+              ctx.translate(-0.5, -0.5);
+              ctx.rotate(wingFlap);
+              ctx.fillStyle = bird.wingCol;
+              ctx.beginPath();
+              ctx.ellipse(0, -2.8, 1.7, 3.5, 0.2, 0, Math.PI * 2);
+              ctx.fill();
+              if (bird.barCol) {
+                ctx.strokeStyle = bird.barCol;
+                ctx.lineWidth = 0.8;
+                ctx.beginPath();
+                ctx.moveTo(-1.2, -2.5); ctx.lineTo(1.2, -2.5);
+                ctx.stroke();
+              }
+              ctx.restore();
+            } else {
+              ctx.fillStyle = bird.wingCol;
+              ctx.beginPath();
+              ctx.ellipse(-0.4, -0.2, 2.5, 1.6, -0.2, 0, Math.PI * 2);
+              ctx.fill();
+              if (bird.barCol) {
+                ctx.strokeStyle = bird.barCol;
+                ctx.lineWidth = 0.75;
+                ctx.beginPath();
+                ctx.moveTo(-1.5, -0.2); ctx.lineTo(0.8, -0.2);
+                ctx.stroke();
+              }
+            }
+
+            // Feet gripping perch
+            if (!isStartled) {
+              ctx.strokeStyle = '#475569';
+              ctx.lineWidth = 0.8;
+              ctx.beginPath();
+              ctx.moveTo(0.5, 2.3); ctx.lineTo(0.5, 3.8);
+              ctx.moveTo(-1.0, 2.3); ctx.lineTo(-1.0, 3.8);
+              ctx.stroke();
+            }
+
+            ctx.restore();
+          }
+        }
+
         ctx.restore();
       });
 
@@ -3068,6 +3510,99 @@
           ctx.beginPath();
           ctx.ellipse(0, 0, 3.5, 2.0, 0, 0, Math.PI * 2);
           ctx.fill();
+          ctx.restore();
+        });
+      }
+
+      // 20,000 PTS: Top-Apex Pollinator Flyway (Bees & Monarchs in figure-eight loops)
+      if (score >= 20000) {
+        const pollinators = [
+          { type: 'butterfly', phase: 0, speed: 0.65, scale: 1.0 },
+          { type: 'bee',       phase: Math.PI * 0.55, speed: 0.85, scale: 0.9 },
+          { type: 'butterfly', phase: Math.PI * 1.15, speed: 0.60, scale: 0.85 },
+          { type: 'bee',       phase: Math.PI * 1.65, speed: 0.90, scale: 0.95 }
+        ];
+
+        pollinators.forEach(p => {
+          const t = time * p.speed + p.phase;
+          // Smooth lemniscate / figure-eight path weaving between Solar & Wind bumpers
+          const px = 250 + Math.sin(t) * 94;
+          const py = 76 + Math.sin(2 * t) * 22;
+
+          // Tangent angle to determine flight orientation
+          const vx = Math.cos(t) * 94;
+          const vy = 2 * Math.cos(2 * t) * 22;
+          const heading = Math.atan2(vy, vx);
+
+          ctx.save();
+          ctx.translate(px, py);
+          ctx.rotate(heading);
+          ctx.scale(p.scale, p.scale);
+
+          if (p.type === 'butterfly') {
+            const wingFlap = Math.sin(time * 9 + p.phase * 3);
+            ctx.scale(1, Math.max(0.18, Math.abs(wingFlap)));
+
+            // Monarch orange wings with dark outline and gold specks
+            setGlow('#f97316', 5);
+            ctx.fillStyle = '#ea580c';
+            ctx.strokeStyle = '#0f172a';
+            ctx.lineWidth = 0.7;
+
+            [-1, 1].forEach(side => {
+              ctx.beginPath();
+              ctx.ellipse(0, side * 3.8, 5.2, 3.2, side * 0.25, 0, Math.PI * 2);
+              ctx.fill();
+              ctx.stroke();
+
+              ctx.fillStyle = '#fde047';
+              ctx.beginPath();
+              ctx.arc(0.5, side * 3.6, 1.1, 0, Math.PI * 2);
+              ctx.fill();
+            });
+
+            // Slender body
+            ctx.fillStyle = '#0f172a';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 4.2, 1.2, 0, 0, Math.PI * 2);
+            ctx.fill();
+          } else {
+            // Honeybee
+            const beeBuzz = Math.sin(time * 26 + p.phase);
+
+            // Translucent buzzing wings
+            ctx.fillStyle = 'rgba(224, 242, 254, 0.75)';
+            setGlow('#00f3ff', 4);
+            [-1, 1].forEach(side => {
+              ctx.save();
+              ctx.rotate(side * (0.35 + beeBuzz * 0.25));
+              ctx.beginPath();
+              ctx.ellipse(0, side * 3.5, 3.5, 1.6, side * 0.4, 0, Math.PI * 2);
+              ctx.fill();
+              ctx.restore();
+            });
+
+            // Striped bee body
+            setGlow('#ffea00', 5);
+            ctx.fillStyle = '#eab308';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 4.0, 2.6, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1.1;
+            ctx.beginPath();
+            ctx.moveTo(-1.2, -2.2); ctx.lineTo(-1.2, 2.2);
+            ctx.moveTo(1.2, -2.2);  ctx.lineTo(1.2, 2.2);
+            ctx.stroke();
+
+            // Head
+            ctx.fillStyle = '#0f172a';
+            ctx.beginPath();
+            ctx.arc(3.6, 0, 1.2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
           ctx.restore();
         });
       }
@@ -3635,6 +4170,71 @@
         ctx.beginPath();
         ctx.arc(sx, sy, 1.2 + progress * 1.5, 0, Math.PI * 2);
         ctx.fill();
+      }
+
+      // Sacred Golden Syntropy Spiral (Unlocks after 50,000 PTS)
+      if (score >= 50000) {
+        ctx.save();
+        const spiralCenterX = cx;
+        const spiralCenterY = cy - trunkH;
+        const spiralTime = treeTime * 1.6;
+
+        ctx.translate(spiralCenterX, spiralCenterY);
+        ctx.rotate(spiralTime * 0.45); // Gentle meditative cosmic rotation
+
+        const turns = 2.3;
+        const maxAngle = turns * Math.PI * 2;
+        const spiralSteps = 55;
+        const spiralPulse = Math.sin(spiralTime * 2.2) * 1.2;
+        const maxR = 14.5 + spiralPulse;
+
+        // Subtle outer sacred halo
+        ctx.save();
+        ctx.strokeStyle = 'rgba(255, 234, 0, 0.32)';
+        ctx.lineWidth = 1.0;
+        setGlow('#ffea00', 8);
+        ctx.beginPath();
+        ctx.arc(0, 0, maxR + 2.2, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+
+        // Radiating Golden Spiral curve
+        ctx.strokeStyle = '#ffea00';
+        ctx.lineWidth = 1.8;
+        ctx.lineCap = 'round';
+        setGlow('#ffea00', 14);
+        ctx.beginPath();
+        for (let i = 0; i <= spiralSteps; i++) {
+          const prog = i / spiralSteps;
+          const theta = prog * maxAngle;
+          const r = Math.pow(prog, 0.85) * maxR;
+          const sx = Math.cos(theta) * r;
+          const sy = Math.sin(theta) * r;
+          if (i === 0) ctx.moveTo(sx, sy);
+          else ctx.lineTo(sx, sy);
+        }
+        ctx.stroke();
+
+        // Inner luminous golden-white nucleus pearl
+        ctx.fillStyle = '#ffffff';
+        setGlow('#ffea00', 10);
+        ctx.beginPath();
+        ctx.arc(0, 0, 2.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Dynamic golden and mint solar motes floating along the spiral path
+        for (let m = 0; m < 3; m++) {
+          const motePhase = (spiralTime * 0.65 + m / 3) % 1.0;
+          const moteTheta = motePhase * maxAngle;
+          const moteR = Math.pow(motePhase, 0.85) * maxR;
+          ctx.fillStyle = m % 2 === 0 ? '#ffea00' : '#86efac';
+          setGlow('#ffea00', 6);
+          ctx.beginPath();
+          ctx.arc(Math.cos(moteTheta) * moteR, Math.sin(moteTheta) * moteR, 1.35, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
       }
 
       // Progression Tracker Label
@@ -4726,6 +5326,65 @@
         b.life -= b.decay;
         if (b.life <= 0 || b.y < 0 || b.y > HEIGHT + 20) buzzingBees.splice(i, 1);
       }
+
+      // Ocean Plankton & Coral Spores
+      for (let i = oceanPlankton.length - 1; i >= 0; i--) {
+        const p = oceanPlankton[i];
+        p.wobble += p.wobbleSpeed;
+        p.x += Math.sin(p.wobble) * 0.35 + p.vx;
+        p.y += p.vy;
+        p.life -= p.decay;
+        if (p.life <= 0 || p.y < 160) oceanPlankton.splice(i, 1);
+      }
+
+      // Bioluminescent Fireflies at Twilight (40,000+ PTS)
+      if (score >= 40000) {
+        if (fireflies.length === 0) {
+          const count = isMobile ? 12 : 20;
+          for (let i = 0; i < count; i++) {
+            const isRoots = Math.random() < 0.55;
+            const hx = 250 + (Math.random() - 0.5) * (isRoots ? 140 : 110);
+            const hy = isRoots ? (280 + Math.random() * 95) : (195 + Math.random() * 85);
+            fireflies.push({
+              homeX: hx,
+              homeY: hy,
+              x: hx + (Math.random() - 0.5) * 20,
+              y: hy + (Math.random() - 0.5) * 20,
+              vx: 0,
+              vy: 0,
+              size: 1.8 + Math.random() * 1.4,
+              color: Math.random() < 0.55 ? '#ffea00' : '#39ff14',
+              pulsePhase: Math.random() * Math.PI * 2,
+              pulseSpeed: 0.03 + Math.random() * 0.035,
+              wanderPhase: Math.random() * Math.PI * 2
+            });
+          }
+        }
+        for (let i = 0; i < fireflies.length; i++) {
+          const ff = fireflies[i];
+          ff.pulsePhase += ff.pulseSpeed;
+          ff.wanderPhase += 0.025;
+          const targetX = ff.homeX + Math.sin(ff.wanderPhase) * 16;
+          const targetY = ff.homeY + Math.cos(ff.wanderPhase * 1.3) * 12;
+          ff.vx += (targetX - ff.x) * 0.035;
+          ff.vy += (targetY - ff.y) * 0.035;
+
+          // Ball dynamic scatter impulse
+          const bdx = ff.x - earthBall.x;
+          const bdy = ff.y - earthBall.y;
+          const bdist = Math.hypot(bdx, bdy);
+          const scatterDist = 58;
+          if (bdist < scatterDist && bdist > 0) {
+            const scatterForce = (1 - bdist / scatterDist) * 4.6;
+            ff.vx += (bdx / bdist) * scatterForce;
+            ff.vy += (bdy / bdist) * scatterForce;
+          }
+          ff.vx *= 0.88;
+          ff.vy *= 0.88;
+          ff.x += ff.vx;
+          ff.y += ff.vy;
+        }
+      }
     }
 
     function drawSparksAndFloaters() {
@@ -4769,7 +5428,7 @@
       ctx.translate(actionPopup.x, actionPopup.y);
       ctx.scale(scale, scale);
 
-      ctx.font = '900 14px "Orbitron", sans-serif';
+      ctx.font = '900 17px "Orbitron", sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
@@ -4826,6 +5485,73 @@
       ctx.restore();
     }
 
+    function drawOceanPlankton() {
+      ctx.save();
+      for (let i = oceanPlankton.length - 1; i >= 0; i--) {
+        const p = oceanPlankton[i];
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, Math.min(1, p.life * 1.25));
+        setGlow(p.color, p.glowBlur || 6);
+
+        if (p.type === 'bubble') {
+          // Translucent cyan bubble with specular highlight
+          ctx.strokeStyle = p.color;
+          ctx.lineWidth = 1.0;
+          ctx.fillStyle = 'rgba(0, 243, 255, 0.18)';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+
+          // Bubble glint
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(p.x - p.r * 0.35, p.y - p.r * 0.35, p.r * 0.28, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          // Phosphorescent coral spore mote
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * 0.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+      ctx.restore();
+    }
+
+    function drawFireflies() {
+      if (score < 40000 || fireflies.length === 0) return;
+      ctx.save();
+      fireflies.forEach(ff => {
+        const glowPulse = Math.sin(ff.pulsePhase);
+        const alpha = Math.max(0.18, 0.45 + glowPulse * 0.45);
+        const currentR = ff.size * (0.85 + glowPulse * 0.35);
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        setGlow(ff.color, 8 + glowPulse * 6);
+        ctx.fillStyle = ff.color;
+        ctx.beginPath();
+        ctx.arc(ff.x, ff.y, currentR, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (glowPulse > 0.3) {
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(ff.x, ff.y, currentR * 0.42, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      });
+      ctx.restore();
+    }
+
     function drawBuzzingBees() {
       ctx.save();
       for (let i = buzzingBees.length - 1; i >= 0; i--) {
@@ -4849,10 +5575,35 @@
     function updateCountdownDisplay() {
       if (gameState !== 'PLAYING') return;
 
+      const countdownStrip = document.getElementById('countdownStrip');
+      const timerPulseDot = document.getElementById('timerPulseDot');
+      const countdownLabel = document.getElementById('countdownLabel');
+      const targetScoreDisplay = document.getElementById('targetScoreDisplay');
+
       if (isEndlessMode) {
         if (lastRenderedTimeStr !== '∞ FREE FLOW') {
           lastRenderedTimeStr = '∞ FREE FLOW';
-          if (countdownDisplay) countdownDisplay.textContent = '∞ FREE FLOW';
+          if (countdownDisplay) {
+            countdownDisplay.textContent = '∞ FREE FLOW';
+            countdownDisplay.className = 'font-arcade text-[10px] sm:text-xs text-cyan-300 glow-cyan';
+          }
+          if (countdownStrip) {
+            countdownStrip.className = 'w-full bg-black/90 rounded-md border border-cyan-500/50 px-2 py-0.5 flex items-center justify-between shadow transition-all duration-300';
+          }
+          if (timerPulseDot) {
+            timerPulseDot.className = 'w-2 h-2 rounded-full bg-cyan-400 animate-pulse';
+          }
+          if (countdownLabel) {
+            countdownLabel.textContent = 'FREE FLOW:';
+            countdownLabel.className = 'font-arcade text-[7px] sm:text-[8px] text-cyan-400 tracking-wider';
+          }
+          if (targetScoreDisplay) {
+            targetScoreDisplay.className = 'text-amber-300 font-bold';
+          }
+          if (cabinetShell) {
+            cabinetShell.style.borderColor = '';
+            cabinetShell.style.boxShadow = '';
+          }
         }
         return;
       }
@@ -4864,9 +5615,99 @@
       const secs = timeRemaining % 60;
       const timeStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 
+      // Check audio alerts & floater notifications
+      if (timeRemaining <= 60 && timeRemaining > 30 && !warnedOneMinute) {
+        warnedOneMinute = true;
+        soundFX.playWarningChime(1);
+        addFloater(WIDTH / 2, 230, '⏳ FINAL MINUTE! 60s TO GOAL!', '#f97316', 'bold 9.5px "Press Start 2P"');
+        createSparks(WIDTH / 2, 38, '#f97316', 16);
+      } else if (timeRemaining <= 30 && !warnedThirtySeconds) {
+        warnedThirtySeconds = true;
+        soundFX.playWarningChime(2);
+        addFloater(WIDTH / 2, 230, '🚨 FINAL 30 SECONDS! REACH SYNTROPY!', '#ef4444', 'bold 10px "Press Start 2P"');
+        createSparks(WIDTH / 2, 38, '#ef4444', 22);
+      }
+
+      // Final 10-second sonar countdown ticks
+      if (timeRemaining <= 10 && timeRemaining > 0 && lastSecondTicked !== timeRemaining) {
+        lastSecondTicked = timeRemaining;
+        soundFX.playCountdownTick();
+      }
+
       if (timeStr !== lastRenderedTimeStr) {
         lastRenderedTimeStr = timeStr;
         if (countdownDisplay) countdownDisplay.textContent = timeStr;
+      }
+
+      // Visual escalation states across HTML strip, cabinet border & typography:
+      if (timeRemaining <= 30 && timeRemaining > 0) {
+        // Stage 2: Final 30 seconds (urgent red / crimson flashing)
+        const fastFlash = Math.floor(Date.now() / 220) % 2 === 0;
+        if (countdownStrip) {
+          countdownStrip.className = `w-full ${fastFlash ? 'bg-red-950/45 border-rose-500 shadow-[0_0_15px_rgba(239,68,68,0.7)]' : 'bg-black/90 border-red-700 shadow-[0_0_8px_rgba(239,68,68,0.4)]'} rounded-md border px-2 py-0.5 flex items-center justify-between transition-colors duration-150`;
+        }
+        if (timerPulseDot) {
+          timerPulseDot.className = 'w-2 h-2 rounded-full bg-rose-500 animate-ping';
+        }
+        if (countdownLabel) {
+          countdownLabel.textContent = 'URGENT TIME:';
+          countdownLabel.className = 'font-arcade text-[7px] sm:text-[8px] text-rose-400 tracking-wider font-bold';
+        }
+        if (countdownDisplay) {
+          countdownDisplay.className = `font-arcade text-[10px] sm:text-xs font-black ${fastFlash ? 'text-rose-400 drop-shadow-[0_0_8px_#ef4444]' : 'text-amber-200 drop-shadow-[0_0_8px_#ffea00]'}`;
+        }
+        if (targetScoreDisplay) {
+          targetScoreDisplay.className = `${fastFlash ? 'text-rose-400 drop-shadow-[0_0_6px_#ef4444]' : 'text-amber-300 drop-shadow-[0_0_6px_#ffea00]'} font-black`;
+        }
+        if (cabinetShell) {
+          cabinetShell.style.borderColor = fastFlash ? '#ef4444' : '#f97316';
+          cabinetShell.style.boxShadow = '0 0 25px rgba(239, 68, 68, 0.55), inset 0 0 20px rgba(0, 0, 0, 0.95)';
+        }
+      } else if (timeRemaining <= 60 && timeRemaining > 30) {
+        // Stage 1: 9:00 to 9:30 (warm amber / orange reminder)
+        const medFlash = Math.floor(Date.now() / 380) % 2 === 0;
+        if (countdownStrip) {
+          countdownStrip.className = `w-full ${medFlash ? 'bg-amber-950/35 border-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.5)]' : 'bg-black/90 border-amber-600/70 shadow-[0_0_6px_rgba(245,158,11,0.3)]'} rounded-md border px-2 py-0.5 flex items-center justify-between transition-colors duration-200`;
+        }
+        if (timerPulseDot) {
+          timerPulseDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+        }
+        if (countdownLabel) {
+          countdownLabel.textContent = 'FINAL MINUTE:';
+          countdownLabel.className = 'font-arcade text-[7px] sm:text-[8px] text-amber-400 tracking-wider';
+        }
+        if (countdownDisplay) {
+          countdownDisplay.className = `font-arcade text-[10px] sm:text-xs font-black ${medFlash ? 'text-orange-400 drop-shadow-[0_0_6px_#f97316]' : 'text-amber-300 glow-gold'}`;
+        }
+        if (targetScoreDisplay) {
+          targetScoreDisplay.className = `${medFlash ? 'text-white drop-shadow-[0_0_5px_#ffea00]' : 'text-amber-300'} font-bold`;
+        }
+        if (cabinetShell) {
+          cabinetShell.style.borderColor = medFlash ? '#f59e0b' : '#00f3ff';
+          cabinetShell.style.boxShadow = '0 0 20px rgba(245, 158, 11, 0.4), inset 0 0 20px rgba(0, 0, 0, 0.95)';
+        }
+      } else {
+        // Baseline calm state (> 60s remaining)
+        if (countdownStrip && !countdownStrip.className.includes('border-emerald-500/50')) {
+          countdownStrip.className = 'w-full bg-black/90 rounded-md border border-emerald-500/50 px-2 py-0.5 flex items-center justify-between shadow transition-all duration-300';
+        }
+        if (timerPulseDot && !timerPulseDot.className.includes('bg-emerald-400')) {
+          timerPulseDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+        }
+        if (countdownLabel && countdownLabel.textContent !== 'ZEN SESSION:') {
+          countdownLabel.textContent = 'ZEN SESSION:';
+          countdownLabel.className = 'font-arcade text-[7px] sm:text-[8px] text-emerald-400 tracking-wider';
+        }
+        if (countdownDisplay && !countdownDisplay.className.includes('text-emerald-300')) {
+          countdownDisplay.className = 'font-arcade text-[10px] sm:text-xs text-emerald-300 glow-green';
+        }
+        if (targetScoreDisplay && targetScoreDisplay.className !== 'text-amber-300 font-bold') {
+          targetScoreDisplay.className = 'text-amber-300 font-bold';
+        }
+        if (cabinetShell && cabinetShell.style.borderColor) {
+          cabinetShell.style.borderColor = '';
+          cabinetShell.style.boxShadow = '';
+        }
       }
 
       if (timeRemaining <= 0) {
@@ -4903,6 +5744,10 @@
       currentScoreSaved = false;
       allObstaclesAwakenedBonusAwarded = false;
 
+      warnedOneMinute = false;
+      warnedThirtySeconds = false;
+      lastSecondTicked = -1;
+
       solutionObstacles.bumpers.forEach(b => { b.isAwakened = false; b.hitTimer = 0; });
       solutionObstacles.targets.forEach(t => { t.isAwakened = false; t.hitTimer = 0; if (t.consecutiveHits) t.consecutiveHits = 0; });
       solutionObstacles.slingshots.forEach(s => { s.isAwakened = false; s.hitTimer = 0; s.cooldown = 0; s.consecutiveHits = 0; });
@@ -4918,6 +5763,8 @@
       buzzingBees.length = 0;
       lifestyleLeaves.length = 0;
       poppingFish.length = 0;
+      oceanPlankton.length = 0;
+      fireflies.length = 0;
       
       actionPopup = null;
       actionPopupCooldown = 0;
@@ -4940,7 +5787,18 @@
       flippers.right.angle = flippers.right.restAngle;
       flippers.right.prevAngle = flippers.right.restAngle;
 
-      if (countdownDisplay) countdownDisplay.textContent = '10:00';
+      const countdownStrip = document.getElementById('countdownStrip');
+      const timerPulseDot = document.getElementById('timerPulseDot');
+      const countdownLabel = document.getElementById('countdownLabel');
+      const targetScoreDisplay = document.getElementById('targetScoreDisplay');
+
+      if (countdownStrip) countdownStrip.className = 'w-full bg-black/90 rounded-md border border-emerald-500/50 px-2 py-0.5 flex items-center justify-between shadow transition-all duration-300';
+      if (timerPulseDot) timerPulseDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+      if (countdownLabel) { countdownLabel.textContent = 'ZEN SESSION:'; countdownLabel.className = 'font-arcade text-[7px] sm:text-[8px] text-emerald-400 tracking-wider'; }
+      if (countdownDisplay) { countdownDisplay.textContent = '10:00'; countdownDisplay.className = 'font-arcade text-[10px] sm:text-xs text-emerald-300 glow-green'; }
+      if (targetScoreDisplay) targetScoreDisplay.className = 'text-amber-300 font-bold';
+      if (cabinetShell) { cabinetShell.style.borderColor = ''; cabinetShell.style.boxShadow = ''; }
+
       if (gameOverModal) gameOverModal.classList.add('hidden');
       if (healingModal) healingModal.classList.add('hidden');
       if (fiftyKModal) fiftyKModal.classList.add('hidden');
@@ -4948,6 +5806,7 @@
       if (greenWiseAwardModal) greenWiseAwardModal.classList.add('hidden');
       if (leaderboardModal) leaderboardModal.classList.add('hidden');
       if (resetConfirmModal) resetConfirmModal.classList.add('hidden');
+      if (solutionsModal) solutionsModal.classList.add('hidden');
       if (startScreen) startScreen.classList.remove('hidden');
 
       soundFX.playTone(330, 0.12, 'triangle', 0.2);
@@ -4966,9 +5825,27 @@
       syntropyMilestoneMet = false;
       greenWiseAwardMilestoneMet = false;
       currentScoreSaved = false;
+      allObstaclesAwakenedBonusAwarded = false;
+
+      warnedOneMinute = false;
+      warnedThirtySeconds = false;
+      lastSecondTicked = -1;
 
       actionPopup = null;
       actionPopupCooldown = 0;
+
+      solutionObstacles.bumpers.forEach(b => { b.isAwakened = false; b.hitTimer = 0; });
+      solutionObstacles.targets.forEach(t => { t.isAwakened = false; t.hitTimer = 0; if (t.consecutiveHits) t.consecutiveHits = 0; });
+      solutionObstacles.slingshots.forEach(s => { s.isAwakened = false; s.hitTimer = 0; s.cooldown = 0; s.consecutiveHits = 0; });
+
+      sparks.length = 0;
+      floaters.length = 0;
+      ambientParticles.length = 0;
+      buzzingBees.length = 0;
+      lifestyleLeaves.length = 0;
+      poppingFish.length = 0;
+      oceanPlankton.length = 0;
+      fireflies.length = 0;
 
       gameStartTime = Date.now();
       timeRemaining = GAME_DURATION_SECONDS;
@@ -4997,7 +5874,18 @@
       lastHitTarget = null;
       basinForest.forEach(t => { t.cooldown = 0; t.hitTimer = 0; });
 
-      if (countdownDisplay) countdownDisplay.textContent = '10:00';
+      const countdownStrip = document.getElementById('countdownStrip');
+      const timerPulseDot = document.getElementById('timerPulseDot');
+      const countdownLabel = document.getElementById('countdownLabel');
+      const targetScoreDisplay = document.getElementById('targetScoreDisplay');
+
+      if (countdownStrip) countdownStrip.className = 'w-full bg-black/90 rounded-md border border-emerald-500/50 px-2 py-0.5 flex items-center justify-between shadow transition-all duration-300';
+      if (timerPulseDot) timerPulseDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+      if (countdownLabel) { countdownLabel.textContent = 'ZEN SESSION:'; countdownLabel.className = 'font-arcade text-[7px] sm:text-[8px] text-emerald-400 tracking-wider'; }
+      if (countdownDisplay) { countdownDisplay.textContent = '10:00'; countdownDisplay.className = 'font-arcade text-[10px] sm:text-xs text-emerald-300 glow-green'; }
+      if (targetScoreDisplay) targetScoreDisplay.className = 'text-amber-300 font-bold';
+      if (cabinetShell) { cabinetShell.style.borderColor = ''; cabinetShell.style.boxShadow = ''; }
+
       if (startScreen) startScreen.classList.add('hidden');
       if (gameOverModal) gameOverModal.classList.add('hidden');
       if (healingModal) healingModal.classList.add('hidden');
@@ -5006,6 +5894,7 @@
       if (greenWiseAwardModal) greenWiseAwardModal.classList.add('hidden');
       if (leaderboardModal) leaderboardModal.classList.add('hidden');
       if (resetConfirmModal) resetConfirmModal.classList.add('hidden');
+      if (solutionsModal) solutionsModal.classList.add('hidden');
 
       soundFX.playTone(523, 0.15, 'sine', 0.2);
       bgMusic.start();
@@ -5098,8 +5987,16 @@
     function closeLeaderboard() {
       if (leaderboardModal) leaderboardModal.classList.add('hidden');
       if (leaderboardPreviousState === 'PAUSED' || leaderboardPreviousState === 'PLAYING') {
-        gameStartTime += (Date.now() - pauseStartTime);
-        gameState = 'PLAYING';
+        const isMilestoneOpen = (healingModal && !healingModal.classList.contains('hidden')) ||
+                                (fiftyKModal && !fiftyKModal.classList.contains('hidden')) ||
+                                (syntropyModal && !syntropyModal.classList.contains('hidden')) ||
+                                (greenWiseAwardModal && !greenWiseAwardModal.classList.contains('hidden'));
+        if (!isMilestoneOpen) {
+          gameStartTime += (Date.now() - pauseStartTime);
+          gameState = 'PLAYING';
+        } else {
+          gameState = 'PAUSED';
+        }
       } else if (leaderboardPreviousState === 'GAMEOVER') {
         gameState = 'GAMEOVER';
         if (gameOverModal) gameOverModal.classList.remove('hidden');
@@ -5125,6 +6022,72 @@
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'SAVED'; }
       soundFX.playTone(880, 0.15, 'sine', 0.2);
       renderLeaderboard();
+    }
+
+    function populateSolutionsModal() {
+      const container = document.getElementById('solutionsModalList');
+      if (!container || container.children.length > 0) return;
+
+      const categories = [
+        { title: "☀️ SOLAR ENERGY", border: "border-amber-500/40", bg: "bg-amber-950/20", color: "text-amber-300", badge: "bg-amber-950/70 text-amber-200", items: SOLAR_ACTIONS },
+        { title: "💨 WIND HARVEST", border: "border-cyan-500/40", bg: "bg-cyan-950/20", color: "text-cyan-300", badge: "bg-cyan-950/70 text-cyan-200", items: WIND_ACTIONS },
+        { title: "🌳 REGENERATIVE AGRICULTURE", border: "border-emerald-500/40", bg: "bg-emerald-950/20", color: "text-emerald-300", badge: "bg-emerald-950/70 text-emerald-200", items: REGEN_AGRI_ACTIONS },
+        { title: "🌿 PERMACULTURE SYSTEMS", border: "border-green-500/40", bg: "bg-green-950/20", color: "text-green-300", badge: "bg-green-950/70 text-green-200", items: PERMACULTURE_ACTIONS },
+        { title: "♾️ CIRCULARITY & MATERIALS", border: "border-teal-500/40", bg: "bg-teal-950/20", color: "text-teal-300", badge: "bg-teal-950/70 text-teal-200", items: CIRCULARITY_ACTIONS },
+        { title: "⚖️ SUFFICIENCY & DEGROWTH", border: "border-emerald-500/40", bg: "bg-emerald-950/20", color: "text-emerald-300", badge: "bg-emerald-950/70 text-emerald-200", items: SUFFICIENCY_ACTIONS },
+        { title: "🌊 OCEAN & MARINE SHIELDS", border: "border-sky-500/40", bg: "bg-sky-950/20", color: "text-sky-300", badge: "bg-sky-950/70 text-sky-200", items: OCEAN_ACTIONS },
+        { title: "🌱 REGENERATIVE LIFESTYLE", border: "border-lime-500/40", bg: "bg-lime-950/20", color: "text-lime-300", badge: "bg-lime-950/70 text-lime-200", items: LIFESTYLE_ACTIONS },
+        { title: "🐝 BIODIVERSITY & HABITATS", border: "border-yellow-500/40", bg: "bg-yellow-950/20", color: "text-yellow-300", badge: "bg-yellow-950/70 text-yellow-200", items: BIODIVERSITY_ACTIONS }
+      ];
+
+      container.innerHTML = categories.map(cat => `
+        <div class="rounded-lg border ${cat.border} ${cat.bg} p-2 text-left shadow">
+          <div class="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10">
+            <span class="font-sci-fi text-[8.5px] sm:text-[9.5px] font-black ${cat.color} tracking-wide">${cat.title}</span>
+            <span class="font-arcade text-[5.5px] sm:text-[6px] px-1.5 py-0.5 rounded ${cat.badge}">${cat.items.length} ACTIONS</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 font-mono text-[7.5px] sm:text-[8px] text-slate-200">
+            ${cat.items.map(tip => `
+              <div class="flex items-center gap-1 bg-black/40 px-1.5 py-0.5 rounded border border-white/5">
+                <span class="text-emerald-400 text-[6.5px]">▸</span>
+                <span class="truncate">${tip}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openSolutionsModal() {
+      soundFX.init();
+      soundFX.playTone(660, 0.08, 'triangle', 0.16);
+      solutionsPreviousState = gameState;
+      if (gameState === 'PLAYING') {
+        gameState = 'PAUSED';
+        pauseStartTime = Date.now();
+      }
+      populateSolutionsModal();
+      if (solutionsModal) solutionsModal.classList.remove('hidden');
+    }
+
+    function closeSolutionsModal() {
+      soundFX.init();
+      soundFX.playTone(440, 0.06, 'sine', 0.14);
+      if (solutionsModal) solutionsModal.classList.add('hidden');
+      if (solutionsPreviousState === 'PLAYING') {
+        const isOtherModalOpen = (healingModal && !healingModal.classList.contains('hidden')) ||
+                                 (fiftyKModal && !fiftyKModal.classList.contains('hidden')) ||
+                                 (syntropyModal && !syntropyModal.classList.contains('hidden')) ||
+                                 (greenWiseAwardModal && !greenWiseAwardModal.classList.contains('hidden')) ||
+                                 (resetConfirmModal && !resetConfirmModal.classList.contains('hidden')) ||
+                                 (leaderboardModal && !leaderboardModal.classList.contains('hidden'));
+        if (!isOtherModalOpen) {
+          gameStartTime += (Date.now() - pauseStartTime);
+          gameState = 'PLAYING';
+        } else {
+          gameState = 'PAUSED';
+        }
+      }
     }
 
     let isAudioMuted = false;
@@ -5363,6 +6326,13 @@
         currentScoreSaved = false; // Allow saving a new Free Flow score
         gameState = 'PLAYING';
         gameStartTime = Date.now(); // Reset just in case to prevent background time accumulation issues
+        warnedOneMinute = false;
+        warnedThirtySeconds = false;
+        lastSecondTicked = -1;
+        if (cabinetShell) {
+          cabinetShell.style.borderColor = '';
+          cabinetShell.style.boxShadow = '';
+        }
         if (gameOverModal) gameOverModal.classList.add('hidden');
         soundFX.playHealingChime();
         updateUI();
@@ -5391,7 +6361,10 @@
     });
 
     document.getElementById('headerResetBtn')?.addEventListener('click', () => {
-      if (gameState === 'PLAYING') pauseStartTime = Date.now();
+      if (gameState === 'PLAYING') {
+        gameState = 'PAUSED';
+        pauseStartTime = Date.now();
+      }
       resetConfirmModal?.classList.remove('hidden');
     });
     document.getElementById('confirmResetBtn')?.addEventListener('click', () => {
@@ -5400,7 +6373,10 @@
     });
     document.getElementById('cancelResetBtn')?.addEventListener('click', () => {
       resetConfirmModal?.classList.add('hidden');
-      if (gameState === 'PLAYING') gameStartTime += (Date.now() - pauseStartTime);
+      if (gameState === 'PAUSED') {
+        gameStartTime += (Date.now() - pauseStartTime);
+        gameState = 'PLAYING';
+      }
     });
 
     document.getElementById('viewLeaderboardHeaderBtn')?.addEventListener('click', openLeaderboard);
@@ -5409,6 +6385,8 @@
     document.getElementById('greenWiseLeaderboardBtn')?.addEventListener('click', openLeaderboard);
     document.getElementById('closeLeaderboardBtn')?.addEventListener('click', closeLeaderboard);
     document.getElementById('submitScoreBtn')?.addEventListener('click', saveCurrentScoreToLeaderboard);
+    document.getElementById('solutionsCodexBtn')?.addEventListener('click', openSolutionsModal);
+    document.getElementById('closeSolutionsModalBtn')?.addEventListener('click', closeSolutionsModal);
 
     let lastFrameTimestamp = 0;
     let physicsAccumulator = 0;
