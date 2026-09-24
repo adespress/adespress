@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#030712">
+  <title>Ade's Press Games & Apps</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Orbitron, Press Start 2P, and Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      background-color: #030712;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    .font-arcade {
+      font-family: 'Press Start 2P', monospace;
+    }
+
+    .font-sci-fi {
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* Neon Emerald & Cyan Glow Utility Effects */
+    .glow-cyan {
+      text-shadow: 0 0 6px #00f3ff, 0 0 14px rgba(0, 243, 255, 0.6);
+    }
+    .glow-green {
+      text-shadow: 0 0 6px #39ff14, 0 0 14px rgba(57, 255, 20, 0.6);
+    }
+    .glow-gold {
+      text-shadow: 0 0 6px #ffea00, 0 0 14px rgba(255, 234, 0, 0.6);
+    }
+
+    .cabinet-solution {
+      box-shadow: 0 0 30px rgba(0, 243, 255, 0.15), 0 0 15px rgba(57, 255, 20, 0.15), inset 0 0 24px rgba(0, 0, 0, 0.95);
+      border: 2px solid #00f3ff;
+    }
+
+    .playfield-glass {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 25%, #052e16 0%, #03140e 55%, #020706 100%);
+    }
+
+    .playfield-glass::after {
+      content: " ";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 45%, rgba(0,243,255,0.03) 100%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .crt-screen {
+      background: linear-gradient(rgba(18, 24, 20, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+    }
+
+    @keyframes runeSurge {
+      0% {
+        stroke-dashoffset: 240;
+        opacity: 0.15;
+      }
+      25% {
+        opacity: 0.95;
+      }
+      75% {
+        opacity: 0.95;
+      }
+      100% {
+        stroke-dashoffset: 0;
+        opacity: 0.15;
+      }
+    }
+
+    .animate-rune-surge {
+      stroke-dasharray: 45 180;
+      animation: runeSurge 3.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes bioRuneBreath {
+      0%, 100% {
+        filter: drop-shadow(0 0 3px rgba(57, 255, 20, 0.25));
+        transform: scale(1);
+      }
+      50% {
+        filter: drop-shadow(0 0 6px rgba(57, 255, 20, 0.4));
+        transform: scale(1.01);
+      }
+    }
+
+    .animate-bio-rune {
+      animation: bioRuneBreath 3.6s ease-in-out infinite;
+    }
+
+    @keyframes matrixGlitchRune {
+      0%, 94%, 100% { opacity: 0.9; transform: translate(0, 0); }
+      95% { opacity: 1; transform: translate(-0.8px, 0.4px); }
+      96% { opacity: 0.75; transform: translate(0.8px, -0.4px); }
+      97% { opacity: 0.95; transform: translate(0, 0); }
+    }
+
+    .animate-matrix-glitch {
+      animation: matrixGlitchRune 5.5s infinite;
+    }
+
+    @keyframes pulseHolo {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px #39ff14); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 0 20px #00f3ff); }
+    }
+
+    .animate-holo {
+      animation: pulseHolo 2.4s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-start min-h-screen p-2 sm:p-4 bg-slate-950">
+
+  <div class="w-full max-w-[640px] shrink-0 flex flex-col gap-2 z-20 mb-4 mt-2">
+    <header class="w-full">
+      <div class="relative py-2 px-3 sm:px-4 rounded-lg bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 border border-emerald-500/40 shadow-lg flex items-center justify-between gap-2">
+        <div class="text-left min-w-0 flex-1">
+          <h1 class="font-sci-fi font-black">
+            <span class="block leading-tight text-[16px] sm:text-[20px] md:text-[22px] tracking-[0.15em] sm:tracking-[0.2em] font-black whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-emerald-300 to-cyan-300">ADE'S PRESS</span>
+            <span class="block text-[10px] sm:text-[12px] md:text-[13px] tracking-wider font-bold text-teal-200 mt-0.5">Games + Apps by Ade M. Campbell (x Gemini 2026+)</span>
+          </h1>
+        </div>
+
+        <!-- Audio Controls & GitHub Link -->
+        <div class="shrink-0 flex items-center gap-2">
+          <!-- X (Twitter) Link for Ade M. Campbell -->
+          <a href="https://x.com/ademcampbell" target="_blank" rel="noopener noreferrer" title="Ade M. Campbell on X" class="h-[32px] sm:h-[36px] w-[32px] sm:w-[36px] rounded-md bg-slate-900/90 hover:bg-slate-800 border border-cyan-400/70 text-cyan-300 hover:text-cyan-200 transition-all flex items-center justify-center shadow-[0_0_8px_rgba(0,243,255,0.35)] active:scale-95 shrink-0 select-none">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <!-- GitHub Repository Link -->
+          <a href="https://github.com/adespress/" target="_blank" rel="noopener noreferrer" title="Ade's GitHub Repository" class="h-[32px] sm:h-[36px] px-2 rounded-md bg-slate-900/90 hover:bg-slate-800 border border-cyan-400/70 text-cyan-300 hover:text-cyan-200 transition-all flex items-center justify-center shadow-[0_0_8px_rgba(0,243,255,0.35)] active:scale-95 shrink-0 select-none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+          </a>
+          <!-- BGM Volume Bars -->
+          <button id="bgmVolumeBtn" type="button" title="Background Music Volume" class="px-1.5 w-[20px] sm:w-[24px] h-[32px] sm:h-[36px] rounded-md bg-slate-900/90 hover:bg-slate-800 border border-emerald-500/60 flex flex-col items-center justify-center gap-[2.5px] shadow active:scale-95 shrink-0 transition-all select-none">
+            <div class="bgm-bar w-[5px] h-[4px] sm:w-[6px] sm:h-[5px] bg-slate-700 rounded-[1px] transition-colors"></div>
+            <div class="bgm-bar w-[5px] h-[4px] sm:w-[6px] sm:h-[5px] bg-slate-700 rounded-[1px] transition-colors"></div>
+            <div class="bgm-bar w-[5px] h-[4px] sm:w-[6px] sm:h-[5px] bg-emerald-400 rounded-[1px] shadow-[0_0_3px_rgba(52,211,153,0.8)] transition-colors"></div>
+            <div class="bgm-bar w-[5px] h-[4px] sm:w-[6px] sm:h-[5px] bg-emerald-400 rounded-[1px] shadow-[0_0_3px_rgba(52,211,153,0.8)] transition-colors"></div>
+          </button>
+          <!-- Sound Toggle Button -->
+          <button id="musicToggleBtn" type="button" title="Sound: ON (Click to mute)" class="h-[32px] sm:h-[36px] px-2 rounded-md bg-slate-900/90 hover:bg-slate-800 border border-cyan-400/70 text-cyan-300 hover:text-cyan-200 transition-all flex items-center justify-center shadow-[0_0_8px_rgba(0,243,255,0.35)] active:scale-95 shrink-0 select-none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon id="soundSpeakerBody" points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="#38bdf8" stroke="#0284c7"></polygon>
+              <path id="soundWave1" d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="#00f3ff"></path>
+              <path id="soundWave2" d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="#00f3ff"></path>
+              <g id="soundMuteStrikeGroup" class="hidden">
+                <line x1="1" y1="1" x2="23" y2="23" stroke="#475569" stroke-width="4"></line>
+                <line x1="2" y1="2" x2="22" y2="22" stroke="#ef4444" stroke-width="2" style="filter: drop-shadow(0px 0px 3px #ef4444);"></line>
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <main class="w-full max-w-[640px] flex-1 flex flex-col z-20 pb-8">
+    <div class="relative w-full rounded-xl cabinet-solution playfield-glass crt-screen flex flex-col items-center p-6 sm:p-10 shadow-2xl flex-1">
+      
+      <!-- Embertime Music Play/Pause Toggle Button -->
+      <button id="embertimeMusicBtn" type="button" title="Embertime Music: PAUSED (Click to play)" class="px-2.5 py-1 rounded-full bg-rose-950/80 hover:bg-rose-900/90 border border-rose-500/80 text-rose-300 hover:text-rose-200 font-arcade text-[6.5px] sm:text-[7.5px] tracking-wider transition-all shadow-[0_0_10px_rgba(244,63,94,0.45)] active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer select-none mt-2 sm:mt-4 mb-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_6px_#ef4444]"></span>
+        <span>EMBERTIME MUSIC</span>
+      </button>
+
+      <!-- Intricate Algiz Syntropy Rune with Double Green Border & Spiral Stem -->
+      <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 mb-4 rounded-full border-[3px] border-double border-emerald-400/80 p-1 animate-bio-rune flex items-center justify-center bg-gradient-to-tr from-slate-950 via-emerald-950/60 to-teal-950 shadow-md shadow-emerald-950/50 relative overflow-hidden select-none">
+        <svg viewBox="0 0 100 100" class="w-full h-full animate-matrix-glitch overflow-visible">
+          <!-- Definitions for Gradients and Glow Filters -->
+          <defs>
+            <linearGradient id="algizGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#a7f3d0" />
+              <stop offset="35%" stop-color="#39ff14" />
+              <stop offset="70%" stop-color="#00f3ff" />
+              <stop offset="100%" stop-color="#10b981" />
+            </linearGradient>
+            <linearGradient id="streamGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#a7f3d0" />
+              <stop offset="40%" stop-color="#ffffff" />
+              <stop offset="75%" stop-color="#39ff14" />
+              <stop offset="100%" stop-color="#00f3ff" />
+            </linearGradient>
+            <radialGradient id="runeAuraGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#39ff14" stop-opacity="0.16" />
+              <stop offset="65%" stop-color="#00f3ff" stop-opacity="0.05" />
+              <stop offset="100%" stop-color="#020617" stop-opacity="0" />
+            </radialGradient>
+            <filter id="runeGlowFilter" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="1.8" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Ambient Sacred Radial Core Glow -->
+          <circle cx="50" cy="50" r="45" fill="url(#runeAuraGrad)" />
+
+          <!-- Double Line Green Border Rings -->
+          <circle cx="50" cy="50" r="47" fill="none" stroke="#10b981" stroke-width="1.2" opacity="0.75" />
+          <circle cx="50" cy="50" r="44.2" fill="none" stroke="#10b981" stroke-width="0.9" opacity="0.6" />
+
+          <!-- Subtle Matrix Orbital Coordinate Rings -->
+          <circle cx="50" cy="50" r="41" fill="none" stroke="rgba(0, 243, 255, 0.25)" stroke-width="0.7" stroke-dasharray="2, 5" class="origin-center animate-[spin_30s_linear_infinite]" />
+          
+          <!-- Cardinal Matrix Coordinate Ticks -->
+          <line x1="50" y1="3" x2="50" y2="6.5" stroke="#00f3ff" stroke-width="1.1" stroke-linecap="round" opacity="0.6" />
+          <line x1="50" y1="93.5" x2="50" y2="97" stroke="#39ff14" stroke-width="1.1" stroke-linecap="round" opacity="0.6" />
+          <line x1="3" y1="50" x2="6.5" y2="50" stroke="#00f3ff" stroke-width="1.1" stroke-linecap="round" opacity="0.6" />
+          <line x1="93.5" y1="50" x2="97" y2="50" stroke="#00f3ff" stroke-width="1.1" stroke-linecap="round" opacity="0.6" />
+
+          <!-- 1. UNDERLAYER BASE STRUCTURE: Deep Bio-Emerald Shadows -->
+          <!-- Spiral into straight vertical stem -->
+          <path d="M 50,75 C 46,75 44,78 47,81 C 51,84 56,82 57,77 C 58,70 51,66 43,68 C 35,70 32,80 37,86 C 43,91 57,91 65,83 C 71,76 68,64 58,61 C 54,60 50,60 50,60 L 50,16" fill="none" stroke="#052e16" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" />
+          <!-- Diagonal left and right arms -->
+          <path d="M 25,24 L 50,44 L 75,24" fill="none" stroke="#052e16" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" />
+
+          <!-- 2. PRIMARY NEON RUNE & SPIRAL: Clean, Continuous Path -->
+          <!-- Spiral coiling and transitioning straight up into trunk -->
+          <path d="M 50,75 C 46,75 44,78 47,81 C 51,84 56,82 57,77 C 58,70 51,66 43,68 C 35,70 32,80 37,86 C 43,91 57,91 65,83 C 71,76 68,64 58,61 C 54,60 50,60 50,60 L 50,16" fill="none" stroke="url(#algizGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#runeGlowFilter)" />
+          <!-- Left and right branches branching cleanly from center node -->
+          <path d="M 25,24 L 50,44 L 75,24" fill="none" stroke="url(#algizGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#runeGlowFilter)" />
+
+          <!-- 3. ANIMATED BIOLUMINESCENT LIGHT PULSES -->
+          <!-- Pulse Stream A: Flows up from spiral through stem into left branch -->
+          <path d="M 50,75 C 46,75 44,78 47,81 C 51,84 56,82 57,77 C 58,70 51,66 43,68 C 35,70 32,80 37,86 C 43,91 57,91 65,83 C 71,76 68,64 58,61 C 54,60 50,60 50,60 L 50,44 L 25,24" fill="none" stroke="url(#streamGrad)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="animate-rune-surge" />
+          <!-- Pulse Stream B: Flows up from spiral through stem into right branch & crown apex -->
+          <path d="M 50,75 C 46,75 44,78 47,81 C 51,84 56,82 57,77 C 58,70 51,66 43,68 C 35,70 32,80 37,86 C 43,91 57,91 65,83 C 71,76 68,64 58,61 C 54,60 50,60 50,60 L 50,16 M 50,44 L 75,24" fill="none" stroke="url(#streamGrad)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="animate-rune-surge" style="animation-delay: 0.22s;" />
+
+          <!-- 4. SUBTLE GREEN POINTED TIPS (Replacing yellow circles) -->
+          <!-- Left branch subtle pointed tip -->
+          <polygon points="21.5,21.2 26.2,22.4 23.8,25.6" fill="#39ff14" filter="url(#runeGlowFilter)" />
+          <!-- Top crown apex subtle pointed tip -->
+          <polygon points="50,11.5 47.5,16 52.5,16" fill="#39ff14" filter="url(#runeGlowFilter)" />
+          <!-- Right branch subtle pointed tip -->
+          <polygon points="78.5,21.2 76.2,25.6 73.8,22.4" fill="#39ff14" filter="url(#runeGlowFilter)" />
+
+          <!-- 5. CENTRAL FORK JUNCTION NODE (Preserved in the Center of Rune) -->
+          <polygon points="50,40.5 53.5,44 50,47.5 46.5,44" fill="#00f3ff" stroke="#ffffff" stroke-width="0.8" filter="url(#runeGlowFilter)" />
+          <circle cx="50" cy="44" r="1.3" fill="#ffffff" />
+        </svg>
+      </div>
+      
+      <h2 class="font-sci-fi font-black text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 mb-1 text-center tracking-wide">
+        <span class="text-[1.28em] inline-block align-baseline">G</span>AMES + <span class="text-[1.28em] inline-block align-baseline">A</span>PPS
+      </h2>
+      <p class="font-arcade text-[7px] sm:text-[8.5px] md:text-[9px] text-amber-300 mb-6 tracking-wide text-center glow-gold px-2">
+        Browser Games + App projects, with AI Features and/or Prompts
+      </p>
+
+      <!-- Welcome Text Box Above -->
+      <div class="w-full max-w-[540px] bg-emerald-950/50 border border-emerald-500/40 rounded-lg p-3 sm:p-4 mb-4 text-left shadow-lg space-y-2">
+        <p class="font-mono text-[10.5px] sm:text-xs text-emerald-100 leading-relaxed">
+          Latest projects.... made with/for Google Gemini, Canvas or AI Studio (look into the <a href="https://github.com/adespress/" target="_blank" rel="noopener noreferrer" class="underline text-cyan-300 hover:text-cyan-200 font-bold">Github repository</a> to view code / contribute)
+        </p>
+        <p class="font-mono text-[9.5px] sm:text-[11px] text-teal-200/90 leading-relaxed">
+          Note: to use AI features you may need Gemini API key from Google AiStudio
+        </p>
+      </div>
+
+      <!-- Core Links Box -->
+      <div class="w-full max-w-[540px] bg-slate-950/85 border border-teal-500/50 rounded-lg p-3.5 sm:p-4 text-left space-y-3 sm:space-y-3.5 shadow-lg shadow-teal-950/40 relative z-20">
+        
+        <!-- Button 1: PINBALL: Climate Emergency! -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5 border-b border-teal-900/40">
+          <a href="https://adespress.github.io/adespress/pinball-climate.html" target="_blank" rel="noopener noreferrer" class="shrink-0 w-full sm:w-[210px] py-1.5 sm:py-2 px-2 text-center rounded-lg bg-gradient-to-r from-rose-800 via-amber-700 to-orange-700 hover:from-rose-700 hover:to-orange-600 font-sci-fi font-bold text-white tracking-wide shadow-[0_0_14px_rgba(244,63,94,0.4),inset_0_0_12px_rgba(255,237,213,0.45)] border border-rose-300/90 active:scale-95 transition-all flex flex-col justify-center items-center">
+            <span class="block text-[8px] sm:text-[9px] opacity-90 leading-tight">PINBALL:</span>
+            <span class="block text-[9.5px] sm:text-[10.5px] leading-tight font-black">Climate Emergency!</span>
+          </a>
+          <p class="font-mono text-[9.5px] sm:text-[10.5px] text-rose-100/90 leading-snug flex-1">
+            Can you restore harmony by reaching 30,000 points in 5 minutes in this dual table-switching initial version?
+          </p>
+        </div>
+
+        <!-- Button 2: PINBALL: HARMONIOUS EARTH -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5 border-b border-teal-900/40">
+          <a href="https://adespress.github.io/adespress/pinball-zenearth-beta1.html" target="_blank" rel="noopener noreferrer" class="shrink-0 w-full sm:w-[210px] py-1.5 sm:py-2 px-2 text-center rounded-lg bg-gradient-to-r from-cyan-700 via-teal-600 to-emerald-600 hover:from-cyan-600 hover:to-emerald-500 font-sci-fi font-bold text-white tracking-wide shadow-[0_0_14px_rgba(6,182,212,0.4),inset_0_0_12px_rgba(207,250,254,0.45)] border border-cyan-200/90 active:scale-95 transition-all flex flex-col justify-center items-center">
+            <span class="block text-[8px] sm:text-[9px] opacity-90 leading-tight">PINBALL:</span>
+            <span class="block text-[9.5px] sm:text-[10.5px] leading-tight font-black">HARMONIOUS EARTH</span>
+          </a>
+          <p class="font-mono text-[9.5px] sm:text-[10.5px] text-cyan-100/90 leading-snug flex-1">
+            Can you acceralate harmony by reaching 80,000 points in 10 minutes of relaxing no-penalty pinball? Pure zen...
+          </p>
+        </div>
+
+        <!-- Button 3: DIVE or FALL -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5 border-b border-teal-900/40">
+          <button type="button" data-coming-soon="DIVE or FALL" class="coming-soon-btn shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 hover:from-purple-800 hover:to-indigo-800 font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] text-purple-200 tracking-wide shadow border border-purple-500/50 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+            <span>DIVE or FALL</span>
+            <span class="text-[7px] font-arcade px-1 py-0.5 rounded bg-purple-950 text-amber-300 border border-amber-400/40">SOON</span>
+          </button>
+          <p class="font-mono text-[9.5px] sm:text-[10.5px] text-indigo-100/80 leading-snug flex-1">
+            Dive through portals of inspiration and perspective. Coming soon....
+          </p>
+        </div>
+
+        <!-- Button 4: DRIVE for LIFE -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5 border-b border-teal-900/40">
+          <button type="button" data-coming-soon="DRIVE for LIFE" class="coming-soon-btn shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-gradient-to-r from-amber-900 via-orange-950 to-slate-900 hover:from-amber-800 hover:to-orange-900 font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] text-amber-200 tracking-wide shadow border border-amber-500/50 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+            <span>DRIVE for LIFE</span>
+            <span class="text-[7px] font-arcade px-1 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-400/40">SOON</span>
+          </button>
+          <p class="font-mono text-[9.5px] sm:text-[10.5px] text-amber-100/80 leading-snug flex-1">
+            Keep retro-driving through Regenerative vocab in order to bring life back to the world, and reach syntropic or natural awareness. Coming soon....
+          </p>
+        </div>
+
+        <!-- Button 5: ORGANIC METAVERSE -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5">
+          <button type="button" data-coming-soon="ORGANIC METAVERSE" class="coming-soon-btn shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-900 hover:from-emerald-900 hover:to-teal-900 font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] text-emerald-200 tracking-wide shadow border border-emerald-500/50 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+            <span>ORGANIC METAVERSE</span>
+            <span class="text-[7px] font-arcade px-1 py-0.5 rounded bg-emerald-950 text-amber-300 border border-amber-400/40 shrink-0">SOON</span>
+          </button>
+          <p class="font-mono text-[9.5px] sm:text-[10.5px] text-emerald-100/80 leading-snug flex-1">
+            Explore types of trees and plants by climbing them. Coming soon....
+          </p>
+        </div>
+
+        <!-- Section Separator: Links & Media -->
+        <div class="relative py-1 my-1 flex items-center justify-center">
+          <div class="w-full border-t border-teal-500/40"></div>
+          <span class="absolute px-2.5 bg-slate-950 font-arcade text-[6.5px] sm:text-[7.5px] text-teal-300 tracking-widest uppercase border border-teal-500/40 rounded-full shadow-[0_0_8px_rgba(20,184,166,0.25)]">LINKS &amp; MEDIA</span>
+        </div>
+
+        <!-- Button 6: ADE'S PRESS blog -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5 border-b border-teal-900/40">
+          <a href="https://paragraph.com/@adespress" target="_blank" rel="noopener noreferrer" class="shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-gradient-to-r from-emerald-950 via-emerald-900/85 to-teal-950 hover:from-emerald-800 hover:via-teal-800 hover:to-emerald-700 active:from-emerald-700 active:to-teal-600 border border-emerald-400/80 hover:border-emerald-300 text-emerald-200 hover:text-white font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] tracking-wide shadow-[0_0_12px_rgba(16,185,129,0.25)] hover:shadow-[0_0_18px_rgba(52,211,153,0.5)] active:scale-95 transition-all">
+            📚 ADE'S PRESS blog
+          </a>
+          <div class="flex-1 space-y-1">
+            <p class="font-mono text-[9.5px] sm:text-[10.5px] text-teal-100 leading-snug">
+              Main permablog with latest posts covering creative work, Ai experiments etc.
+            </p>
+          </div>
+        </div>
+
+        <!-- Button 7: EMBERTIME (links) -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5">
+          <button id="openEmbertimeModalBtn" type="button" class="shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-gradient-to-r from-red-950 via-rose-900/90 to-amber-900/90 hover:from-red-800 hover:via-orange-800 hover:to-amber-700 active:from-red-700 active:to-orange-600 border border-orange-500/80 hover:border-amber-300 text-orange-200 hover:text-white font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] tracking-wide shadow-[0_0_12px_rgba(239,68,68,0.25)] hover:shadow-[0_0_18px_rgba(249,115,22,0.55)] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+            <span>🎵 EMBERTIME (links)</span>
+          </button>
+          <p class="font-mono text-[9.5px] sm:text-[10.5px] text-amber-100/90 leading-snug flex-1">
+            Like the music featured in many of the games? Most were generated out of Ade's original guitar-based songs + mixes. Find where to listen to these folky, retro-synth and ambient soundtracks inspiring some of the projects.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Text Box Below -->
+      <div class="w-full max-w-[540px] bg-slate-900/40 border border-slate-500/30 rounded-lg p-3 sm:p-4 mt-4 text-left shadow-lg">
+        <p class="font-mono text-[9px] sm:text-[10.5px] text-slate-300 leading-relaxed italic">
+          "System updates and new modules will be deployed here continuously. Keep your awareness sharp, and remember to spend time outside."
+        </p>
+      </div>
+
+      <!-- Ade M. Campbell on X Link at bottom of page -->
+      <div class="w-full max-w-[540px] mt-3 flex items-center justify-center gap-2">
+        <span class="font-mono text-[9.5px] sm:text-[10.5px] text-slate-400">Ade's Press on X:</span>
+        <a href="https://x.com/ademcampbell" target="_blank" rel="noopener noreferrer" class="font-mono text-[10px] sm:text-[11px] text-cyan-300 hover:text-cyan-200 underline font-bold inline-flex items-center gap-1">
+          @ademcampbell ↗
+        </a>
+      </div>
+
+      <div class="mt-auto pt-8 font-mono text-[10px] sm:text-xs text-emerald-400/70 text-center tracking-widest">
+        SYSTEM ONLINE // AWAITING INPUT
+      </div>
+    </div>
+
+    <!-- EMBERTIME LINKS POP-UP MODAL -->
+    <div id="embertimeLinksModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 crt-screen" style="touch-action: pan-y;">
+      <div class="relative w-full max-w-[460px] bg-gradient-to-b from-slate-950 via-emerald-950/70 to-slate-950 border-2 border-emerald-400/80 rounded-xl p-4 sm:p-5 shadow-[0_0_30px_rgba(57,255,20,0.3)] text-left flex flex-col gap-3">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between border-b border-emerald-500/30 pb-2">
+          <div>
+            <h3 class="font-sci-fi font-black text-sm sm:text-base text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-rose-300 to-emerald-300 tracking-wide">
+              EMBERTIME MUSIC & SOUNDTRACKS
+            </h3>
+            <p class="font-arcade text-[6px] sm:text-[7px] text-amber-300/90 mt-0.5">
+              FOLKY, RETRO-SYNTH & AMBIENT SOUNDSCAPES
+            </p>
+          </div>
+          <button id="closeEmbertimeCrossBtn" type="button" class="w-7 h-7 rounded-md bg-slate-900 border border-emerald-500/50 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold active:scale-95 cursor-pointer">
+            ✕
+          </button>
+        </div>
+
+        <!-- Description -->
+        <p class="font-mono text-[10px] sm:text-[11px] text-emerald-100/90 leading-relaxed">
+          Soundtracks and songs generated from Ade's original guitar sessions, synth compositions, and atmospheric mixes. Choose a portal:
+        </p>
+
+        <!-- Links Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
+          <!-- Spotify -->
+          <a href="https://open.spotify.com/artist/7ekDOUV7qs60NE5g1E7KaR" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 p-2 rounded-lg bg-emerald-950/80 hover:bg-emerald-900/90 border border-emerald-400/70 text-emerald-200 hover:text-white transition-all shadow-[0_0_10px_rgba(57,255,20,0.25)] active:scale-95 group">
+            <span class="text-base group-hover:scale-110 transition-transform">🟢</span>
+            <div class="min-w-0">
+              <span class="block font-sci-fi font-bold text-[10px] tracking-wider text-emerald-300">SPOTIFY</span>
+              <span class="block font-mono text-[8px] text-emerald-400/80 truncate">Official Artist Page</span>
+            </div>
+          </a>
+
+          <!-- SoundCloud -->
+          <a href="https://soundcloud.com/embertime" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 p-2 rounded-lg bg-orange-950/80 hover:bg-orange-900/90 border border-orange-500/70 text-orange-200 hover:text-white transition-all shadow-[0_0_10px_rgba(249,115,22,0.25)] active:scale-95 group">
+            <span class="text-base group-hover:scale-110 transition-transform">🟠</span>
+            <div class="min-w-0">
+              <span class="block font-sci-fi font-bold text-[10px] tracking-wider text-orange-300">SOUNDCLOUD</span>
+              <span class="block font-mono text-[8px] text-orange-400/80 truncate">Tracks, Synths & Mixes</span>
+            </div>
+          </a>
+
+          <!-- Suno -->
+          <a href="https://suno.com/@adespress" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 p-2 rounded-lg bg-purple-950/80 hover:bg-purple-900/90 border border-purple-500/70 text-purple-200 hover:text-white transition-all shadow-[0_0_10px_rgba(168,85,247,0.25)] active:scale-95 group">
+            <span class="text-base group-hover:scale-110 transition-transform">🟣</span>
+            <div class="min-w-0">
+              <span class="block font-sci-fi font-bold text-[10px] tracking-wider text-purple-300">SUNO</span>
+              <span class="block font-mono text-[8px] text-purple-400/80 truncate">@adespress Labs</span>
+            </div>
+          </a>
+
+          <!-- X -->
+          <a href="https://x.com/embertimemusic" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-cyan-500/70 text-cyan-200 hover:text-white transition-all shadow-[0_0_10px_rgba(6,182,212,0.25)] active:scale-95 group">
+            <span class="text-base group-hover:scale-110 transition-transform">🌐</span>
+            <div class="min-w-0">
+              <span class="block font-sci-fi font-bold text-[10px] tracking-wider text-cyan-300">X (TWITTER)</span>
+              <span class="block font-mono text-[8px] text-cyan-400/80 truncate">@embertimemusic</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Search Prompt Box -->
+        <div class="bg-black/60 border border-emerald-500/30 rounded-lg p-2.5 mt-0.5">
+          <p class="font-mono text-[9px] sm:text-[10px] text-amber-200/90 leading-snug">
+            ✨ <span class="font-bold text-amber-300">+ Search "Embertime"</span> on Apple Music, Amazon Music, YouTube & streaming services worldwide.
+          </p>
+        </div>
+
+        <!-- Close Button -->
+        <div class="pt-0.5">
+          <button id="closeEmbertimeModalBtn" type="button" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-emerald-500/60 font-arcade text-[8px] sm:text-[8.5px] text-emerald-300 tracking-wider shadow active:scale-95 transition-all text-center cursor-pointer">
+            CLOSE PORTAL
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- IN DEVELOPMENT GAME POP-UP MODAL -->
+    <div id="devGameModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 crt-screen" style="touch-action: pan-y;">
+      <div class="relative w-full max-w-[440px] bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-2 border-amber-400/80 rounded-xl p-4 sm:p-5 shadow-[0_0_30px_rgba(251,191,36,0.3)] text-left flex flex-col gap-3">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between border-b border-amber-500/30 pb-2.5">
+          <div class="flex items-center gap-2.5">
+            <span id="devGameIcon" class="text-2xl sm:text-3xl p-1.5 rounded-lg bg-amber-950/70 border border-amber-500/50">🚀</span>
+            <div>
+              <h3 id="devGameTitle" class="font-sci-fi font-black text-sm sm:text-base text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-yellow-200 tracking-wide">
+                GAME TITLE
+              </h3>
+              <p id="devGameBadge" class="font-arcade text-[6.5px] sm:text-[7px] text-amber-400/90 mt-0.5 tracking-wider">
+                IN ACTIVE DEVELOPMENT
+              </p>
+            </div>
+          </div>
+          <button id="closeDevGameCrossBtn" type="button" class="w-7 h-7 rounded-md bg-slate-900 border border-amber-500/50 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold active:scale-95 cursor-pointer">
+            ✕
+          </button>
+        </div>
+
+        <!-- Description Box -->
+        <div class="bg-black/60 border border-amber-500/30 rounded-lg p-3 space-y-2">
+          <p id="devGameDesc" class="font-mono text-[10px] sm:text-[11px] text-amber-100/95 leading-relaxed">
+            Description goes here...
+          </p>
+          <div class="flex items-center gap-2 pt-1.5 border-t border-amber-500/20 text-[9px] font-mono text-slate-300">
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            <span>Status: <strong class="text-amber-300">Coming Soon (x Gemini 2026+)</strong></span>
+          </div>
+        </div>
+
+        <!-- GitHub / Contribute info -->
+        <div class="p-2.5 rounded-lg bg-slate-900/90 border border-teal-500/40 flex items-center justify-between gap-2">
+          <p class="font-mono text-[9px] text-teal-200 leading-snug">
+            Prototypes, prompts, and code are published in the GitHub repo.
+          </p>
+          <a href="https://github.com/adespress/" target="_blank" rel="noopener noreferrer" class="shrink-0 px-2.5 py-1.5 rounded bg-teal-950 hover:bg-teal-900 border border-teal-400 text-teal-200 hover:text-white font-arcade text-[7px] tracking-wider active:scale-95 transition-all">
+            GITHUB ↗
+          </a>
+        </div>
+
+        <!-- Close Button -->
+        <div class="pt-0.5">
+          <button id="closeDevGameModalBtn" type="button" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-amber-500/60 font-arcade text-[8px] sm:text-[8.5px] text-amber-300 tracking-wider shadow active:scale-95 transition-all text-center cursor-pointer">
+            CLOSE // BACK TO HUB
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    class RetroSynthAudio {
+      constructor() {
+        this.ctx = null;
+        this.isMuted = false;
+      }
+
+      setMuted(muted) {
+        this.isMuted = !!muted;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+        if (this.ctx && (this.ctx.state === 'suspended' || this.ctx.state === 'interrupted')) {
+          this.ctx.resume().catch(() => {});
+        }
+      }
+
+      playTone(freq, duration, type = 'sine', gainVal = 0.12) {
+        if (!this.ctx || this.isMuted) return;
+        try {
+          let safeFreq = freq;
+          while (safeFreq > 600) safeFreq /= 2;
+
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type === 'square' || type === 'sawtooth' ? 'triangle' : type;
+          osc.frequency.setValueAtTime(safeFreq, this.ctx.currentTime);
+          
+          const t = this.ctx.currentTime;
+          gain.gain.setValueAtTime(0.0001, t);
+          gain.gain.linearRampToValueAtTime(gainVal, t + Math.min(duration * 0.15, 0.05));
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(t);
+          osc.stop(t + duration);
+        } catch (e) {}
+      }
+    }
+
+    class SynthwaveBGM {
+      constructor(audioCtxProvider) {
+        this.getAudioCtx = audioCtxProvider;
+        this.masterGain = null;
+        this.filter = null;
+        this.isPlaying = false;
+        this.isMuted = false;
+        this.baseVolume = 0.16;
+        this.tempo = 72;
+        this.stepDuration = 60 / this.tempo / 4;
+        this.currentStep = 0;
+        this.nextNoteTime = 0;
+        this.timerID = null;
+
+        this.chords = [
+          { bass: 43.65, pad: [174.61, 220.00, 261.63, 329.63, 392.00] },
+          { bass: 65.41, pad: [130.81, 164.81, 196.00, 246.94, 293.66] },
+          { bass: 49.00, pad: [98.00, 146.83, 196.00, 220.00, 293.66] },
+          { bass: 55.00, pad: [110.00, 164.81, 220.00, 261.63, 329.63] }
+        ];
+        this.chordDurationSteps = 32;
+      }
+
+      init() {
+        const ctx = this.getAudioCtx();
+        if (!ctx || this.masterGain) return;
+        this.masterGain = ctx.createGain();
+        this.masterGain.gain.setValueAtTime(this.isMuted ? 0.0001 : this.baseVolume, ctx.currentTime);
+
+        this.filter = ctx.createBiquadFilter();
+        this.filter.type = 'lowpass';
+        this.filter.frequency.setValueAtTime(840, ctx.currentTime);
+        this.filter.Q.setValueAtTime(0.7, ctx.currentTime);
+
+        this.masterGain.connect(this.filter);
+        this.filter.connect(ctx.destination);
+      }
+
+      setMuted(muted) {
+        this.isMuted = !!muted;
+        const ctx = this.getAudioCtx();
+        if (!ctx || !this.masterGain) return;
+        const t = ctx.currentTime;
+        this.masterGain.gain.cancelScheduledValues(t);
+        this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, t);
+        this.masterGain.gain.linearRampToValueAtTime(this.isMuted ? 0 : this.baseVolume, t + 0.1);
+      }
+
+      start() {
+        this.init();
+        const ctx = this.getAudioCtx();
+        if (!ctx) return;
+        if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+
+        if (!this.isPlaying) {
+          this.isPlaying = true;
+          this.nextNoteTime = ctx.currentTime + 0.05;
+          this.schedule();
+        }
+      }
+
+      schedule() {
+        if (!this.isPlaying) return;
+        const ctx = this.getAudioCtx();
+        if (!ctx) return;
+
+        if (this.nextNoteTime < ctx.currentTime - 0.2) {
+          this.nextNoteTime = ctx.currentTime + 0.05;
+        }
+
+        while (this.nextNoteTime < ctx.currentTime + 0.22) {
+          this.playStep(this.nextNoteTime, this.currentStep);
+          this.nextNoteTime += this.stepDuration;
+          this.currentStep = (this.currentStep + 1) % (this.chordDurationSteps * this.chords.length);
+        }
+        this.timerID = setTimeout(() => this.schedule(), 35);
+      }
+
+      playStep(time, step) {
+        const ctx = this.getAudioCtx();
+        if (!ctx || ctx.state !== 'running' || this.isMuted) return;
+
+        const chordIdx = Math.floor(step / this.chordDurationSteps) % this.chords.length;
+        const stepInChord = step % this.chordDurationSteps;
+        const chord = this.chords[chordIdx];
+
+        if (stepInChord === 0) {
+          const padDuration = this.stepDuration * this.chordDurationSteps;
+          chord.pad.forEach((freq, idx) => {
+            [-2.0, 2.0].forEach(detune => {
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+              osc.frequency.setValueAtTime(freq, time);
+              osc.detune.setValueAtTime(detune, time);
+
+              const maxVol = 0.20 / chord.pad.length;
+              gain.gain.setValueAtTime(0.0001, time);
+              gain.gain.linearRampToValueAtTime(maxVol, time + 1.8);
+              gain.gain.setValueAtTime(maxVol, time + padDuration - 1.6);
+              gain.gain.exponentialRampToValueAtTime(0.0001, time + padDuration);
+
+              osc.connect(gain);
+              gain.connect(this.masterGain);
+              osc.start(time);
+              osc.stop(time + padDuration);
+            });
+          });
+
+          const bassOsc = ctx.createOscillator();
+          const bassGain = ctx.createGain();
+          bassOsc.type = 'sine';
+          bassOsc.frequency.setValueAtTime(chord.bass, time);
+          bassGain.gain.setValueAtTime(0.0001, time);
+          bassGain.gain.linearRampToValueAtTime(0.22, time + 1.2);
+          bassGain.gain.setValueAtTime(0.22, time + padDuration - 1.2);
+          bassGain.gain.exponentialRampToValueAtTime(0.0001, time + padDuration);
+
+          bassOsc.connect(bassGain);
+          bassGain.connect(this.masterGain);
+          bassOsc.start(time);
+          bassOsc.stop(time + padDuration);
+        }
+      }
+    }
+
+    class HybridJukebox {
+      constructor(fallbackBGM) {
+        this.fallbackBGM = fallbackBGM;
+        this.playlist = [];
+        this.currentIndex = 0;
+        this.isStreaming = false;
+        this.hasFailed = false;
+        this.trackPlayer = new Audio();
+        this.trackPlayer.volume = 0.12;
+
+        this.trackPlayer.addEventListener('ended', () => this.playNext());
+        this.trackPlayer.addEventListener('error', () => this.triggerFallback());
+      }
+
+      setPlaylist(urls) {
+        if (!urls || urls.length === 0) return;
+        this.playlist = [...urls];
+      }
+
+      setMuted(muted) {
+        this.trackPlayer.muted = !!muted;
+        this.fallbackBGM.setMuted(muted);
+        if (muted) {
+          try { this.trackPlayer.pause(); } catch (e) {}
+        } else {
+          if (this.isStreaming) {
+            try { this.trackPlayer.play().catch(() => {}); } catch (e) {}
+          }
+        }
+      }
+
+      start() {
+        if (this.hasFailed || this.playlist.length === 0) {
+          this.triggerFallback();
+          return;
+        }
+        this.isStreaming = true;
+        if (!this.trackPlayer.src) this.trackPlayer.src = this.playlist[this.currentIndex];
+        const playPromise = this.trackPlayer.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((e) => {
+            if (e.name !== 'NotAllowedError') this.triggerFallback();
+          });
+        }
+      }
+
+      playNext() {
+        if (this.playlist.length === 0 || this.hasFailed) return;
+        this.currentIndex = (this.currentIndex + 1) % this.playlist.length;
+        this.trackPlayer.src = this.playlist[this.currentIndex];
+        this.trackPlayer.play().catch(() => this.triggerFallback());
+      }
+
+      triggerFallback() {
+        this.hasFailed = true;
+        this.isStreaming = false;
+        this.trackPlayer.pause();
+        this.fallbackBGM.start();
+      }
+      
+      get isPlaying() {
+        if (this.isStreaming) return !this.trackPlayer.paused;
+        return this.fallbackBGM.isPlaying;
+      }
+    }
+
+    const soundFX = new RetroSynthAudio();
+    const proceduralBGM = new SynthwaveBGM(() => {
+      soundFX.init();
+      return soundFX.ctx;
+    });
+    const bgMusic = new HybridJukebox(proceduralBGM);
+    
+    // Existing playlist from Pinball game
+    bgMusic.setPlaylist([
+      "https://adespress.github.io/adespress/Your%20Land%20Eternal%20(into%20Nature).mp3",
+      "https://adespress.github.io/adespress/Green%20Game-Keepers%20(Let's%20Go)%20-%20synth%202.mp3",
+      "https://adespress.github.io/adespress/Hope%20in%20this%20Old%20GameWorld%20-%20Retro%20Synth%20Power%202.mp3",
+      "https://adespress.github.io/adespress/FireInside%28mEmbershard2%29.mp3"
+    ]);
+
+    let isAudioMuted = false;
+    let bgmVolumeLevel = 2;
+    const bgmVolumeMap = [0.0, 0.05, 0.12, 0.18, 0.25];
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    const bgmVolumeBtn = document.getElementById('bgmVolumeBtn');
+    const embertimeMusicBtn = document.getElementById('embertimeMusicBtn');
+
+    function updateSoundToggleUI() {
+      // 1. Top-right Speaker Button
+      if (musicToggleBtn) {
+        const strikeGroup = document.getElementById('soundMuteStrikeGroup');
+        const wave1 = document.getElementById('soundWave1');
+        const wave2 = document.getElementById('soundWave2');
+        const speakerBody = document.getElementById('soundSpeakerBody');
+
+        if (isAudioMuted || !audioUnlocked) {
+          musicToggleBtn.title = "Sound: OFF (Click to play)";
+          musicToggleBtn.className = "relative px-2 h-[32px] sm:h-[36px] rounded-md bg-slate-900/90 hover:bg-slate-800 border border-rose-500/80 text-rose-400 hover:text-rose-300 transition-all flex items-center justify-center shadow-[0_0_8px_rgba(244,63,94,0.4)] active:scale-95 shrink-0 select-none";
+          if (strikeGroup) strikeGroup.classList.remove('hidden');
+          if (wave1) wave1.setAttribute('stroke', '#64748b');
+          if (wave2) wave2.setAttribute('stroke', '#64748b');
+          if (speakerBody) {
+            speakerBody.setAttribute('fill', '#64748b');
+            speakerBody.setAttribute('stroke', '#475569');
+          }
+        } else {
+          musicToggleBtn.title = "Sound: ON (Click to mute)";
+          musicToggleBtn.className = "relative px-2 h-[32px] sm:h-[36px] rounded-md bg-slate-900/90 hover:bg-slate-800 border border-cyan-400/70 text-cyan-300 hover:text-cyan-200 transition-all flex items-center justify-center shadow-[0_0_8px_rgba(0,243,255,0.35)] active:scale-95 shrink-0 select-none";
+          if (strikeGroup) strikeGroup.classList.add('hidden');
+          if (wave1) wave1.setAttribute('stroke', '#00f3ff');
+          if (wave2) wave2.setAttribute('stroke', '#00f3ff');
+          if (speakerBody) {
+            speakerBody.setAttribute('fill', '#38bdf8');
+            speakerBody.setAttribute('stroke', '#0284c7');
+          }
+        }
+      }
+
+      // 2. Embertime Music Toggle Button above Algiz Rune
+      if (embertimeMusicBtn) {
+        const isPlaying = audioUnlocked && !isAudioMuted;
+        if (isPlaying) {
+          embertimeMusicBtn.title = "Embertime Music: PLAYING (Click to pause)";
+          embertimeMusicBtn.className = "group relative px-2.5 py-1 rounded-full bg-emerald-950/80 hover:bg-emerald-900/90 border border-emerald-400/80 text-emerald-300 hover:text-emerald-200 font-arcade text-[6.5px] sm:text-[7.5px] tracking-wider transition-all shadow-[0_0_12px_rgba(57,255,20,0.5)] active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer select-none mt-2 sm:mt-4 mb-2";
+          embertimeMusicBtn.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#39ff14]"></span><span>EMBERTIME MUSIC</span>';
+        } else {
+          embertimeMusicBtn.title = "Embertime Music: PAUSED (Click to play)";
+          embertimeMusicBtn.className = "group relative px-2.5 py-1 rounded-full bg-rose-950/80 hover:bg-rose-900/90 border border-rose-500/80 text-rose-300 hover:text-rose-200 font-arcade text-[6.5px] sm:text-[7.5px] tracking-wider transition-all shadow-[0_0_10px_rgba(244,63,94,0.45)] active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer select-none mt-2 sm:mt-4 mb-2";
+          embertimeMusicBtn.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_6px_#ef4444]"></span><span>EMBERTIME MUSIC</span>';
+        }
+      }
+    }
+
+    function toggleAudio() {
+      soundFX.init();
+      if (!audioUnlocked) {
+        audioUnlocked = true;
+        isAudioMuted = false;
+        soundFX.setMuted(false);
+        bgMusic.setMuted(false);
+        bgMusic.start();
+      } else {
+        isAudioMuted = !isAudioMuted;
+        soundFX.setMuted(isAudioMuted);
+        bgMusic.setMuted(isAudioMuted);
+        if (!isAudioMuted) {
+          bgMusic.start();
+        }
+      }
+      updateSoundToggleUI();
+    }
+
+    function updateBgmVolumeDisplay() {
+      if (!bgmVolumeBtn) return;
+      const bars = bgmVolumeBtn.querySelectorAll('.bgm-bar');
+      bars.forEach((bar, idx) => {
+        const barLevel = 4 - idx;
+        bar.className = bgmVolumeLevel >= barLevel
+          ? 'bgm-bar w-[5px] h-[4px] sm:w-[6px] sm:h-[5px] bg-emerald-400 rounded-[1px] shadow-[0_0_3px_rgba(52,211,153,0.8)] transition-colors'
+          : 'bgm-bar w-[5px] h-[4px] sm:w-[6px] sm:h-[5px] bg-slate-700 rounded-[1px] transition-colors';
+      });
+      if (bgMusic && bgMusic.trackPlayer) {
+        bgMusic.trackPlayer.volume = bgmVolumeMap[bgmVolumeLevel];
+      }
+    }
+
+    if (bgmVolumeBtn) {
+      bgmVolumeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        soundFX.init();
+        bgmVolumeLevel = (bgmVolumeLevel + 1) % 5;
+        updateBgmVolumeDisplay();
+        soundFX.playTone(480 + bgmVolumeLevel * 120, 0.05, 'sine', 0.08);
+      });
+    }
+
+    if (musicToggleBtn) {
+      musicToggleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleAudio();
+      });
+    }
+
+    if (embertimeMusicBtn) {
+      embertimeMusicBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleAudio();
+      });
+    }
+
+    // Global audio unlock on first interaction
+    let audioUnlocked = false;
+    function unlockAudio() {
+      if (audioUnlocked) return;
+      audioUnlocked = true;
+      soundFX.init();
+      soundFX.setMuted(isAudioMuted);
+      bgMusic.setMuted(isAudioMuted);
+      bgMusic.start();
+      updateSoundToggleUI();
+    }
+    
+    // Bind unlock to document clicks/touches
+    ['click', 'touchstart', 'keydown'].forEach(evt => document.addEventListener(evt, unlockAudio, { passive: true }));
+
+    // Embertime Links Modal Interaction Logic
+    const embertimeLinksModal = document.getElementById('embertimeLinksModal');
+    const openEmbertimeModalBtn = document.getElementById('openEmbertimeModalBtn');
+    const closeEmbertimeModalBtn = document.getElementById('closeEmbertimeModalBtn');
+    const closeEmbertimeCrossBtn = document.getElementById('closeEmbertimeCrossBtn');
+
+    function openEmbertimeModal() {
+      soundFX.init();
+      soundFX.playTone(660, 0.08, 'triangle', 0.16);
+      if (embertimeLinksModal) embertimeLinksModal.classList.remove('hidden');
+    }
+
+    function closeEmbertimeModal() {
+      soundFX.init();
+      soundFX.playTone(440, 0.06, 'sine', 0.12);
+      if (embertimeLinksModal) embertimeLinksModal.classList.add('hidden');
+    }
+
+    if (openEmbertimeModalBtn) openEmbertimeModalBtn.addEventListener('click', openEmbertimeModal);
+    if (closeEmbertimeModalBtn) closeEmbertimeModalBtn.addEventListener('click', closeEmbertimeModal);
+    if (closeEmbertimeCrossBtn) closeEmbertimeCrossBtn.addEventListener('click', closeEmbertimeModal);
+
+    if (embertimeLinksModal) {
+      embertimeLinksModal.addEventListener('click', (e) => {
+        if (e.target === embertimeLinksModal) closeEmbertimeModal();
+      });
+    }
+
+    // In-Development Games Modal Logic
+    const DEV_GAMES_INFO = {
+      'DIVE or FALL': {
+        icon: '🌀',
+        title: 'DIVE or FALL',
+        badge: '★ PORTAL PERSPECTIVE SHIFTER ★',
+        desc: 'Dive through portals of inspiration and perspective. Shift angles of observation, navigate mind-expanding physics obstacles, and enter a transcendent flow state designed to reframe perception. Prototype coming soon!'
+      },
+      'DRIVE for LIFE': {
+        icon: '🏎️',
+        title: 'DRIVE for LIFE',
+        badge: '★ RETRO REGENERATIVE DRIVER ★',
+        desc: 'Keep retro-driving through Regenerative vocabulary in order to bring life back to the world, and reach syntropic or natural awareness. Cruise through living digital biomes while absorbing regenerative principles.'
+      },
+      'ORGANIC METAVERSE': {
+        icon: '🌳',
+        title: 'ORGANIC METAVERSE',
+        badge: '★ BOTANICAL CLIMBING SIMULATOR ★',
+        desc: 'Explore diverse types of trees and living plants by climbing and interacting with them. Discover canopy layers, root symbiosis, and botanical wisdom in an organic, living cyber-forest.'
+      }
+    };
+
+    const devGameModal = document.getElementById('devGameModal');
+    const devGameIcon = document.getElementById('devGameIcon');
+    const devGameTitle = document.getElementById('devGameTitle');
+    const devGameBadge = document.getElementById('devGameBadge');
+    const devGameDesc = document.getElementById('devGameDesc');
+    const closeDevGameModalBtn = document.getElementById('closeDevGameModalBtn');
+    const closeDevGameCrossBtn = document.getElementById('closeDevGameCrossBtn');
+
+    function openDevGameModal(key) {
+      soundFX.init();
+      soundFX.playTone(560, 0.08, 'triangle', 0.16);
+      const info = DEV_GAMES_INFO[key] || {
+        icon: '🚀',
+        title: key,
+        badge: '★ IN ACTIVE DEVELOPMENT ★',
+        desc: `${key} is currently in active development. Check back soon for the playable browser version!`
+      };
+      if (devGameIcon) devGameIcon.textContent = info.icon;
+      if (devGameTitle) devGameTitle.textContent = info.title;
+      if (devGameBadge) devGameBadge.textContent = info.badge;
+      if (devGameDesc) devGameDesc.textContent = info.desc;
+      if (devGameModal) devGameModal.classList.remove('hidden');
+    }
+
+    function closeDevGameModal() {
+      soundFX.init();
+      soundFX.playTone(400, 0.06, 'sine', 0.12);
+      if (devGameModal) devGameModal.classList.add('hidden');
+    }
+
+    document.querySelectorAll('.coming-soon-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const key = btn.getAttribute('data-coming-soon') || 'Project';
+        openDevGameModal(key);
+      });
+    });
+
+    if (closeDevGameModalBtn) closeDevGameModalBtn.addEventListener('click', closeDevGameModal);
+    if (closeDevGameCrossBtn) closeDevGameCrossBtn.addEventListener('click', closeDevGameModal);
+    if (devGameModal) {
+      devGameModal.addEventListener('click', (e) => {
+        if (e.target === devGameModal) closeDevGameModal();
+      });
+    }
+
+    // Close modals on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeEmbertimeModal();
+        closeDevGameModal();
+      }
+    });
+
+    // Initialization
+    updateBgmVolumeDisplay();
+    updateSoundToggleUI();
+  </script>
+</body>
+</html>
