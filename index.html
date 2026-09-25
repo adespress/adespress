@@ -10,7 +10,6 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Orbitron, Press Start 2P, and Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -122,13 +121,35 @@
       animation: matrixGlitchRune 5.5s infinite;
     }
 
-    @keyframes pulseHolo {
-      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px #39ff14); }
-      50% { transform: scale(1.05); filter: drop-shadow(0 0 20px #00f3ff); }
+    /* Bioluminescent Active Game Glow Pulses */
+    @keyframes bioPulseClimate {
+      0%, 100% {
+        box-shadow: 0 0 14px rgba(244, 63, 94, 0.4), inset 0 0 10px rgba(244, 63, 94, 0.2);
+        border-color: rgba(244, 63, 94, 0.85);
+      }
+      50% {
+        box-shadow: 0 0 22px rgba(251, 146, 60, 0.6), inset 0 0 14px rgba(251, 146, 60, 0.35);
+        border-color: rgba(251, 191, 36, 0.95);
+      }
     }
 
-    .animate-holo {
-      animation: pulseHolo 2.4s infinite ease-in-out;
+    @keyframes bioPulseEarth {
+      0%, 100% {
+        box-shadow: 0 0 14px rgba(0, 243, 255, 0.4), inset 0 0 10px rgba(0, 243, 255, 0.2);
+        border-color: rgba(0, 243, 255, 0.85);
+      }
+      50% {
+        box-shadow: 0 0 22px rgba(57, 255, 20, 0.6), inset 0 0 14px rgba(57, 255, 20, 0.35);
+        border-color: rgba(52, 211, 153, 0.95);
+      }
+    }
+
+    .animate-bio-glow-climate {
+      animation: bioPulseClimate 3s ease-in-out infinite;
+    }
+
+    .animate-bio-glow-earth {
+      animation: bioPulseEarth 3s ease-in-out infinite;
     }
   </style>
 </head>
@@ -144,8 +165,8 @@
           </h1>
         </div>
 
-        <!-- Audio Controls & GitHub Link -->
-        <div class="shrink-0 flex items-center gap-2">
+        <!-- Audio Controls & Social Links -->
+        <div class="shrink-0 flex items-center gap-1.5 sm:gap-2">
           <!-- X (Twitter) Link for Ade M. Campbell -->
           <a href="https://x.com/ademcampbell" target="_blank" rel="noopener noreferrer" title="Ade M. Campbell on X" class="h-[32px] sm:h-[36px] w-[32px] sm:w-[36px] rounded-md bg-slate-900/90 hover:bg-slate-800 border border-cyan-400/70 text-cyan-300 hover:text-cyan-200 transition-all flex items-center justify-center shadow-[0_0_8px_rgba(0,243,255,0.35)] active:scale-95 shrink-0 select-none">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -165,6 +186,23 @@
             <div class="bgm-bar w-[5px] h-[4px] sm:w-[6px] sm:h-[5px] bg-emerald-400 rounded-[1px] shadow-[0_0_3px_rgba(52,211,153,0.8)] transition-colors"></div>
             <div class="bgm-bar w-[5px] h-[4px] sm:w-[6px] sm:h-[5px] bg-emerald-400 rounded-[1px] shadow-[0_0_3px_rgba(52,211,153,0.8)] transition-colors"></div>
           </button>
+
+          <!-- Track Skip Buttons (Stacked: Previous / Next) -->
+          <div class="w-[20px] sm:w-[24px] h-[32px] sm:h-[36px] rounded-md bg-slate-900/90 border border-cyan-400/70 flex flex-col items-center justify-between overflow-hidden shadow shrink-0 select-none divide-y divide-cyan-500/40">
+            <!-- Top Button: Preceding Track (Arrow pointing Left) -->
+            <button id="prevTrackBtn" type="button" title="Preceding Track" class="w-full flex-1 flex items-center justify-center text-cyan-300 hover:text-cyan-100 hover:bg-slate-800 active:bg-cyan-950 transition-colors cursor-pointer select-none">
+              <svg width="8" height="8" viewBox="0 0 24 24" class="fill-current drop-shadow-[0_0_2px_rgba(0,243,255,0.7)]">
+                <polygon points="17,5 7,12 17,19"/>
+              </svg>
+            </button>
+            <!-- Bottom Button: Next Track (Arrow pointing Right) -->
+            <button id="nextTrackBtn" type="button" title="Next Track" class="w-full flex-1 flex items-center justify-center text-cyan-300 hover:text-cyan-100 hover:bg-slate-800 active:bg-cyan-950 transition-colors cursor-pointer select-none">
+              <svg width="8" height="8" viewBox="0 0 24 24" class="fill-current drop-shadow-[0_0_2px_rgba(0,243,255,0.7)]">
+                <polygon points="7,5 17,12 7,19"/>
+              </svg>
+            </button>
+          </div>
+
           <!-- Sound Toggle Button -->
           <button id="musicToggleBtn" type="button" title="Sound: ON (Click to mute)" class="h-[32px] sm:h-[36px] px-2 rounded-md bg-slate-900/90 hover:bg-slate-800 border border-cyan-400/70 text-cyan-300 hover:text-cyan-200 transition-all flex items-center justify-center shadow-[0_0_8px_rgba(0,243,255,0.35)] active:scale-95 shrink-0 select-none">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -183,16 +221,19 @@
   </div>
 
   <main class="w-full max-w-[640px] flex-1 flex flex-col z-20 pb-8">
-    <div class="relative w-full rounded-xl cabinet-solution playfield-glass crt-screen flex flex-col items-center p-6 sm:p-10 shadow-2xl flex-1">
+    <div id="cabinetMain" class="relative w-full rounded-xl cabinet-solution playfield-glass crt-screen flex flex-col items-center p-6 sm:p-10 shadow-2xl flex-1 overflow-hidden">
       
+      <!-- Ambient Dynamic Ecosystem Canvas (10-minute growth & renewal cycle) -->
+      <canvas id="ambientEcoCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
       <!-- Embertime Music Play/Pause Toggle Button -->
-      <button id="embertimeMusicBtn" type="button" title="Embertime Music: PAUSED (Click to play)" class="px-2.5 py-1 rounded-full bg-rose-950/80 hover:bg-rose-900/90 border border-rose-500/80 text-rose-300 hover:text-rose-200 font-arcade text-[6.5px] sm:text-[7.5px] tracking-wider transition-all shadow-[0_0_10px_rgba(244,63,94,0.45)] active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer select-none mt-2 sm:mt-4 mb-2">
+      <button id="embertimeMusicBtn" type="button" title="Embertime Music: PAUSED (Click to play)" class="relative z-10 px-2.5 py-1 rounded-full bg-rose-950/80 hover:bg-rose-900/90 border border-rose-500/80 text-rose-300 hover:text-rose-200 font-arcade text-[6.5px] sm:text-[7.5px] tracking-wider transition-all shadow-[0_0_10px_rgba(244,63,94,0.45)] active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer select-none mt-2 sm:mt-4 mb-2">
         <span class="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_6px_#ef4444]"></span>
         <span>EMBERTIME MUSIC</span>
       </button>
 
       <!-- Intricate Algiz Syntropy Rune with Double Green Border & Spiral Stem -->
-      <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 mb-4 rounded-full border-[3px] border-double border-emerald-400/80 p-1 animate-bio-rune flex items-center justify-center bg-gradient-to-tr from-slate-950 via-emerald-950/60 to-teal-950 shadow-md shadow-emerald-950/50 relative overflow-hidden select-none">
+      <div class="relative z-10 w-16 h-16 sm:w-20 sm:h-20 md:w-22 md:h-22 mb-3 rounded-full border-[2.5px] border-double border-emerald-400/80 p-1 animate-bio-rune flex items-center justify-center bg-gradient-to-tr from-slate-950 via-emerald-950/60 to-teal-950 shadow-md shadow-emerald-950/50 overflow-hidden select-none">
         <svg viewBox="0 0 100 100" class="w-full h-full animate-matrix-glitch overflow-visible">
           <!-- Definitions for Gradients and Glow Filters -->
           <defs>
@@ -239,46 +280,44 @@
           <line x1="93.5" y1="50" x2="97" y2="50" stroke="#00f3ff" stroke-width="1.1" stroke-linecap="round" opacity="0.6" />
 
           <!-- 1. UNDERLAYER BASE STRUCTURE: Deep Bio-Emerald Shadows -->
-          <!-- Spiral into straight vertical stem -->
           <path d="M 50,75 C 46,75 44,78 47,81 C 51,84 56,82 57,77 C 58,70 51,66 43,68 C 35,70 32,80 37,86 C 43,91 57,91 65,83 C 71,76 68,64 58,61 C 54,60 50,60 50,60 L 50,16" fill="none" stroke="#052e16" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" />
-          <!-- Diagonal left and right arms -->
           <path d="M 25,24 L 50,44 L 75,24" fill="none" stroke="#052e16" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" />
 
           <!-- 2. PRIMARY NEON RUNE & SPIRAL: Clean, Continuous Path -->
-          <!-- Spiral coiling and transitioning straight up into trunk -->
           <path d="M 50,75 C 46,75 44,78 47,81 C 51,84 56,82 57,77 C 58,70 51,66 43,68 C 35,70 32,80 37,86 C 43,91 57,91 65,83 C 71,76 68,64 58,61 C 54,60 50,60 50,60 L 50,16" fill="none" stroke="url(#algizGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#runeGlowFilter)" />
-          <!-- Left and right branches branching cleanly from center node -->
           <path d="M 25,24 L 50,44 L 75,24" fill="none" stroke="url(#algizGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#runeGlowFilter)" />
 
           <!-- 3. ANIMATED BIOLUMINESCENT LIGHT PULSES -->
-          <!-- Pulse Stream A: Flows up from spiral through stem into left branch -->
           <path d="M 50,75 C 46,75 44,78 47,81 C 51,84 56,82 57,77 C 58,70 51,66 43,68 C 35,70 32,80 37,86 C 43,91 57,91 65,83 C 71,76 68,64 58,61 C 54,60 50,60 50,60 L 50,44 L 25,24" fill="none" stroke="url(#streamGrad)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="animate-rune-surge" />
-          <!-- Pulse Stream B: Flows up from spiral through stem into right branch & crown apex -->
           <path d="M 50,75 C 46,75 44,78 47,81 C 51,84 56,82 57,77 C 58,70 51,66 43,68 C 35,70 32,80 37,86 C 43,91 57,91 65,83 C 71,76 68,64 58,61 C 54,60 50,60 50,60 L 50,16 M 50,44 L 75,24" fill="none" stroke="url(#streamGrad)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="animate-rune-surge" style="animation-delay: 0.22s;" />
 
-          <!-- 4. SUBTLE GREEN POINTED TIPS (Replacing yellow circles) -->
-          <!-- Left branch subtle pointed tip -->
+          <!-- 4. SUBTLE GREEN POINTED TIPS -->
           <polygon points="21.5,21.2 26.2,22.4 23.8,25.6" fill="#39ff14" filter="url(#runeGlowFilter)" />
-          <!-- Top crown apex subtle pointed tip -->
           <polygon points="50,11.5 47.5,16 52.5,16" fill="#39ff14" filter="url(#runeGlowFilter)" />
-          <!-- Right branch subtle pointed tip -->
           <polygon points="78.5,21.2 76.2,25.6 73.8,22.4" fill="#39ff14" filter="url(#runeGlowFilter)" />
 
-          <!-- 5. CENTRAL FORK JUNCTION NODE (Preserved in the Center of Rune) -->
+          <!-- 5. CENTRAL FORK JUNCTION NODE -->
           <polygon points="50,40.5 53.5,44 50,47.5 46.5,44" fill="#00f3ff" stroke="#ffffff" stroke-width="0.8" filter="url(#runeGlowFilter)" />
           <circle cx="50" cy="44" r="1.3" fill="#ffffff" />
         </svg>
       </div>
       
-      <h2 class="font-sci-fi font-black text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 mb-1 text-center tracking-wide">
-        <span class="text-[1.28em] inline-block align-baseline">G</span>AMES + <span class="text-[1.28em] inline-block align-baseline">A</span>PPS
+      <!-- Multi-Colored GAMES + APPS Heading (Differentiated Green/Turquoise & Turquoise/Blue Gradients) -->
+      <h2 class="font-sci-fi font-black text-xl sm:text-2xl mb-1 text-center tracking-wide flex items-center justify-center gap-1.5 sm:gap-2">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-green-300 to-teal-200 drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]">
+          <span class="text-[1.28em] inline-block align-baseline">G</span>AMES
+        </span>
+        <span class="text-cyan-200/90 font-black px-0.5 sm:px-1 drop-shadow-[0_0_6px_rgba(0,243,255,0.5)]">+</span>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-200 via-cyan-300 to-sky-400 drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]">
+          <span class="text-[1.28em] inline-block align-baseline">A</span>PPS
+        </span>
       </h2>
-      <p class="font-arcade text-[7px] sm:text-[8.5px] md:text-[9px] text-amber-300 mb-6 tracking-wide text-center glow-gold px-2">
+      <p class="font-arcade text-[7px] sm:text-[8.5px] md:text-[9px] text-amber-300 mb-5 tracking-wide text-center glow-gold px-2">
         Browser Games + App projects, with AI Features and/or Prompts
       </p>
 
       <!-- Welcome Text Box Above -->
-      <div class="w-full max-w-[540px] bg-emerald-950/50 border border-emerald-500/40 rounded-lg p-3 sm:p-4 mb-4 text-left shadow-lg space-y-2">
+      <div class="relative z-10 w-full max-w-[540px] bg-emerald-950/40 border border-emerald-500/40 rounded-lg p-3 sm:p-4 mb-4 text-left shadow-lg space-y-2">
         <p class="font-mono text-[10.5px] sm:text-xs text-emerald-100 leading-relaxed">
           Latest projects.... made with/for Google Gemini, Canvas or AI Studio (look into the <a href="https://github.com/adespress/" target="_blank" rel="noopener noreferrer" class="underline text-cyan-300 hover:text-cyan-200 font-bold">Github repository</a> to view code / contribute)
         </p>
@@ -287,74 +326,80 @@
         </p>
       </div>
 
-      <!-- Core Links Box -->
+      <!-- Core Links Box (Bioluminescent Translucent Glass Design) -->
       <div class="w-full max-w-[540px] bg-slate-950/85 border border-teal-500/50 rounded-lg p-3.5 sm:p-4 text-left space-y-3 sm:space-y-3.5 shadow-lg shadow-teal-950/40 relative z-20">
         
-        <!-- Button 1: PINBALL: Climate Emergency! -->
+        <!-- Button 1: PINBALL: Climate Emergency! (Active Bioluminescent Coral/Rose Pulse) -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5 border-b border-teal-900/40">
-          <a href="https://adespress.github.io/adespress/pinball-climate.html" target="_blank" rel="noopener noreferrer" class="shrink-0 w-full sm:w-[210px] py-1.5 sm:py-2 px-2 text-center rounded-lg bg-gradient-to-r from-rose-800 via-amber-700 to-orange-700 hover:from-rose-700 hover:to-orange-600 font-sci-fi font-bold text-white tracking-wide shadow-[0_0_14px_rgba(244,63,94,0.4),inset_0_0_12px_rgba(255,237,213,0.45)] border border-rose-300/90 active:scale-95 transition-all flex flex-col justify-center items-center">
-            <span class="block text-[8px] sm:text-[9px] opacity-90 leading-tight">PINBALL:</span>
-            <span class="block text-[9.5px] sm:text-[10.5px] leading-tight font-black">Climate Emergency!</span>
+          <a href="https://adespress.github.io/adespress/pinball-climate.html" target="_blank" rel="noopener noreferrer" class="group shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2.5 text-center rounded-lg bg-slate-950/75 hover:bg-rose-950/30 border border-rose-500/80 animate-bio-glow-climate font-sci-fi font-bold tracking-wide active:scale-95 transition-all flex items-center justify-between">
+            <div class="flex-1 flex flex-col justify-center items-center">
+              <span class="block text-[8px] sm:text-[8.5px] text-rose-300 uppercase tracking-widest leading-tight drop-shadow-[0_0_5px_rgba(244,63,94,0.6)]">PINBALL:</span>
+              <span class="block text-[9.5px] sm:text-[10.5px] leading-tight font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-300 via-amber-200 to-orange-300 drop-shadow-[0_0_6px_rgba(251,146,60,0.5)]">Climate Emergency!</span>
+            </div>
+            <span class="w-2 h-2 rounded-full bg-rose-400 shadow-[0_0_8px_#ef4444] animate-ping shrink-0 ml-1"></span>
           </a>
           <p class="font-mono text-[9.5px] sm:text-[10.5px] text-rose-100/90 leading-snug flex-1">
             Can you restore harmony by reaching 30,000 points in 5 minutes in this dual table-switching initial version?
           </p>
         </div>
 
-        <!-- Button 2: PINBALL: HARMONIOUS EARTH -->
+        <!-- Button 2: PINBALL: HARMONIOUS EARTH (Active Bioluminescent Cyan/Emerald Pulse) -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5 border-b border-teal-900/40">
-          <a href="https://adespress.github.io/adespress/pinball-zenearth-beta1.html" target="_blank" rel="noopener noreferrer" class="shrink-0 w-full sm:w-[210px] py-1.5 sm:py-2 px-2 text-center rounded-lg bg-gradient-to-r from-cyan-700 via-teal-600 to-emerald-600 hover:from-cyan-600 hover:to-emerald-500 font-sci-fi font-bold text-white tracking-wide shadow-[0_0_14px_rgba(6,182,212,0.4),inset_0_0_12px_rgba(207,250,254,0.45)] border border-cyan-200/90 active:scale-95 transition-all flex flex-col justify-center items-center">
-            <span class="block text-[8px] sm:text-[9px] opacity-90 leading-tight">PINBALL:</span>
-            <span class="block text-[9.5px] sm:text-[10.5px] leading-tight font-black">HARMONIOUS EARTH</span>
+          <a href="https://adespress.github.io/adespress/pinball-zenearth-beta1.html" target="_blank" rel="noopener noreferrer" class="group shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2.5 text-center rounded-lg bg-slate-950/75 hover:bg-cyan-950/30 border border-cyan-400/80 animate-bio-glow-earth font-sci-fi font-bold tracking-wide active:scale-95 transition-all flex items-center justify-between">
+            <div class="flex-1 flex flex-col justify-center items-center">
+              <span class="block text-[8px] sm:text-[8.5px] text-cyan-300 uppercase tracking-widest leading-tight drop-shadow-[0_0_5px_rgba(0,243,255,0.6)]">PINBALL:</span>
+              <span class="block text-[9.5px] sm:text-[10.5px] leading-tight font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-teal-200 to-emerald-300 drop-shadow-[0_0_6px_rgba(57,255,20,0.5)]">HARMONIOUS EARTH</span>
+            </div>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#39ff14] animate-ping shrink-0 ml-1"></span>
           </a>
           <p class="font-mono text-[9.5px] sm:text-[10.5px] text-cyan-100/90 leading-snug flex-1">
             Can you acceralate harmony by reaching 80,000 points in 10 minutes of relaxing no-penalty pinball? Pure zen...
           </p>
         </div>
 
-        <!-- Button 3: DIVE or FALL -->
+        <!-- Button 3: DIVE or FALL (Bioluminescent Glass) -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5 border-b border-teal-900/40">
-          <button type="button" data-coming-soon="DIVE or FALL" class="coming-soon-btn shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 hover:from-purple-800 hover:to-indigo-800 font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] text-purple-200 tracking-wide shadow border border-purple-500/50 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-            <span>DIVE or FALL</span>
-            <span class="text-[7px] font-arcade px-1 py-0.5 rounded bg-purple-950 text-amber-300 border border-amber-400/40">SOON</span>
+          <button type="button" data-coming-soon="DIVE or FALL" class="coming-soon-btn shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-slate-950/70 hover:bg-purple-950/40 border border-purple-500/50 hover:border-purple-400 font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] text-purple-200 hover:text-white tracking-wide shadow-[0_0_8px_rgba(168,85,247,0.2),inset_0_0_10px_rgba(168,85,247,0.1)] hover:shadow-[0_0_16px_rgba(168,85,247,0.45)] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+            <span class="drop-shadow-[0_0_5px_rgba(192,132,252,0.6)]">DIVE or FALL</span>
+            <span class="text-[7px] font-arcade px-1.5 py-0.5 rounded bg-black/60 text-amber-300 border border-amber-400/50 shadow-[0_0_6px_rgba(251,191,36,0.35)]">SOON</span>
           </button>
           <p class="font-mono text-[9.5px] sm:text-[10.5px] text-indigo-100/80 leading-snug flex-1">
             Dive through portals of inspiration and perspective. Coming soon....
           </p>
         </div>
 
-        <!-- Button 4: DRIVE for LIFE -->
+        <!-- Button 4: DRIVE for LIFE (Bioluminescent Glass) -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5 border-b border-teal-900/40">
-          <button type="button" data-coming-soon="DRIVE for LIFE" class="coming-soon-btn shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-gradient-to-r from-amber-900 via-orange-950 to-slate-900 hover:from-amber-800 hover:to-orange-900 font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] text-amber-200 tracking-wide shadow border border-amber-500/50 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-            <span>DRIVE for LIFE</span>
-            <span class="text-[7px] font-arcade px-1 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-400/40">SOON</span>
+          <button type="button" data-coming-soon="DRIVE for LIFE" class="coming-soon-btn shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-slate-950/70 hover:bg-amber-950/40 border border-amber-500/50 hover:border-amber-400 font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] text-amber-200 hover:text-white tracking-wide shadow-[0_0_8px_rgba(245,158,11,0.2),inset_0_0_10px_rgba(245,158,11,0.1)] hover:shadow-[0_0_16px_rgba(245,158,11,0.45)] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+            <span class="drop-shadow-[0_0_5px_rgba(251,191,36,0.6)]">DRIVE for LIFE</span>
+            <span class="text-[7px] font-arcade px-1.5 py-0.5 rounded bg-black/60 text-amber-300 border border-amber-400/50 shadow-[0_0_6px_rgba(251,191,36,0.35)]">SOON</span>
           </button>
           <p class="font-mono text-[9.5px] sm:text-[10.5px] text-amber-100/80 leading-snug flex-1">
             Keep retro-driving through Regenerative vocab in order to bring life back to the world, and reach syntropic or natural awareness. Coming soon....
           </p>
         </div>
 
-        <!-- Button 5: ORGANIC METAVERSE -->
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5">
-          <button type="button" data-coming-soon="ORGANIC METAVERSE" class="coming-soon-btn shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-900 hover:from-emerald-900 hover:to-teal-900 font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] text-emerald-200 tracking-wide shadow border border-emerald-500/50 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-            <span>ORGANIC METAVERSE</span>
-            <span class="text-[7px] font-arcade px-1 py-0.5 rounded bg-emerald-950 text-amber-300 border border-amber-400/40 shrink-0">SOON</span>
+        <!-- Button 5: ORGANIC METAVERSE (Bioluminescent Glass) -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2 sm:pb-3">
+          <button type="button" data-coming-soon="ORGANIC METAVERSE" class="coming-soon-btn shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-slate-950/70 hover:bg-emerald-950/40 border border-emerald-500/50 hover:border-emerald-400 font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] text-emerald-200 hover:text-white tracking-wide shadow-[0_0_8px_rgba(16,185,129,0.2),inset_0_0_10px_rgba(16,185,129,0.12)] hover:shadow-[0_0_16px_rgba(16,185,129,0.45)] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+            <span class="drop-shadow-[0_0_5px_rgba(52,211,153,0.6)]">ORGANIC METAVERSE</span>
+            <span class="text-[7px] font-arcade px-1.5 py-0.5 rounded bg-black/60 text-amber-300 border border-amber-400/50 shadow-[0_0_6px_rgba(251,191,36,0.35)] shrink-0">SOON</span>
           </button>
           <p class="font-mono text-[9.5px] sm:text-[10.5px] text-emerald-100/80 leading-snug flex-1">
             Explore types of trees and plants by climbing them. Coming soon....
           </p>
         </div>
 
-        <!-- Section Separator: Links & Media -->
-        <div class="relative py-1 my-1 flex items-center justify-center">
+        <!-- Section Separator: Links & Media (Enhanced Spacing & Breathing Room) -->
+        <div class="relative pt-4 sm:pt-5 pb-2 mt-4 sm:mt-5 mb-3 flex items-center justify-center">
           <div class="w-full border-t border-teal-500/40"></div>
-          <span class="absolute px-2.5 bg-slate-950 font-arcade text-[6.5px] sm:text-[7.5px] text-teal-300 tracking-widest uppercase border border-teal-500/40 rounded-full shadow-[0_0_8px_rgba(20,184,166,0.25)]">LINKS &amp; MEDIA</span>
+          <span class="absolute px-3 py-0.5 bg-slate-950 font-arcade text-[6.5px] sm:text-[7.5px] text-teal-300 tracking-widest uppercase border border-teal-400/60 rounded-full shadow-[0_0_10px_rgba(20,184,166,0.3)]">LINKS &amp; MEDIA</span>
         </div>
 
-        <!-- Button 6: ADE'S PRESS blog -->
+        <!-- Button 6: ADE'S PRESS blog (Translucent Cyber-Forest Emerald Tint) -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5 pb-2.5 border-b border-teal-900/40">
-          <a href="https://paragraph.com/@adespress" target="_blank" rel="noopener noreferrer" class="shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-gradient-to-r from-emerald-950 via-emerald-900/85 to-teal-950 hover:from-emerald-800 hover:via-teal-800 hover:to-emerald-700 active:from-emerald-700 active:to-teal-600 border border-emerald-400/80 hover:border-emerald-300 text-emerald-200 hover:text-white font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] tracking-wide shadow-[0_0_12px_rgba(16,185,129,0.25)] hover:shadow-[0_0_18px_rgba(52,211,153,0.5)] active:scale-95 transition-all">
-            📚 ADE'S PRESS blog
+          <a href="https://paragraph.com/@adespress" target="_blank" rel="noopener noreferrer" class="shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-emerald-950/30 hover:bg-emerald-900/45 border border-emerald-400/60 hover:border-emerald-300 text-emerald-200 hover:text-white font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] tracking-wide shadow-[0_0_10px_rgba(16,185,129,0.2),inset_0_0_14px_rgba(16,185,129,0.12)] hover:shadow-[0_0_18px_rgba(52,211,153,0.45)] active:scale-95 transition-all">
+            <span class="drop-shadow-[0_0_5px_rgba(52,211,153,0.6)]">📚 ADE'S PRESS blog</span>
           </a>
           <div class="flex-1 space-y-1">
             <p class="font-mono text-[9.5px] sm:text-[10.5px] text-teal-100 leading-snug">
@@ -363,10 +408,10 @@
           </div>
         </div>
 
-        <!-- Button 7: EMBERTIME (links) -->
+        <!-- Button 7: EMBERTIME (links) (Translucent Warm Ember-Rose/Amber Tint) -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3.5">
-          <button id="openEmbertimeModalBtn" type="button" class="shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-gradient-to-r from-red-950 via-rose-900/90 to-amber-900/90 hover:from-red-800 hover:via-orange-800 hover:to-amber-700 active:from-red-700 active:to-orange-600 border border-orange-500/80 hover:border-amber-300 text-orange-200 hover:text-white font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] tracking-wide shadow-[0_0_12px_rgba(239,68,68,0.25)] hover:shadow-[0_0_18px_rgba(249,115,22,0.55)] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-            <span>🎵 EMBERTIME (links)</span>
+          <button id="openEmbertimeModalBtn" type="button" class="shrink-0 w-full sm:w-[210px] py-2 sm:py-2.5 px-2 text-center rounded-lg bg-gradient-to-r from-rose-950/35 via-orange-950/25 to-amber-950/35 hover:from-rose-900/50 hover:to-amber-900/50 border border-orange-500/60 hover:border-amber-300 text-orange-200 hover:text-white font-sci-fi font-bold text-[9.5px] sm:text-[10.5px] tracking-wide shadow-[0_0_10px_rgba(249,115,22,0.2),inset_0_0_14px_rgba(249,115,22,0.12)] hover:shadow-[0_0_18px_rgba(249,115,22,0.5)] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+            <span class="drop-shadow-[0_0_5px_rgba(251,146,60,0.6)]">🎵 EMBERTIME (links)</span>
           </button>
           <p class="font-mono text-[9.5px] sm:text-[10.5px] text-amber-100/90 leading-snug flex-1">
             Like the music featured in many of the games? Most were generated out of Ade's original guitar-based songs + mixes. Find where to listen to these folky, retro-synth and ambient soundtracks inspiring some of the projects.
@@ -376,45 +421,46 @@
       </div>
 
       <!-- Text Box Below -->
-      <div class="w-full max-w-[540px] bg-slate-900/40 border border-slate-500/30 rounded-lg p-3 sm:p-4 mt-4 text-left shadow-lg">
+      <div class="relative z-10 w-full max-w-[540px] bg-slate-900/40 border border-slate-500/30 rounded-lg p-3 sm:p-4 mt-4 text-left shadow-lg">
         <p class="font-mono text-[9px] sm:text-[10.5px] text-slate-300 leading-relaxed italic">
           "System updates and new modules will be deployed here continuously. Keep your awareness sharp, and remember to spend time outside."
         </p>
       </div>
 
       <!-- Ade M. Campbell on X Link at bottom of page -->
-      <div class="w-full max-w-[540px] mt-3 flex items-center justify-center gap-2">
+      <div class="relative z-10 w-full max-w-[540px] mt-3 flex items-center justify-center gap-2">
         <span class="font-mono text-[9.5px] sm:text-[10.5px] text-slate-400">Ade's Press on X:</span>
         <a href="https://x.com/ademcampbell" target="_blank" rel="noopener noreferrer" class="font-mono text-[10px] sm:text-[11px] text-cyan-300 hover:text-cyan-200 underline font-bold inline-flex items-center gap-1">
           @ademcampbell ↗
         </a>
       </div>
 
-      <div class="mt-auto pt-8 font-mono text-[10px] sm:text-xs text-emerald-400/70 text-center tracking-widest">
-        SYSTEM ONLINE // AWAITING INPUT
+      <!-- Dynamic Biosphere Cycle Telemetry Footer -->
+      <div id="ecoTelemetryText" class="relative z-10 mt-auto pt-8 font-mono text-[9.5px] sm:text-[11px] text-emerald-400/80 text-center tracking-widest select-none">
+        SYSTEM ONLINE // BIOSPHERE CYCLE: 00:00 (GERMINATION)
       </div>
     </div>
 
     <!-- EMBERTIME LINKS POP-UP MODAL -->
     <div id="embertimeLinksModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 crt-screen" style="touch-action: pan-y;">
-      <div class="relative w-full max-w-[460px] bg-gradient-to-b from-slate-950 via-emerald-950/70 to-slate-950 border-2 border-emerald-400/80 rounded-xl p-4 sm:p-5 shadow-[0_0_30px_rgba(57,255,20,0.3)] text-left flex flex-col gap-3">
+      <div class="relative w-full max-w-[460px] bg-gradient-to-b from-slate-950 via-rose-950/45 to-slate-950 border-2 border-emerald-400/80 rounded-xl p-4 sm:p-5 shadow-[0_0_30px_rgba(244,63,94,0.25),0_0_15px_rgba(57,255,20,0.15)] text-left flex flex-col gap-3">
         <!-- Modal Header -->
-        <div class="flex items-center justify-between border-b border-emerald-500/30 pb-2">
+        <div class="flex items-center justify-between border-b border-rose-500/30 pb-2">
           <div>
             <h3 class="font-sci-fi font-black text-sm sm:text-base text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-rose-300 to-emerald-300 tracking-wide">
-              EMBERTIME MUSIC & SOUNDTRACKS
+              EMBERTIME MUSIC &amp; SOUNDTRACKS
             </h3>
             <p class="font-arcade text-[6px] sm:text-[7px] text-amber-300/90 mt-0.5">
-              FOLKY, RETRO-SYNTH & AMBIENT SOUNDSCAPES
+              FOLKY, RETRO-SYNTH &amp; AMBIENT SOUNDSCAPES
             </p>
           </div>
-          <button id="closeEmbertimeCrossBtn" type="button" class="w-7 h-7 rounded-md bg-slate-900 border border-emerald-500/50 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold active:scale-95 cursor-pointer">
+          <button id="closeEmbertimeCrossBtn" type="button" class="w-7 h-7 rounded-md bg-slate-900 border border-rose-500/50 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold active:scale-95 cursor-pointer">
             ✕
           </button>
         </div>
 
         <!-- Description -->
-        <p class="font-mono text-[10px] sm:text-[11px] text-emerald-100/90 leading-relaxed">
+        <p class="font-mono text-[10px] sm:text-[11px] text-rose-100/90 leading-relaxed">
           Soundtracks and songs generated from Ade's original guitar sessions, synth compositions, and atmospheric mixes. Choose a portal:
         </p>
 
@@ -434,7 +480,7 @@
             <span class="text-base group-hover:scale-110 transition-transform">🟠</span>
             <div class="min-w-0">
               <span class="block font-sci-fi font-bold text-[10px] tracking-wider text-orange-300">SOUNDCLOUD</span>
-              <span class="block font-mono text-[8px] text-orange-400/80 truncate">Tracks, Synths & Mixes</span>
+              <span class="block font-mono text-[8px] text-orange-400/80 truncate">Tracks, Synths &amp; Mixes</span>
             </div>
           </a>
 
@@ -458,15 +504,15 @@
         </div>
 
         <!-- Search Prompt Box -->
-        <div class="bg-black/60 border border-emerald-500/30 rounded-lg p-2.5 mt-0.5">
+        <div class="bg-black/60 border border-rose-500/30 rounded-lg p-2.5 mt-0.5">
           <p class="font-mono text-[9px] sm:text-[10px] text-amber-200/90 leading-snug">
-            ✨ <span class="font-bold text-amber-300">+ Search "Embertime"</span> on Apple Music, Amazon Music, YouTube & streaming services worldwide.
+            ✨ <span class="font-bold text-amber-300">+ Search "Embertime"</span> on Apple Music, Amazon Music, YouTube &amp; streaming services worldwide.
           </p>
         </div>
 
         <!-- Close Button -->
         <div class="pt-0.5">
-          <button id="closeEmbertimeModalBtn" type="button" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-emerald-500/60 font-arcade text-[8px] sm:text-[8.5px] text-emerald-300 tracking-wider shadow active:scale-95 transition-all text-center cursor-pointer">
+          <button id="closeEmbertimeModalBtn" type="button" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-rose-500/60 font-arcade text-[8px] sm:text-[8.5px] text-rose-300 tracking-wider shadow active:scale-95 transition-all text-center cursor-pointer">
             CLOSE PORTAL
           </button>
         </div>
@@ -701,20 +747,46 @@
     class HybridJukebox {
       constructor(fallbackBGM) {
         this.fallbackBGM = fallbackBGM;
-        this.playlist = [];
-        this.currentIndex = 0;
+        this.firstTrack = null;
+        this.otherTracks = [];
+        this.shuffleQueue = [];
+        this.history = [];
+        this.historyIndex = -1;
+        this.currentTrack = null;
+        this.hasStarted = false;
         this.isStreaming = false;
         this.hasFailed = false;
+        this.consecutiveErrors = 0;
         this.trackPlayer = new Audio();
         this.trackPlayer.volume = 0.12;
 
         this.trackPlayer.addEventListener('ended', () => this.playNext());
-        this.trackPlayer.addEventListener('error', () => this.triggerFallback());
+        this.trackPlayer.addEventListener('error', () => this.handleTrackError());
+        this.trackPlayer.addEventListener('playing', () => {
+          this.consecutiveErrors = 0;
+        });
       }
 
-      setPlaylist(urls) {
-        if (!urls || urls.length === 0) return;
-        this.playlist = [...urls];
+      getAllTracks() {
+        const pool = [];
+        if (this.firstTrack) pool.push(this.firstTrack);
+        for (const t of this.otherTracks) {
+          if (!pool.includes(t)) pool.push(t);
+        }
+        return pool;
+      }
+
+      setPlaylist(firstTrack, otherTracks = []) {
+        if (Array.isArray(firstTrack)) {
+          this.firstTrack = firstTrack[0] || null;
+          this.otherTracks = firstTrack.slice(1);
+        } else {
+          this.firstTrack = firstTrack;
+          this.otherTracks = [...otherTracks];
+        }
+        this.shuffleQueue = [];
+        this.history = [];
+        this.historyIndex = -1;
       }
 
       setMuted(muted) {
@@ -729,32 +801,159 @@
         }
       }
 
+      generateShuffledQueue(includeFirst = false) {
+        const pool = [...this.otherTracks];
+        if (includeFirst && this.firstTrack && !pool.includes(this.firstTrack)) {
+          pool.push(this.firstTrack);
+        }
+        for (let i = pool.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+        if (pool.length > 1 && pool[0] === this.currentTrack) {
+          const swapIdx = 1 + Math.floor(Math.random() * (pool.length - 1));
+          [pool[0], pool[swapIdx]] = [pool[swapIdx], pool[0]];
+        }
+        return pool;
+      }
+
       start() {
-        if (this.hasFailed || this.playlist.length === 0) {
+        if (this.hasFailed) {
           this.triggerFallback();
           return;
         }
         this.isStreaming = true;
-        if (!this.trackPlayer.src) this.trackPlayer.src = this.playlist[this.currentIndex];
+
+        if (!this.hasStarted) {
+          this.hasStarted = true;
+          const initial = this.firstTrack || (this.otherTracks.length > 0 ? this.otherTracks[0] : null);
+          if (initial) {
+            this.playTrack(initial, true);
+            return;
+          }
+        }
+
+        if (this.trackPlayer.src) {
+          const playPromise = this.trackPlayer.play();
+          if (playPromise !== undefined) {
+            playPromise.catch((e) => {
+              if (e.name !== 'NotAllowedError') this.handleTrackError();
+            });
+          }
+        } else {
+          this.playNext();
+        }
+      }
+
+      playTrack(url, recordHistory = true) {
+        if (!url || this.hasFailed) return;
+        this.isStreaming = true;
+        this.hasStarted = true;
+        this.currentTrack = url;
+
+        if (recordHistory) {
+          if (this.historyIndex >= 0 && this.historyIndex < this.history.length - 1) {
+            this.history = this.history.slice(0, this.historyIndex + 1);
+          }
+          this.history.push(url);
+          this.historyIndex = this.history.length - 1;
+        }
+
+        this.trackPlayer.src = url;
         const playPromise = this.trackPlayer.play();
         if (playPromise !== undefined) {
           playPromise.catch((e) => {
-            if (e.name !== 'NotAllowedError') this.triggerFallback();
+            if (e.name !== 'NotAllowedError') this.handleTrackError();
           });
         }
       }
 
       playNext() {
-        if (this.playlist.length === 0 || this.hasFailed) return;
-        this.currentIndex = (this.currentIndex + 1) % this.playlist.length;
-        this.trackPlayer.src = this.playlist[this.currentIndex];
-        this.trackPlayer.play().catch(() => this.triggerFallback());
+        if (this.hasFailed) return;
+        const allTracks = this.getAllTracks();
+        if (allTracks.length === 0) {
+          this.triggerFallback();
+          return;
+        }
+        this.isStreaming = true;
+        this.hasStarted = true;
+
+        // If user previously went back in history, navigate forward through history first
+        if (this.historyIndex >= 0 && this.historyIndex < this.history.length - 1) {
+          this.historyIndex++;
+          this.playTrack(this.history[this.historyIndex], false);
+          return;
+        }
+
+        if (this.shuffleQueue.length === 0) {
+          this.shuffleQueue = this.generateShuffledQueue(true);
+        }
+
+        let nextTrack = this.shuffleQueue.shift();
+        if (nextTrack === this.currentTrack && allTracks.length > 1) {
+          if (this.shuffleQueue.length === 0) {
+            this.shuffleQueue = this.generateShuffledQueue(true);
+          }
+          if (this.shuffleQueue.length > 0) {
+            const alt = this.shuffleQueue.shift();
+            this.shuffleQueue.push(nextTrack);
+            nextTrack = alt;
+          }
+        }
+
+        if (nextTrack) {
+          this.playTrack(nextTrack, true);
+        } else {
+          this.triggerFallback();
+        }
+      }
+
+      playPrev() {
+        if (this.hasFailed) return;
+        const allTracks = this.getAllTracks();
+        if (allTracks.length === 0) return;
+        this.isStreaming = true;
+        this.hasStarted = true;
+
+        // If the current track has been playing for > 3.0s, rewind to the start
+        if (this.trackPlayer && this.trackPlayer.currentTime > 3.0) {
+          this.trackPlayer.currentTime = 0;
+          if (this.trackPlayer.paused) {
+            this.trackPlayer.play().catch(() => {});
+          }
+          return;
+        }
+
+        // If we have previous history, step back in history
+        if (this.historyIndex > 0) {
+          this.historyIndex--;
+          this.playTrack(this.history[this.historyIndex], false);
+          return;
+        }
+
+        // If at start of history or no history yet, cycle to the preceding track in playlist
+        const curIdx = allTracks.indexOf(this.currentTrack);
+        const prevIdx = (curIdx - 1 + allTracks.length) % allTracks.length;
+        const prevTrack = allTracks[prevIdx];
+        this.history.unshift(prevTrack);
+        this.historyIndex = 0;
+        this.playTrack(prevTrack, false);
+      }
+
+      handleTrackError() {
+        this.consecutiveErrors = (this.consecutiveErrors || 0) + 1;
+        const totalTracks = (this.firstTrack ? 1 : 0) + this.otherTracks.length;
+        if (this.consecutiveErrors < Math.max(3, totalTracks)) {
+          this.playNext();
+        } else {
+          this.triggerFallback();
+        }
       }
 
       triggerFallback() {
         this.hasFailed = true;
         this.isStreaming = false;
-        this.trackPlayer.pause();
+        try { this.trackPlayer.pause(); } catch (e) {}
         this.fallbackBGM.start();
       }
       
@@ -771,13 +970,16 @@
     });
     const bgMusic = new HybridJukebox(proceduralBGM);
     
-    // Existing playlist from Pinball game
-    bgMusic.setPlaylist([
-      "https://adespress.github.io/adespress/Your%20Land%20Eternal%20(into%20Nature).mp3",
+    bgMusic.setPlaylist(
       "https://adespress.github.io/adespress/Green%20Game-Keepers%20(Let's%20Go)%20-%20synth%202.mp3",
-      "https://adespress.github.io/adespress/Hope%20in%20this%20Old%20GameWorld%20-%20Retro%20Synth%20Power%202.mp3",
-      "https://adespress.github.io/adespress/FireInside%28mEmbershard2%29.mp3"
-    ]);
+      [
+        "https://adespress.github.io/adespress/Back%20Under%20the%20Circling%20Rooks%20(guitar%20piece).mp3",
+        "https://adespress.github.io/adespress/Circling%20Rooks%20(Firedance%202).mp3",
+        "https://adespress.github.io/adespress/Your%20Land%20Eternal%20(into%20Nature).mp3",
+        "https://adespress.github.io/adespress/Hope%20in%20this%20Old%20GameWorld%20-%20Retro%20Synth%20Power%202.mp3",
+        "https://adespress.github.io/adespress/FireInside%28mEmbershard2%29.mp3"
+      ]
+    );
 
     let isAudioMuted = false;
     let bgmVolumeLevel = 2;
@@ -785,9 +987,10 @@
     const musicToggleBtn = document.getElementById('musicToggleBtn');
     const bgmVolumeBtn = document.getElementById('bgmVolumeBtn');
     const embertimeMusicBtn = document.getElementById('embertimeMusicBtn');
+    const prevTrackBtn = document.getElementById('prevTrackBtn');
+    const nextTrackBtn = document.getElementById('nextTrackBtn');
 
     function updateSoundToggleUI() {
-      // 1. Top-right Speaker Button
       if (musicToggleBtn) {
         const strikeGroup = document.getElementById('soundMuteStrikeGroup');
         const wave1 = document.getElementById('soundWave1');
@@ -817,7 +1020,6 @@
         }
       }
 
-      // 2. Embertime Music Toggle Button above Algiz Rune
       if (embertimeMusicBtn) {
         const isPlaying = audioUnlocked && !isAudioMuted;
         if (isPlaying) {
@@ -875,6 +1077,46 @@
       });
     }
 
+    if (prevTrackBtn) {
+      prevTrackBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        soundFX.init();
+        if (!audioUnlocked) {
+          audioUnlocked = true;
+          isAudioMuted = false;
+          soundFX.setMuted(false);
+          bgMusic.setMuted(false);
+        } else if (isAudioMuted) {
+          isAudioMuted = false;
+          soundFX.setMuted(false);
+          bgMusic.setMuted(false);
+        }
+        bgMusic.playPrev();
+        soundFX.playTone(520, 0.04, 'triangle', 0.12);
+        updateSoundToggleUI();
+      });
+    }
+
+    if (nextTrackBtn) {
+      nextTrackBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        soundFX.init();
+        if (!audioUnlocked) {
+          audioUnlocked = true;
+          isAudioMuted = false;
+          soundFX.setMuted(false);
+          bgMusic.setMuted(false);
+        } else if (isAudioMuted) {
+          isAudioMuted = false;
+          soundFX.setMuted(false);
+          bgMusic.setMuted(false);
+        }
+        bgMusic.playNext();
+        soundFX.playTone(620, 0.04, 'triangle', 0.12);
+        updateSoundToggleUI();
+      });
+    }
+
     if (musicToggleBtn) {
       musicToggleBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -889,7 +1131,6 @@
       });
     }
 
-    // Global audio unlock on first interaction
     let audioUnlocked = false;
     function unlockAudio() {
       if (audioUnlocked) return;
@@ -901,10 +1142,8 @@
       updateSoundToggleUI();
     }
     
-    // Bind unlock to document clicks/touches
     ['click', 'touchstart', 'keydown'].forEach(evt => document.addEventListener(evt, unlockAudio, { passive: true }));
 
-    // Embertime Links Modal Interaction Logic
     const embertimeLinksModal = document.getElementById('embertimeLinksModal');
     const openEmbertimeModalBtn = document.getElementById('openEmbertimeModalBtn');
     const closeEmbertimeModalBtn = document.getElementById('closeEmbertimeModalBtn');
@@ -932,7 +1171,6 @@
       });
     }
 
-    // In-Development Games Modal Logic
     const DEV_GAMES_INFO = {
       'DIVE or FALL': {
         icon: '🌀',
@@ -1000,7 +1238,6 @@
       });
     }
 
-    // Close modals on Escape key
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeEmbertimeModal();
@@ -1008,7 +1245,1553 @@
       }
     });
 
-    // Initialization
+    // =========================================================================
+    // AMBIENT DECORATIVE ECOSYSTEM (10-MINUTE BOTANICAL GROWTH & RENEWAL CYCLE)
+    // =========================================================================
+    const ecoCanvas = document.getElementById('ambientEcoCanvas');
+    const ecoCtx = ecoCanvas ? ecoCanvas.getContext('2d') : null;
+    const cabinetContainer = document.getElementById('cabinetMain');
+    const ecoTelemetryEl = document.getElementById('ecoTelemetryText');
+
+    const CYCLE_DURATION_MS = 600000;
+    const FADE_START_MS = 570000;
+    const sessionStartTime = Date.now();
+    let lastElapsed = 0;
+    let lastTelemetryStr = '';
+
+    let ecoWidth = 500;
+    let ecoHeight = 800;
+
+    const ecoLeaves = [];
+    const ecoFireflies = [];
+    const ecoTouchSpores = [];
+
+    const ecoForest = [
+      { id: 101, pctX: 0.07, type: 'scots_pine', minTier: 0.06, matureTier: 0.70, maxHScale: 0.62, wScale: 5.6 },
+      { id: 102, pctX: 0.93, type: 'scots_pine', minTier: 0.08, matureTier: 0.74, maxHScale: 0.62, wScale: 5.6 },
+
+      { id: 1,  pctX: 0.05, type: 'pine',   minTier: 0.18, matureTier: 0.65, maxHScale: 0.38, wScale: 5.2 },
+      { id: 2,  pctX: 0.12, type: 'sakura', minTier: 0.08, matureTier: 0.52, maxHScale: 0.35, wScale: 5.0 },
+      { id: 3,  pctX: 0.19, type: 'oak',    minTier: 0.00, matureTier: 0.42, maxHScale: 0.38, wScale: 5.8 },
+      { id: 4,  pctX: 0.26, type: 'birch',  minTier: 0.12, matureTier: 0.58, maxHScale: 0.32, wScale: 3.8 },
+
+      { id: 5,  pctX: 0.35, type: 'shrub',  minTier: 0.15, matureTier: 0.50, maxHScale: 0.14, wScale: 3.2 },
+      { id: 6,  pctX: 0.44, type: 'orchard',minTier: 0.04, matureTier: 0.40, maxHScale: 0.16, wScale: 3.4 },
+      { id: 7,  pctX: 0.52, type: 'shrub',  minTier: 0.00, matureTier: 0.35, maxHScale: 0.13, wScale: 3.2 },
+      { id: 8,  pctX: 0.60, type: 'orchard',minTier: 0.06, matureTier: 0.45, maxHScale: 0.16, wScale: 3.4 },
+      { id: 9,  pctX: 0.68, type: 'shrub',  minTier: 0.16, matureTier: 0.52, maxHScale: 0.14, wScale: 3.2 },
+
+      { id: 10, pctX: 0.76, type: 'birch',  minTier: 0.10, matureTier: 0.55, maxHScale: 0.32, wScale: 3.8 },
+      { id: 11, pctX: 0.83, type: 'oak',    minTier: 0.00, matureTier: 0.42, maxHScale: 0.38, wScale: 5.8 },
+      { id: 12, pctX: 0.90, type: 'acacia', minTier: 0.14, matureTier: 0.62, maxHScale: 0.34, wScale: 4.8 },
+      { id: 13, pctX: 0.96, type: 'pine',   minTier: 0.22, matureTier: 0.70, maxHScale: 0.38, wScale: 5.2 }
+    ];
+
+    function resizeEcoCanvas() {
+      if (!ecoCanvas || !cabinetContainer) return;
+      const rect = cabinetContainer.getBoundingClientRect();
+      ecoWidth = Math.max(300, Math.round(rect.width));
+      const measuredH = Math.max(rect.height, cabinetContainer.scrollHeight || 0);
+      ecoHeight = Math.max(500, Math.round(measuredH));
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      ecoCanvas.width = ecoWidth * dpr;
+      ecoCanvas.height = ecoHeight * dpr;
+      if (ecoCtx && ecoCtx.setTransform) {
+        ecoCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+    }
+
+    resizeEcoCanvas();
+
+    window.addEventListener('resize', resizeEcoCanvas);
+    window.addEventListener('orientationchange', resizeEcoCanvas);
+    if (window.ResizeObserver && cabinetContainer) {
+      new ResizeObserver(() => resizeEcoCanvas()).observe(cabinetContainer);
+    }
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(resizeEcoCanvas);
+    }
+    setTimeout(resizeEcoCanvas, 60);
+
+    function spawnEcoTouchSpores(clientX, clientY) {
+      if (!cabinetContainer) return;
+      const rect = cabinetContainer.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      if (x < 0 || x > rect.width || y < 0 || y > rect.height) return;
+
+      const sporeColors = ['#39ff14', '#00f3ff', '#86efac', '#ffea00', '#38bdf8'];
+      const count = 5 + Math.floor(Math.random() * 4);
+
+      for (let i = 0; i < count; i++) {
+        const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.8;
+        const speed = 1.0 + Math.random() * 2.2;
+        ecoTouchSpores.push({
+          x: x + (Math.random() - 0.5) * 12,
+          y: y + (Math.random() - 0.5) * 12,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: 2.2 + Math.random() * 1.8,
+          color: sporeColors[Math.floor(Math.random() * sporeColors.length)],
+          alpha: 1.0,
+          decay: 0.016 + Math.random() * 0.014,
+          wobble: Math.random() * Math.PI * 2,
+          wobbleSpeed: 0.04 + Math.random() * 0.04
+        });
+      }
+    }
+
+    if (cabinetContainer) {
+      cabinetContainer.addEventListener('pointerdown', (e) => {
+        spawnEcoTouchSpores(e.clientX, e.clientY);
+      }, { passive: true });
+    }
+
+    function drawEcoTrees(ctx, progress, time, masterAlpha) {
+      const baselineY = ecoHeight - 6;
+
+      ecoForest.forEach(tree => {
+        if (progress < tree.minTier) return;
+
+        const tierSpan = Math.max(0.01, tree.matureTier - tree.minTier);
+        const rawProg = (progress - tree.minTier) / tierSpan;
+        const growProg = Math.max(0.08, Math.min(1.0, rawProg));
+
+        let ancientBoost = 0;
+        if (progress >= 0.80 && (tree.id <= 4 || tree.id >= 10 || tree.type === 'scots_pine')) {
+          ancientBoost = Math.min(1.0, (progress - 0.80) / 0.20);
+        }
+
+        const rx = tree.pctX * ecoWidth;
+        const maxH = ecoHeight * tree.maxHScale;
+        const currentH = Math.max(14, maxH * (growProg + ancientBoost * 0.28));
+        const currentW = Math.max(1.8, tree.wScale * (0.35 + growProg * 0.65 + ancientBoost * 0.35));
+        const swayPhase = time * 1.5 + rx * 0.05;
+        const windSway = Math.sin(swayPhase) * (1.2 + growProg * 2.2);
+
+        ctx.save();
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        if (growProg < 0.28) {
+          const saplingTopY = baselineY - currentH;
+          const tipX = rx + windSway * 0.5;
+
+          if (tree.type === 'scots_pine') {
+            ctx.strokeStyle = `rgba(180, 83, 9, ${0.55 * masterAlpha})`;
+            ctx.lineWidth = currentW * 0.9;
+            ctx.beginPath();
+            ctx.moveTo(rx, baselineY);
+            ctx.quadraticCurveTo(rx + windSway * 0.2, baselineY - currentH * 0.5, tipX, saplingTopY);
+            ctx.stroke();
+
+            const needleLen = 3.5 + growProg * 8.0;
+            ctx.save();
+            ctx.translate(tipX, saplingTopY);
+            ctx.strokeStyle = `rgba(45, 212, 191, ${0.65 * masterAlpha})`;
+            ctx.lineWidth = 0.9;
+            for (let a = -0.7; a <= 0.7; a += 0.35) {
+              ctx.beginPath();
+              ctx.moveTo(0, 0);
+              ctx.lineTo(Math.sin(a) * needleLen, -Math.cos(a) * needleLen);
+              ctx.stroke();
+            }
+            ctx.restore();
+          } else {
+            ctx.strokeStyle = `rgba(74, 222, 128, ${0.48 * masterAlpha})`;
+            ctx.lineWidth = currentW;
+            ctx.beginPath();
+            ctx.moveTo(rx, baselineY);
+            ctx.quadraticCurveTo(rx + windSway * 0.2, baselineY - currentH * 0.5, tipX, saplingTopY);
+            ctx.stroke();
+
+            const leafSize = 3.2 + growProg * 6.0;
+            ctx.save();
+            ctx.translate(tipX, saplingTopY);
+            ctx.fillStyle = `rgba(34, 197, 94, ${0.55 * masterAlpha})`;
+            ctx.beginPath();
+            ctx.ellipse(-leafSize * 0.75, -1.5, leafSize, leafSize * 0.45, -0.4, 0, Math.PI * 2);
+            ctx.ellipse(leafSize * 0.75, -1.5, leafSize, leafSize * 0.45, 0.4, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = `rgba(167, 243, 208, ${0.5 * masterAlpha})`;
+            ctx.lineWidth = 0.7;
+            ctx.beginPath();
+            ctx.moveTo(-leafSize * 0.7, -1.5); ctx.lineTo(0, 0); ctx.lineTo(leafSize * 0.7, -1.5);
+            ctx.stroke();
+
+            if (growProg > 0.16) {
+              const subL = leafSize * 0.6;
+              ctx.fillStyle = `rgba(74, 222, 128, ${0.45 * masterAlpha})`;
+              ctx.beginPath();
+              ctx.ellipse(-subL * 0.8, 3.0, subL, subL * 0.45, 0.3, 0, Math.PI * 2);
+              ctx.ellipse(subL * 0.8, 3.0, subL, subL * 0.45, -0.3, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.restore();
+          }
+
+          ctx.restore();
+          return;
+        }
+
+        const crownCenterY = baselineY - currentH;
+        const trunkMidY = baselineY - currentH * 0.55;
+        const tipX = rx + windSway * 0.7;
+
+        ctx.strokeStyle = tree.type === 'scots_pine' ? `rgba(45, 26, 18, ${0.6 * masterAlpha})` : `rgba(43, 26, 17, ${0.5 * masterAlpha})`;
+        ctx.lineWidth = currentW * 0.7;
+        ctx.beginPath();
+        ctx.moveTo(rx - currentW * 1.6, baselineY + 2);
+        ctx.lineTo(rx, baselineY - currentH * 0.12);
+        ctx.lineTo(rx + currentW * 1.6, baselineY + 2);
+        ctx.stroke();
+
+        const trunkGrad = ctx.createLinearGradient(rx, baselineY, tipX, crownCenterY);
+        if (tree.type === 'scots_pine') {
+          trunkGrad.addColorStop(0, `rgba(45, 26, 18, ${0.72 * masterAlpha})`);
+          trunkGrad.addColorStop(0.35, `rgba(88, 42, 22, ${0.72 * masterAlpha})`);
+          trunkGrad.addColorStop(0.65, `rgba(194, 65, 12, ${0.82 * masterAlpha})`);
+          trunkGrad.addColorStop(1, `rgba(234, 88, 12, ${0.88 * masterAlpha})`);
+        } else if (tree.type === 'birch') {
+          trunkGrad.addColorStop(0, `rgba(226, 232, 240, ${0.55 * masterAlpha})`);
+          trunkGrad.addColorStop(1, `rgba(203, 213, 225, ${0.55 * masterAlpha})`);
+        } else if (tree.type === 'pine') {
+          trunkGrad.addColorStop(0, `rgba(62, 35, 18, ${0.65 * masterAlpha})`);
+          trunkGrad.addColorStop(1, `rgba(44, 21, 9, ${0.65 * masterAlpha})`);
+        } else {
+          trunkGrad.addColorStop(0, `rgba(28, 16, 10, ${0.65 * masterAlpha})`);
+          trunkGrad.addColorStop(1, `rgba(82, 52, 31, ${0.65 * masterAlpha})`);
+        }
+
+        ctx.strokeStyle = trunkGrad;
+        ctx.lineWidth = currentW;
+        ctx.beginPath();
+        ctx.moveTo(rx, baselineY);
+        ctx.quadraticCurveTo(rx + windSway * 0.25, trunkMidY, tipX, crownCenterY + currentH * 0.15);
+        ctx.stroke();
+
+        if (growProg > 0.45 && ['oak', 'sakura', 'acacia', 'birch'].includes(tree.type)) {
+          ctx.lineWidth = currentW * 0.45;
+          ctx.strokeStyle = trunkGrad;
+          const bSplitY = baselineY - currentH * 0.48;
+          const bSplitDir = (tree.pctX < 0.5) ? 1 : -1;
+          ctx.beginPath();
+          ctx.moveTo(rx + windSway * 0.2, bSplitY);
+          ctx.quadraticCurveTo(
+            rx + bSplitDir * currentW * 1.5,
+            bSplitY - currentH * 0.12,
+            rx + bSplitDir * (currentW * 2.2 + 8),
+            bSplitY - currentH * 0.22
+          );
+          ctx.stroke();
+        }
+
+        const cx = tipX;
+        const cy = crownCenterY;
+        const cScale = (0.55 + growProg * 0.45) * (1.0 + ancientBoost * 0.25);
+
+        if (tree.type === 'oak') {
+          const rBase = (18 + currentH * 0.15) * cScale;
+
+          ctx.strokeStyle = `rgba(67, 40, 24, ${0.55 * masterAlpha})`;
+          ctx.lineWidth = Math.max(1.2, currentW * 0.35);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy + rBase * 0.35);
+          ctx.lineTo(cx - rBase * 0.5, cy + 2);
+          ctx.moveTo(cx, cy + rBase * 0.3);
+          ctx.lineTo(cx + rBase * 0.5, cy);
+          ctx.stroke();
+
+          ctx.fillStyle = `rgba(6, 78, 59, ${0.55 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.arc(cx - rBase * 0.45, cy + 2, rBase * 0.72, 0, Math.PI * 2);
+          ctx.arc(cx + rBase * 0.45, cy + 2, rBase * 0.72, 0, Math.PI * 2);
+          ctx.arc(cx, cy - rBase * 0.35, rBase * 0.82, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `rgba(34, 197, 94, ${0.52 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.arc(cx - rBase * 0.38, cy, rBase * 0.62, 0, Math.PI * 2);
+          ctx.arc(cx + rBase * 0.38, cy, rBase * 0.62, 0, Math.PI * 2);
+          ctx.arc(cx, cy - rBase * 0.4, rBase * 0.68, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `rgba(134, 239, 172, ${0.6 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.arc(cx, cy - rBase * 0.45, rBase * 0.45, 0, Math.PI * 2);
+          ctx.fill();
+
+          if (growProg > 0.65) {
+            ctx.fillStyle = `rgba(255, 234, 0, ${0.65 * masterAlpha})`;
+            ctx.beginPath();
+            ctx.arc(cx - rBase * 0.4, cy + 3, 1.8, 0, Math.PI * 2);
+            ctx.arc(cx + rBase * 0.42, cy + 1, 1.8, 0, Math.PI * 2);
+            ctx.arc(cx + 1, cy - rBase * 0.65, 2.0, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+        else if (tree.type === 'pine') {
+          const pineTiers = 3;
+          const tierSpread = (currentH * 0.26) * cScale;
+
+          for (let t = pineTiers - 1; t >= 0; t--) {
+            const tierY = cy + t * (tierSpread * 0.75);
+            const tierW = (13 + (pineTiers - t) * 7.5) * cScale;
+            const tierH = (12 + (pineTiers - t) * 3.5) * cScale;
+
+            ctx.fillStyle = `rgba(6, 78, 59, ${0.55 * masterAlpha})`;
+            ctx.beginPath();
+            ctx.moveTo(cx, tierY - tierH);
+            ctx.lineTo(cx - tierW, tierY);
+            ctx.lineTo(cx + tierW, tierY);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.fillStyle = `rgba(16, 185, 129, ${0.5 * masterAlpha})`;
+            ctx.beginPath();
+            ctx.moveTo(cx, tierY - tierH + 2);
+            ctx.lineTo(cx - tierW * 0.8, tierY - 1);
+            ctx.lineTo(cx + tierW * 0.8, tierY - 1);
+            ctx.closePath();
+            ctx.fill();
+          }
+        }
+        else if (tree.type === 'sakura') {
+          const rBase = (16 + currentH * 0.14) * cScale;
+
+          ctx.strokeStyle = `rgba(88, 42, 22, ${0.5 * masterAlpha})`;
+          ctx.lineWidth = Math.max(1.1, currentW * 0.32);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy + rBase * 0.3);
+          ctx.lineTo(cx - rBase * 0.45, cy);
+          ctx.moveTo(cx, cy + rBase * 0.2);
+          ctx.lineTo(cx + rBase * 0.45, cy - 2);
+          ctx.stroke();
+
+          ctx.fillStyle = `rgba(219, 39, 119, ${0.48 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.arc(cx - rBase * 0.4, cy, rBase * 0.68, 0, Math.PI * 2);
+          ctx.arc(cx + rBase * 0.4, cy, rBase * 0.68, 0, Math.PI * 2);
+          ctx.arc(cx, cy - rBase * 0.35, rBase * 0.74, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `rgba(251, 207, 232, ${0.55 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.arc(cx - rBase * 0.35, cy - 2, rBase * 0.52, 0, Math.PI * 2);
+          ctx.arc(cx + rBase * 0.35, cy - 2, rBase * 0.52, 0, Math.PI * 2);
+          ctx.arc(cx, cy - rBase * 0.4, rBase * 0.58, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        else if (tree.type === 'acacia') {
+          const canopyW = (24 + currentH * 0.2) * cScale;
+          const canopyH = (8 + currentH * 0.08) * cScale;
+
+          ctx.strokeStyle = `rgba(82, 52, 31, ${0.55 * masterAlpha})`;
+          ctx.lineWidth = Math.max(1.2, currentW * 0.38);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy + canopyH * 1.3);
+          ctx.lineTo(cx - canopyW * 0.6, cy + canopyH * 0.3);
+          ctx.moveTo(cx, cy + canopyH * 1.3);
+          ctx.lineTo(cx + canopyW * 0.6, cy + canopyH * 0.3);
+          ctx.stroke();
+
+          ctx.fillStyle = `rgba(6, 78, 59, ${0.55 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, canopyW, canopyH, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `rgba(34, 197, 94, ${0.5 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy - 2, canopyW * 0.88, canopyH * 0.8, 0, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        else if (tree.type === 'birch') {
+          const rBase = (13 + currentH * 0.12) * cScale;
+          ctx.fillStyle = `rgba(21, 128, 61, ${0.52 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, rBase * 0.8, rBase * 1.1, windSway * 0.04, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `rgba(74, 222, 128, ${0.55 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.ellipse(cx - 1, cy - 2, rBase * 0.68, rBase * 0.9, windSway * 0.04, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        else if (tree.type === 'scots_pine') {
+          const isLeft = tree.pctX < 0.5;
+          const boughSide = isLeft ? 1 : -1;
+
+          if (growProg > 0.35) {
+            ctx.strokeStyle = `rgba(146, 64, 14, ${0.75 * masterAlpha})`;
+            ctx.lineWidth = Math.max(1.3, currentW * 0.3);
+            const snag1Y = baselineY - currentH * 0.34;
+            const snag2Y = baselineY - currentH * 0.44;
+            ctx.beginPath();
+            ctx.moveTo(rx, snag1Y);
+            ctx.lineTo(rx + boughSide * 8 * cScale, snag1Y + 3 * cScale);
+            ctx.moveTo(rx, snag2Y);
+            ctx.lineTo(rx - boughSide * 7 * cScale, snag2Y + 2 * cScale);
+            ctx.stroke();
+          }
+
+          ctx.strokeStyle = `rgba(194, 65, 12, ${0.82 * masterAlpha})`;
+          ctx.lineWidth = Math.max(1.8, currentW * 0.45);
+          
+          const b1Y = cy + currentH * 0.16;
+          const b1X = cx + boughSide * 24 * cScale;
+          ctx.beginPath();
+          ctx.moveTo(cx, b1Y + 14 * cScale);
+          ctx.quadraticCurveTo(cx + boughSide * 12 * cScale, b1Y + 6 * cScale, b1X, b1Y);
+          ctx.stroke();
+
+          ctx.lineWidth = Math.max(1.2, currentW * 0.28);
+          ctx.beginPath();
+          ctx.moveTo(cx + boughSide * 14 * cScale, b1Y + 5 * cScale);
+          ctx.quadraticCurveTo(cx + boughSide * 18 * cScale, b1Y - 2 * cScale, b1X + boughSide * 6 * cScale, b1Y - 4 * cScale);
+          ctx.stroke();
+
+          ctx.lineWidth = Math.max(1.7, currentW * 0.42);
+          const b2Y = cy + currentH * 0.08;
+          const b2X = cx - boughSide * 20 * cScale;
+          ctx.beginPath();
+          ctx.moveTo(cx, b2Y + 10 * cScale);
+          ctx.quadraticCurveTo(cx - boughSide * 9 * cScale, b2Y + 3 * cScale, b2X, b2Y);
+          ctx.stroke();
+
+          ctx.lineWidth = Math.max(1.1, currentW * 0.26);
+          ctx.beginPath();
+          ctx.moveTo(cx - boughSide * 11 * cScale, b2Y + 3 * cScale);
+          ctx.quadraticCurveTo(cx - boughSide * 15 * cScale, b2Y - 3 * cScale, b2X - boughSide * 5 * cScale, b2Y - 5 * cScale);
+          ctx.stroke();
+
+          ctx.lineWidth = Math.max(1.6, currentW * 0.38);
+          const b3Y = cy;
+          const b3X = cx + boughSide * 10 * cScale;
+          ctx.beginPath();
+          ctx.moveTo(cx, b2Y);
+          ctx.quadraticCurveTo(cx + boughSide * 5 * cScale, b3Y + 6 * cScale, b3X, b3Y);
+          ctx.stroke();
+
+          const bTopY = cy - 8 * cScale;
+          const bTopX = cx - boughSide * 8 * cScale;
+          ctx.beginPath();
+          ctx.moveTo(cx, b3Y + 2 * cScale);
+          ctx.quadraticCurveTo(cx - boughSide * 3 * cScale, bTopY + 4 * cScale, bTopX, bTopY);
+          ctx.stroke();
+
+          const needlePads = [
+            { x: b1X, y: b1Y, w: 22 * cScale, h: 7 * cScale, cone: true },
+            { x: b1X + boughSide * 6 * cScale, y: b1Y - 4 * cScale, w: 14 * cScale, h: 5.5 * cScale, cone: false },
+            { x: b2X, y: b2Y, w: 19 * cScale, h: 6.8 * cScale, cone: true },
+            { x: b2X - boughSide * 5 * cScale, y: b2Y - 5 * cScale, w: 13 * cScale, h: 5.2 * cScale, cone: false },
+            { x: b3X, y: b3Y, w: 26 * cScale, h: 8.5 * cScale, cone: true },
+            { x: bTopX, y: bTopY, w: 16 * cScale, h: 6 * cScale, cone: false }
+          ];
+
+          needlePads.forEach(pad => {
+            ctx.fillStyle = `rgba(4, 47, 46, ${0.65 * masterAlpha})`;
+            ctx.beginPath();
+            ctx.ellipse(pad.x, pad.y + 1, pad.w, pad.h, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = `rgba(13, 148, 136, ${0.58 * masterAlpha})`;
+            ctx.beginPath();
+            ctx.ellipse(pad.x, pad.y - 1, pad.w * 0.88, pad.h * 0.78, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = `rgba(45, 212, 191, ${0.55 * masterAlpha})`;
+            ctx.beginPath();
+            ctx.ellipse(pad.x, pad.y - 2.5, pad.w * 0.65, pad.h * 0.55, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = `rgba(94, 234, 212, ${0.42 * masterAlpha})`;
+            ctx.lineWidth = 0.8;
+            for (let na = -0.5; na <= 0.5; na += 0.25) {
+              const nx = pad.x + Math.sin(na) * (pad.w * 0.7);
+              const ny = pad.y - pad.h * 0.5;
+              ctx.beginPath();
+              ctx.moveTo(nx, ny);
+              ctx.lineTo(nx + Math.sin(na) * 2.5, ny - 2.8);
+              ctx.stroke();
+            }
+
+            if (pad.cone && growProg > 0.45) {
+              ctx.fillStyle = `rgba(217, 119, 6, ${0.75 * masterAlpha})`;
+              ctx.beginPath();
+              ctx.ellipse(pad.x - pad.w * 0.28, pad.y + pad.h * 0.8, 1.8 * cScale, 2.8 * cScale, 0.2, 0, Math.PI * 2);
+              ctx.ellipse(pad.x + pad.w * 0.24, pad.y + pad.h * 0.75, 1.8 * cScale, 2.8 * cScale, -0.2, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          });
+        }
+        else {
+          const shrubR = (10 + currentH * 0.18) * cScale;
+          ctx.fillStyle = `rgba(6, 78, 59, ${0.55 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.arc(cx - shrubR * 0.4, cy + 1, shrubR * 0.65, 0, Math.PI * 2);
+          ctx.arc(cx + shrubR * 0.4, cy + 1, shrubR * 0.65, 0, Math.PI * 2);
+          ctx.arc(cx, cy - shrubR * 0.25, shrubR * 0.78, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = tree.type === 'orchard' ? `rgba(34, 197, 94, ${0.55 * masterAlpha})` : `rgba(74, 222, 128, ${0.55 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.arc(cx, cy - shrubR * 0.25, shrubR * 0.6, 0, Math.PI * 2);
+          ctx.fill();
+
+          if (growProg > 0.45) {
+            const beadColor = tree.type === 'orchard' ? `rgba(239, 68, 68, ${0.7 * masterAlpha})` : `rgba(255, 234, 0, ${0.7 * masterAlpha})`;
+            ctx.fillStyle = beadColor;
+            ctx.beginPath();
+            ctx.arc(cx - shrubR * 0.4, cy + 1, 1.6, 0, Math.PI * 2);
+            ctx.arc(cx + shrubR * 0.38, cy - 1, 1.6, 0, Math.PI * 2);
+            ctx.arc(cx - 1, cy - shrubR * 0.5, 1.8, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        if (ancientBoost > 0) {
+          const numTendrils = 3 + Math.floor(ancientBoost * 3);
+          ctx.strokeStyle = `rgba(167, 243, 208, ${(0.3 + ancientBoost * 0.4) * masterAlpha})`;
+          ctx.lineWidth = 1.0;
+          for (let m = 0; m < numTendrils; m++) {
+            const tendrilX = cx - (cScale * 12) + (m * cScale * (28 / numTendrils));
+            const tendrilY = cy + (cScale * 4);
+            const tLen = (14 + (m % 3) * 10) * ancientBoost * cScale;
+            const tSway = Math.sin(time * 2.2 + m * 1.5 + (typeof tree.id === 'number' ? tree.id : 5)) * 3 * ancientBoost;
+
+            ctx.beginPath();
+            ctx.moveTo(tendrilX, tendrilY);
+            ctx.quadraticCurveTo(tendrilX + tSway, tendrilY + tLen * 0.6, tendrilX + tSway * 1.2, tendrilY + tLen);
+            ctx.stroke();
+
+            ctx.fillStyle = (m % 2 === 0) ? `rgba(255, 234, 0, ${0.7 * masterAlpha})` : `rgba(167, 243, 208, ${0.7 * masterAlpha})`;
+            ctx.beginPath();
+            ctx.arc(tendrilX + tSway * 1.2, tendrilY + tLen, 1.2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        if (progress >= 0.40 && growProg >= 0.55 && ['oak', 'pine', 'sakura', 'acacia'].includes(tree.type) && (tree.id <= 3 || tree.id >= 11)) {
+          const birdData = {
+            1:  { body: '#eab308', breast: '#fde047', head: '#eab308', isLeft: true },
+            2:  { body: '#0284c7', breast: '#ea580c', head: '#0284c7', isLeft: true },
+            3:  { body: '#78350f', breast: '#ea580c', head: '#78350f', isLeft: true },
+            11: { body: '#78350f', breast: '#ea580c', head: '#78350f', isLeft: false },
+            12: { body: '#0284c7', breast: '#ea580c', head: '#0284c7', isLeft: false },
+            13: { body: '#eab308', breast: '#fde047', head: '#eab308', isLeft: false }
+          }[tree.id];
+
+          if (birdData) {
+            const perchOffset = (18 + currentH * 0.15) * 0.85 * cScale;
+            const perchX = cx + (birdData.isLeft ? 5.5 : -5.5) * cScale;
+            const perchY = cy - perchOffset;
+            const tailBob = Math.sin(time * 3.2 + (typeof tree.id === 'number' ? tree.id : 2)) * 0.7;
+
+            ctx.save();
+            ctx.translate(perchX, perchY);
+            ctx.scale(birdData.isLeft ? 1 : -1, 1);
+            ctx.globalAlpha = Math.min(1.0, (progress - 0.40) * 4) * masterAlpha;
+
+            ctx.fillStyle = `rgba(15, 23, 42, ${0.7 * masterAlpha})`;
+            ctx.beginPath();
+            ctx.moveTo(-2, 0.4);
+            ctx.lineTo(-5.5, 1.6 + tailBob);
+            ctx.lineTo(-4.5, 0.1 + tailBob);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.fillStyle = birdData.body;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 3.2, 2.2, 0.1, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = birdData.breast;
+            ctx.beginPath();
+            ctx.ellipse(1.0, 0.6, 1.8, 1.5, 0.25, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = birdData.head;
+            ctx.beginPath();
+            ctx.arc(2.5, -1.3, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.moveTo(3.8, -1.5);
+            ctx.lineTo(5.5, -1.1);
+            ctx.lineTo(3.8, -0.7);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.restore();
+          }
+        }
+
+        ctx.restore();
+      });
+    }
+
+    // =========================================================================
+    // CIRCLING ROOKS (Corvus frugilegus) WHEELING AROUND MATURE SCOTS PINE CROWNS
+    // =========================================================================
+    function getScotsPineCrown(pineId, progress) {
+      const tree = ecoForest.find(t => t.id === pineId);
+      if (!tree) return null;
+      const baselineY = ecoHeight - 6;
+      const tierSpan = Math.max(0.01, tree.matureTier - tree.minTier);
+      const rawProg = (progress - tree.minTier) / tierSpan;
+      const growProg = Math.max(0.08, Math.min(1.0, rawProg));
+      let ancientBoost = 0;
+      if (progress >= 0.80) {
+        ancientBoost = Math.min(1.0, (progress - 0.80) / 0.20);
+      }
+      const rx = tree.pctX * ecoWidth;
+      const maxH = ecoHeight * tree.maxHScale;
+      const currentH = Math.max(14, maxH * (growProg + ancientBoost * 0.28));
+      return {
+        x: rx,
+        y: baselineY - currentH,
+        growProg: growProg,
+        currentH: currentH
+      };
+    }
+
+    const ecoRooks = [
+      { pineId: 101, radX: 28, radY: 10.5, speed: 0.50, phase: 0.2,             yOffset: 20, isLeft: true },
+      { pineId: 101, radX: 37, radY: 13.5, speed: 0.42, phase: Math.PI * 0.95,   yOffset: 34, isLeft: true },
+      { pineId: 102, radX: 30, radY: 11.5, speed: -0.48, phase: Math.PI * 0.35,  yOffset: 22, isLeft: false },
+      { pineId: 102, radX: 39, radY: 14.5, speed: -0.40, phase: Math.PI * 1.45,  yOffset: 36, isLeft: false }
+    ];
+
+    function drawEcoRooks(ctx, progress, time, masterAlpha) {
+      const leftPine = getScotsPineCrown(101, progress);
+      const rightPine = getScotsPineCrown(102, progress);
+      if (!leftPine || !rightPine) return;
+
+      const avgPineGrow = (leftPine.growProg + rightPine.growProg) * 0.5;
+      if (avgPineGrow < 0.62) return;
+
+      const rookConfidence = Math.min(1.0, (avgPineGrow - 0.62) / 0.24);
+      const rookAlpha = rookConfidence * masterAlpha;
+      if (rookAlpha <= 0.001) return;
+
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      ecoRooks.forEach(rk => {
+        const pine = rk.isLeft ? leftPine : rightPine;
+        const ang = time * rk.speed + rk.phase;
+
+        const rx = pine.x;
+        const ry = pine.y - rk.yOffset;
+        const px = rx + Math.cos(ang) * rk.radX;
+        const py = ry + Math.sin(ang) * rk.radY;
+
+        const vx = -Math.sin(ang) * rk.radX * rk.speed;
+        const vy = Math.cos(ang) * rk.radY * rk.speed;
+        const heading = Math.atan2(vy, vx);
+
+        const flapCycle = (time * 0.45 + rk.phase) % (Math.PI * 2);
+        const isFlapping = flapCycle < 1.3;
+        const wingFlap = isFlapping ? Math.sin(time * 6.5 + rk.phase) * 0.38 : 0;
+        const bankTilt = Math.sin(ang) * 0.22;
+
+        ctx.save();
+        ctx.translate(px, py);
+        ctx.rotate(heading);
+        ctx.scale(0.85, 0.85);
+
+        const depthFade = 0.58 + Math.sin(ang) * 0.18;
+        ctx.globalAlpha = Math.max(0.1, rookAlpha * depthFade);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.moveTo(-1, 0);
+        ctx.lineTo(-6.8, 2.4);
+        ctx.lineTo(-8.2, 0);
+        ctx.lineTo(-6.8, -2.4);
+        ctx.closePath();
+        ctx.fill();
+
+        [-1, 1].forEach(side => {
+          ctx.save();
+          ctx.rotate(side * (bankTilt + wingFlap));
+
+          ctx.fillStyle = '#1e293b';
+          ctx.beginPath();
+          ctx.moveTo(0, side * 1.5);
+          ctx.quadraticCurveTo(2.0, side * 5.5, -0.8, side * 9.5);
+          ctx.lineTo(-2.0, side * 10.8);
+          ctx.lineTo(-2.6, side * 9.5);
+          ctx.lineTo(-3.5, side * 10.1);
+          ctx.lineTo(-3.9, side * 8.8);
+          ctx.lineTo(-4.8, side * 9.2);
+          ctx.lineTo(-4.8, side * 7.8);
+          ctx.quadraticCurveTo(-3.8, side * 4.0, -1.8, side * 1.0);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.strokeStyle = '#0f172a';
+          ctx.lineWidth = 0.55;
+          ctx.beginPath();
+          ctx.moveTo(0, side * 1.5);
+          ctx.quadraticCurveTo(0.6, side * 4.5, -1.8, side * 7.5);
+          ctx.stroke();
+
+          ctx.restore();
+        });
+
+        ctx.fillStyle = '#1e293b';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 4.6, 2.0, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(71, 85, 105, 0.35)';
+        ctx.beginPath();
+        ctx.ellipse(0.4, 0, 2.4, 1.1, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#1e293b';
+        ctx.beginPath();
+        ctx.arc(3.6, 0, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#64748b';
+        ctx.beginPath();
+        ctx.moveTo(4.4, -0.5);
+        ctx.lineTo(6.5, 0);
+        ctx.lineTo(4.4, 0.5);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.restore();
+      });
+
+      ctx.restore();
+    }
+
+    // =========================================================================
+    // SOLITARY SOARING EAGLE (Aquila) TRAVERSING HIGH SKY DOME ON THERMALS
+    // =========================================================================
+    const ecoEagle = {
+      x: -60,
+      y: 65,
+      dir: 1,
+      baseY: 65,
+      targetY: 65,
+      heading: 0,
+      bankAngle: 0,
+      mode: 'glide',
+      modeTimer: 0,
+      circleAngle: 0,
+      circleCenter: { x: 250, y: 65 },
+      circleRadius: 36,
+      circleSpeed: 0.012,
+      circleDuration: Math.PI * 2.8,
+      hasCircledThisPass: false,
+      flapTimer: 0,
+      wingFlap: 0,
+      pauseTimer: 0
+    };
+
+    function resetEcoEagle() {
+      ecoEagle.x = -60;
+      ecoEagle.y = 65;
+      ecoEagle.dir = 1;
+      ecoEagle.baseY = 65;
+      ecoEagle.targetY = 65;
+      ecoEagle.mode = 'pause';
+      ecoEagle.pauseTimer = 180;
+      ecoEagle.hasCircledThisPass = false;
+      ecoEagle.flapTimer = 0;
+    }
+
+    function updateAndDrawEcoEagle(ctx, progress, time, masterAlpha) {
+      if (progress < 0.22) return;
+      const eagleAlpha = Math.min(1.0, (progress - 0.22) * 4) * masterAlpha;
+      if (eagleAlpha <= 0.001) return;
+
+      if (ecoEagle.mode === 'pause') {
+        ecoEagle.pauseTimer--;
+        if (ecoEagle.pauseTimer <= 0) {
+          ecoEagle.dir = -ecoEagle.dir;
+          ecoEagle.x = ecoEagle.dir === 1 ? -50 : ecoWidth + 50;
+          ecoEagle.baseY = 42 + Math.random() * 52;
+          ecoEagle.y = ecoEagle.baseY;
+          ecoEagle.targetY = ecoEagle.baseY;
+          ecoEagle.hasCircledThisPass = false;
+          ecoEagle.mode = 'glide';
+          ecoEagle.flapTimer = 26;
+        }
+      } else if (ecoEagle.mode === 'glide') {
+        ecoEagle.targetY = ecoEagle.baseY + Math.sin(time * 0.4) * 12;
+        ecoEagle.y += (ecoEagle.targetY - ecoEagle.y) * 0.035;
+        ecoEagle.x += ecoEagle.dir * 0.62;
+
+        const dy = ecoEagle.targetY - ecoEagle.y;
+        ecoEagle.heading = (ecoEagle.dir === 1 ? 0 : Math.PI) + dy * 0.02;
+        ecoEagle.bankAngle = dy * 0.025;
+
+        if (ecoEagle.flapTimer > 0) {
+          ecoEagle.flapTimer--;
+          ecoEagle.wingFlap = Math.sin(ecoEagle.flapTimer * 0.35) * 0.32;
+        } else {
+          ecoEagle.wingFlap = 0;
+          if (Math.random() < 0.0025) ecoEagle.flapTimer = 24;
+        }
+
+        const inCenterSector = (ecoEagle.x > ecoWidth * 0.35 && ecoEagle.x < ecoWidth * 0.65);
+        if (inCenterSector && !ecoEagle.hasCircledThisPass && Math.random() < 0.012) {
+          ecoEagle.mode = 'circle';
+          ecoEagle.hasCircledThisPass = true;
+          ecoEagle.circleCenter = { x: ecoEagle.x, y: ecoEagle.y };
+          ecoEagle.circleAngle = (ecoEagle.dir === 1 ? -Math.PI / 2 : Math.PI / 2);
+          ecoEagle.circleSpeed = ecoEagle.dir * 0.0125;
+          ecoEagle.circleRadius = 34 + Math.random() * 10;
+          ecoEagle.circleDuration = Math.PI * 2 * (1.1 + (Math.random() < 0.5 ? 0.5 : 1.0));
+          ecoEagle.modeTimer = 0;
+          ecoEagle.flapTimer = 22;
+        }
+
+        if ((ecoEagle.dir === 1 && ecoEagle.x > ecoWidth + 60) || (ecoEagle.dir === -1 && ecoEagle.x < -60)) {
+          ecoEagle.mode = 'pause';
+          ecoEagle.pauseTimer = 180 + Math.floor(Math.random() * 240);
+        }
+      } else if (ecoEagle.mode === 'circle') {
+        ecoEagle.circleAngle += ecoEagle.circleSpeed;
+        ecoEagle.modeTimer += Math.abs(ecoEagle.circleSpeed);
+
+        ecoEagle.x = ecoEagle.circleCenter.x + Math.cos(ecoEagle.circleAngle) * ecoEagle.circleRadius;
+        ecoEagle.y = ecoEagle.circleCenter.y + Math.sin(ecoEagle.circleAngle) * (ecoEagle.circleRadius * 0.55) - (ecoEagle.modeTimer * 1.8);
+
+        const vx = -Math.sin(ecoEagle.circleAngle) * ecoEagle.circleRadius * ecoEagle.circleSpeed;
+        const vy = Math.cos(ecoEagle.circleAngle) * (ecoEagle.circleRadius * 0.55) * ecoEagle.circleSpeed;
+        ecoEagle.heading = Math.atan2(vy, vx);
+        ecoEagle.bankAngle = ecoEagle.dir * 0.28;
+
+        if (ecoEagle.flapTimer > 0) {
+          ecoEagle.flapTimer--;
+          ecoEagle.wingFlap = Math.sin(ecoEagle.flapTimer * 0.35) * 0.30;
+        }
+
+        if (ecoEagle.modeTimer >= ecoEagle.circleDuration) {
+          ecoEagle.mode = 'glide';
+          ecoEagle.baseY = ecoEagle.y;
+          ecoEagle.flapTimer = 20;
+        }
+      }
+
+      if (ecoEagle.mode === 'pause') return;
+
+      ctx.save();
+      ctx.translate(ecoEagle.x, ecoEagle.y);
+      ctx.rotate(ecoEagle.heading);
+      ctx.globalAlpha = 0.72 * eagleAlpha;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      ctx.fillStyle = '#1c1511';
+      ctx.beginPath();
+      ctx.moveTo(-2.0, 0);
+      ctx.lineTo(-9.8, 4.4);
+      ctx.quadraticCurveTo(-11.5, 0, -9.8, -4.4);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = 'rgba(180, 83, 9, 0.45)';
+      ctx.beginPath();
+      ctx.moveTo(-5.2, 2.2);
+      ctx.lineTo(-8.2, 3.4);
+      ctx.quadraticCurveTo(-9.5, 0, -8.2, -3.4);
+      ctx.lineTo(-5.2, -2.2);
+      ctx.closePath();
+      ctx.fill();
+
+      [-1, 1].forEach(side => {
+        ctx.save();
+        ctx.rotate(side * (ecoEagle.bankAngle + ecoEagle.wingFlap));
+
+        ctx.fillStyle = '#1c1511';
+        ctx.beginPath();
+        ctx.moveTo(0, side * 2.0);
+        ctx.quadraticCurveTo(2.6, side * 7.5, 1.2, side * 13.5);
+
+        ctx.lineTo(-0.4, side * 16.0);
+        ctx.lineTo(-1.1, side * 14.8);
+        ctx.lineTo(-2.0, side * 15.5);
+        ctx.lineTo(-2.6, side * 14.2);
+        ctx.lineTo(-3.6, side * 14.8);
+        ctx.lineTo(-4.1, side * 13.4);
+        ctx.lineTo(-5.0, side * 13.7);
+        ctx.lineTo(-5.4, side * 12.2);
+        ctx.lineTo(-6.1, side * 12.4);
+        ctx.lineTo(-6.3, side * 10.8);
+        ctx.lineTo(-7.0, side * 10.8);
+
+        ctx.quadraticCurveTo(-5.8, side * 5.8, -2.8, side * 1.5);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#452310';
+        ctx.beginPath();
+        ctx.moveTo(0, side * 2.0);
+        ctx.quadraticCurveTo(1.8, side * 5.8, 0.6, side * 9.5);
+        ctx.quadraticCurveTo(-3.2, side * 4.8, -1.8, side * 1.5);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(217, 119, 6, 0.35)';
+        ctx.beginPath();
+        ctx.ellipse(-0.4, side * 3.4, 1.1, 2.0, side * 0.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      });
+
+      ctx.fillStyle = '#291a10';
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 5.8, 2.6, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#b45309';
+      ctx.beginPath();
+      ctx.ellipse(2.4, 0, 3.0, 1.7, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#452310';
+      ctx.beginPath();
+      ctx.arc(4.8, 0, 1.8, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.moveTo(5.6, -0.7);
+      ctx.lineTo(7.8, 0);
+      ctx.lineTo(7.2, 1.2);
+      ctx.lineTo(5.8, 0.5);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(5.0, -0.6, 0.4, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function drawEcoVines(ctx, progress, time, masterAlpha) {
+      if (progress < 0.05) return;
+      const flowerColors = ['#ffea00', '#f472b6', '#38bdf8', '#a7f3d0', '#fbbf24'];
+
+      const climbProg = Math.min(1.0, (progress - 0.05) / 0.82);
+      const topCornerY = 12;
+      const totalClimbDist = ecoHeight - topCornerY;
+      const currentTopY = ecoHeight - climbProg * totalClimbDist;
+
+      [
+        { railX: 6,            inDir: 1 },
+        { railX: ecoWidth - 6, inDir: -1 }
+      ].forEach(side => {
+        ctx.save();
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        ctx.strokeStyle = `rgba(34, 197, 94, ${(0.35 + climbProg * 0.35) * masterAlpha})`;
+        ctx.lineWidth = 1.35;
+        ctx.beginPath();
+        ctx.moveTo(side.railX, ecoHeight);
+        for (let vy = ecoHeight; vy >= currentTopY; vy -= 10) {
+          const wave = Math.sin(vy * 0.04 + time * 1.8 + (side.railX * 0.02)) * 2.8;
+          ctx.lineTo(side.railX + side.inDir * (Math.abs(wave) + 1.2), vy);
+        }
+        ctx.stroke();
+
+        for (let ly = ecoHeight - 20; ly >= currentTopY; ly -= 26) {
+          const wave = Math.sin(ly * 0.04 + time * 1.8 + (side.railX * 0.02)) * 2.8;
+          const lx = side.railX + side.inDir * (Math.abs(wave) + 1.2);
+          const leafProg = Math.max(0, Math.min(1.0, (climbProg - 0.15) * 1.4));
+
+          if (leafProg > 0) {
+            const lSize = (2.2 + leafProg * 2.5);
+            ctx.save();
+            ctx.translate(lx, ly);
+            ctx.fillStyle = `rgba(34, 197, 94, ${0.55 * masterAlpha})`;
+            ctx.beginPath();
+            ctx.ellipse(side.inDir * 2.5, -1.2, lSize, lSize * 0.45, side.inDir * 0.4, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = `rgba(167, 243, 208, ${0.6 * masterAlpha})`;
+            ctx.lineWidth = 0.7;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(side.inDir * (lSize * 0.9), -1.2);
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+
+        for (let ny = ecoHeight - 34; ny >= currentTopY; ny -= 38) {
+          const nodeIdx = Math.floor(ny / 38);
+          const fColor = flowerColors[Math.abs(nodeIdx) % flowerColors.length];
+          const bloomProg = Math.max(0, Math.min(1.0, (climbProg - 0.25) * 1.5));
+          if (bloomProg > 0) {
+            const bloomSize = 1.9 * bloomProg;
+            const wave = Math.sin(ny * 0.04 + time * 1.8 + (side.railX * 0.02)) * 2.8;
+            const bx = side.railX + side.inDir * (Math.abs(wave) + 1.2);
+
+            ctx.save();
+            ctx.translate(bx, ny);
+            ctx.fillStyle = fColor;
+            ctx.globalAlpha = 0.68 * masterAlpha;
+            [-1, 1].forEach(sign => {
+              ctx.beginPath();
+              ctx.arc(sign * bloomSize, 0, bloomSize * 0.55, 0, Math.PI * 2);
+              ctx.arc(0, sign * bloomSize, bloomSize * 0.55, 0, Math.PI * 2);
+              ctx.fill();
+            });
+            ctx.fillStyle = '#fef08a';
+            ctx.beginPath();
+            ctx.arc(0, 0, bloomSize * 0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          }
+        }
+        ctx.restore();
+      });
+
+      if (progress >= 0.06) {
+        const midX = ecoWidth * 0.5;
+        const leftOriginX = 6;
+        const rightOriginX = ecoWidth - 6;
+        const halfSpan = midX - leftOriginX;
+
+        const joinProg = Math.max(0, Math.min(1.0, (progress - 0.06) / 0.22));
+        const curLeftTipX = leftOriginX + joinProg * halfSpan;
+        const curRightTipX = rightOriginX - joinProg * halfSpan;
+
+        const getTopVineY = (x, phaseOffset = 0) => {
+          const wave1 = Math.sin(x * 0.045 + time * 1.4 + phaseOffset) * 2.8;
+          const wave2 = Math.cos(x * 0.09 - time * 0.8) * 1.2;
+          return 11 + wave1 + wave2;
+        };
+
+        const isJoined = joinProg >= 1.0;
+        const foliageProg = Math.max(0, Math.min(1.0, (progress - 0.16) / 0.26));
+        const floralProg = Math.max(0, Math.min(1.0, (progress - 0.32) / 0.28));
+
+        ctx.save();
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        const stemR = Math.round(187 - foliageProg * 153);
+        const stemG = Math.round(247 - foliageProg * 50);
+        const stemB = Math.round(208 - foliageProg * 114);
+        const stemAlpha = (0.50 + joinProg * 0.35) * masterAlpha;
+
+        ctx.strokeStyle = `rgba(${stemR}, ${stemG}, ${stemB}, ${stemAlpha})`;
+        ctx.lineWidth = 1.35 + foliageProg * 0.45;
+
+        ctx.beginPath();
+        for (let x = leftOriginX; x <= curLeftTipX; x += 6) {
+          const y = getTopVineY(x, 0);
+          if (x === leftOriginX) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        ctx.beginPath();
+        for (let x = rightOriginX; x >= curRightTipX; x -= 6) {
+          const y = getTopVineY(x, Math.PI * 0.35);
+          if (x === rightOriginX) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        ctx.strokeStyle = `rgba(167, 243, 208, ${(0.25 + (1 - foliageProg) * 0.35) * masterAlpha})`;
+        ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        for (let x = leftOriginX; x <= curLeftTipX; x += 10) {
+          const y = getTopVineY(x, 0);
+          if (x === leftOriginX) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        for (let x = rightOriginX; x >= curRightTipX; x -= 10) {
+          const y = getTopVineY(x, Math.PI * 0.35);
+          if (x === rightOriginX) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        if (!isJoined) {
+          [
+            { tipX: curLeftTipX,  dir: 1,  phase: 0 },
+            { tipX: curRightTipX, dir: -1, phase: Math.PI * 0.35 }
+          ].forEach(tendril => {
+            const tipY = getTopVineY(tendril.tipX, tendril.phase);
+            const curlAngle = time * 2.2 + tendril.dir * 0.8;
+            ctx.save();
+            ctx.translate(tendril.tipX, tipY);
+            ctx.fillStyle = `rgba(209, 250, 229, ${0.85 * masterAlpha})`;
+            ctx.beginPath();
+            ctx.arc(0, 0, 1.8, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = `rgba(167, 243, 208, ${0.75 * masterAlpha})`;
+            ctx.lineWidth = 1.0;
+            ctx.beginPath();
+            ctx.arc(tendril.dir * 2.2, Math.sin(curlAngle) * 1.5, 2.0, 0, Math.PI);
+            ctx.stroke();
+            ctx.restore();
+          });
+        } else {
+          const joinY = getTopVineY(midX, 0);
+          const unionPulse = Math.sin(time * 2.5) * 0.5;
+
+          ctx.save();
+          ctx.translate(midX, joinY);
+          ctx.strokeStyle = `rgba(52, 211, 153, ${0.75 * masterAlpha})`;
+          ctx.lineWidth = 1.3;
+          ctx.beginPath();
+          ctx.ellipse(-1.8, 0, 3.2, 1.6, -0.25, 0, Math.PI * 2);
+          ctx.ellipse(1.8, 0, 3.2, 1.6, 0.25, 0, Math.PI * 2);
+          ctx.stroke();
+
+          ctx.fillStyle = `rgba(167, 243, 208, ${0.85 * masterAlpha})`;
+          ctx.beginPath();
+          ctx.arc(0, 0, 1.9 + unionPulse * 0.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        if (foliageProg > 0) {
+          const stepDist = 24;
+          const nodeCount = Math.floor(halfSpan / stepDist);
+
+          for (let i = 1; i <= nodeCount; i++) {
+            const nodeDist = i * stepDist;
+            const leftX = leftOriginX + nodeDist;
+            const rightX = rightOriginX - nodeDist;
+
+            [
+              { x: leftX,  phase: 0,                sideSign: 1 },
+              { x: rightX, phase: Math.PI * 0.35,  sideSign: -1 }
+            ].forEach(leafNode => {
+              const isReached = leafNode.sideSign === 1 ? (leafNode.x <= curLeftTipX) : (leafNode.x >= curRightTipX);
+              if (!isReached) return;
+
+              const nodeRelativeAge = Math.max(0, Math.min(1.0, (foliageProg - (nodeDist / halfSpan) * 0.25) / 0.75));
+              if (nodeRelativeAge <= 0) return;
+
+              const ny = getTopVineY(leafNode.x, leafNode.phase);
+              const leafSize = (2.2 + nodeRelativeAge * 3.4);
+              const leafSway = Math.sin(time * 2.0 + leafNode.x * 0.05) * 0.3;
+              const leafAngle = (i % 2 === 0 ? 0.45 : -0.45) + leafSway;
+
+              ctx.save();
+              ctx.translate(leafNode.x, ny);
+              ctx.rotate(leafAngle);
+
+              ctx.fillStyle = `rgba(34, 197, 94, ${(0.45 + nodeRelativeAge * 0.45) * masterAlpha})`;
+              ctx.beginPath();
+              ctx.moveTo(0, 0);
+              ctx.quadraticCurveTo(leafSize * 0.6, -leafSize * 0.5, leafSize * 1.3, 0);
+              ctx.quadraticCurveTo(leafSize * 0.6, leafSize * 0.5, 0, 0);
+              ctx.fill();
+
+              ctx.strokeStyle = `rgba(167, 243, 208, ${(0.55 + nodeRelativeAge * 0.35) * masterAlpha})`;
+              ctx.lineWidth = 0.8;
+              ctx.beginPath();
+              ctx.moveTo(0, 0);
+              ctx.lineTo(leafSize * 1.05, 0);
+              ctx.stroke();
+
+              if (nodeRelativeAge > 0.4) {
+                ctx.fillStyle = `rgba(74, 222, 128, ${(0.40 + nodeRelativeAge * 0.45) * masterAlpha})`;
+                ctx.beginPath();
+                ctx.ellipse(-leafSize * 0.4, leafSize * 0.28, leafSize * 0.45, leafSize * 0.24, -0.4, 0, Math.PI * 2);
+                ctx.fill();
+              }
+
+              ctx.restore();
+            });
+          }
+        }
+
+        if (floralProg > 0) {
+          const flowerStepDist = 48;
+          const maxFlowerIdx = Math.floor((halfSpan - 18) / flowerStepDist);
+
+          for (let f = 1; f <= maxFlowerIdx; f++) {
+            const flowerDist = f * flowerStepDist;
+            const leftFx = leftOriginX + flowerDist;
+            const rightFx = rightOriginX - flowerDist;
+
+            [
+              { x: leftFx,  phase: 0,               colorIdx: f,     sideSign: 1 },
+              { x: rightFx, phase: Math.PI * 0.35, colorIdx: f + 2, sideSign: -1 }
+            ].forEach(fNode => {
+              const isReached = fNode.sideSign === 1 ? (fNode.x <= curLeftTipX) : (fNode.x >= curRightTipX);
+              if (!isReached) return;
+
+              const flowerAge = Math.max(0, Math.min(1.0, (floralProg - (flowerDist / halfSpan) * 0.22) / 0.78));
+              if (flowerAge <= 0) return;
+
+              const fy = getTopVineY(fNode.x, fNode.phase);
+              const fColor = flowerColors[fNode.colorIdx % flowerColors.length];
+              const bloomR = (1.8 + flowerAge * 2.2);
+
+              ctx.save();
+              ctx.translate(fNode.x, fy);
+              ctx.globalAlpha = (0.55 + flowerAge * 0.40) * masterAlpha;
+
+              ctx.fillStyle = fColor;
+              for (let p = 0; p < 5; p++) {
+                const pAng = (p * Math.PI * 2) / 5 + time * 0.4;
+                ctx.beginPath();
+                ctx.ellipse(Math.cos(pAng) * (bloomR * 0.65), Math.sin(pAng) * (bloomR * 0.65), bloomR * 0.55, bloomR * 0.32, pAng, 0, Math.PI * 2);
+                ctx.fill();
+              }
+
+              ctx.fillStyle = '#fef08a';
+              ctx.beginPath();
+              ctx.arc(0, 0, bloomR * 0.38, 0, Math.PI * 2);
+              ctx.fill();
+
+              ctx.fillStyle = '#ffffff';
+              ctx.beginPath();
+              ctx.arc(-bloomR * 0.1, -bloomR * 0.1, bloomR * 0.16, 0, Math.PI * 2);
+              ctx.fill();
+
+              ctx.restore();
+            });
+          }
+
+          if (isJoined && floralProg > 0.15) {
+            const unionAge = Math.min(1.0, (floralProg - 0.15) * 1.5);
+            const unionY = getTopVineY(midX, 0);
+            const uSize = (2.2 + unionAge * 3.0);
+            const uPulse = Math.sin(time * 3.0) * 0.4;
+
+            ctx.save();
+            ctx.translate(midX, unionY);
+            ctx.globalAlpha = (0.65 + unionAge * 0.35) * masterAlpha;
+
+            ctx.fillStyle = `rgba(255, 234, 0, ${0.35 * unionAge * masterAlpha})`;
+            ctx.beginPath();
+            ctx.arc(0, 0, (uSize + 3.0 + uPulse), 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#f472b6';
+            for (let p = 0; p < 6; p++) {
+              const pAng = (p * Math.PI * 2) / 6 + time * 0.3;
+              ctx.beginPath();
+              ctx.ellipse(Math.cos(pAng) * (uSize * 0.8), Math.sin(pAng) * (uSize * 0.8), uSize * 0.65, uSize * 0.35, pAng, 0, Math.PI * 2);
+              ctx.fill();
+            }
+
+            ctx.fillStyle = '#ffea00';
+            for (let p = 0; p < 6; p++) {
+              const pAng = (p * Math.PI * 2) / 6 + (Math.PI / 6) + time * 0.3;
+              ctx.beginPath();
+              ctx.ellipse(Math.cos(pAng) * (uSize * 0.5), Math.sin(pAng) * (uSize * 0.5), uSize * 0.45, uSize * 0.25, pAng, 0, Math.PI * 2);
+              ctx.fill();
+            }
+
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(0, 0, uSize * 0.35, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+          }
+        }
+
+        ctx.restore();
+      }
+    }
+
+    function drawEcoPollinators(ctx, progress, time, masterAlpha) {
+      if (progress < 0.20) return;
+      const pollinatorAlpha = Math.min(1.0, (progress - 0.20) * 3) * masterAlpha;
+
+      const pollinators = [
+        { type: 'butterfly', speed: 0.60, phase: 0 },
+        { type: 'bee',       speed: 0.85, phase: Math.PI * 0.6 },
+        { type: 'butterfly', speed: 0.55, phase: Math.PI * 1.2 },
+        { type: 'bee',       speed: 0.90, phase: Math.PI * 1.7 }
+      ];
+
+      const flyCenterX = ecoWidth * 0.5;
+      const flyCenterY = Math.min(170, ecoHeight * 0.16);
+
+      pollinators.forEach(p => {
+        const t = time * p.speed + p.phase;
+        const px = flyCenterX + Math.sin(t) * (ecoWidth * 0.36);
+        const py = flyCenterY + Math.sin(2 * t) * 32;
+
+        const vx = Math.cos(t) * (ecoWidth * 0.36);
+        const vy = 2 * Math.cos(2 * t) * 32;
+        const heading = Math.atan2(vy, vx);
+
+        ctx.save();
+        ctx.translate(px, py);
+        ctx.rotate(heading);
+        ctx.globalAlpha = pollinatorAlpha;
+
+        if (p.type === 'butterfly') {
+          const wingFlap = Math.sin(time * 9 + p.phase * 3);
+          ctx.scale(0.85, Math.max(0.18, Math.abs(wingFlap)) * 0.85);
+
+          ctx.fillStyle = '#ea580c';
+          ctx.strokeStyle = '#0f172a';
+          ctx.lineWidth = 0.7;
+          [-1, 1].forEach(side => {
+            ctx.beginPath();
+            ctx.ellipse(0, side * 3.8, 5.0, 3.0, side * 0.25, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = '#fde047';
+            ctx.beginPath();
+            ctx.arc(0.5, side * 3.6, 1.0, 0, Math.PI * 2);
+            ctx.fill();
+          });
+
+          ctx.fillStyle = '#0f172a';
+          ctx.beginPath();
+          ctx.ellipse(0, 0, 4.0, 1.2, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          const beeBuzz = Math.sin(time * 24 + p.phase);
+          ctx.fillStyle = 'rgba(224, 242, 254, 0.75)';
+          [-1, 1].forEach(side => {
+            ctx.save();
+            ctx.rotate(side * (0.35 + beeBuzz * 0.25));
+            ctx.beginPath();
+            ctx.ellipse(0, side * 3.2, 3.2, 1.5, side * 0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          });
+
+          ctx.fillStyle = '#eab308';
+          ctx.beginPath();
+          ctx.ellipse(0, 0, 3.8, 2.4, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.strokeStyle = '#1e293b';
+          ctx.lineWidth = 1.0;
+          ctx.beginPath();
+          ctx.moveTo(-1.1, -2.0); ctx.lineTo(-1.1, 2.0);
+          ctx.moveTo(1.1, -2.0);  ctx.lineTo(1.1, 2.0);
+          ctx.stroke();
+        }
+        ctx.restore();
+      });
+    }
+
+    function drawEcoFireflies(ctx, progress, time, masterAlpha) {
+      if (progress < 0.40) return;
+      const ffAlpha = Math.min(1.0, (progress - 0.40) * 3) * masterAlpha;
+
+      if (ecoFireflies.length === 0) {
+        for (let i = 0; i < 16; i++) {
+          ecoFireflies.push({
+            xPct: 0.10 + Math.random() * 0.80,
+            yPct: 0.35 + Math.random() * 0.55,
+            pulseSpeed: 0.03 + Math.random() * 0.04,
+            pulsePhase: Math.random() * Math.PI * 2,
+            wanderPhase: Math.random() * Math.PI * 2,
+            size: 1.6 + Math.random() * 1.4,
+            color: Math.random() < 0.55 ? '#ffea00' : '#39ff14'
+          });
+        }
+      }
+
+      ctx.save();
+      ecoFireflies.forEach(ff => {
+        ff.pulsePhase += ff.pulseSpeed;
+        ff.wanderPhase += 0.02;
+
+        const curX = ff.xPct * ecoWidth + Math.sin(ff.wanderPhase) * 14;
+        const curY = ff.yPct * ecoHeight + Math.cos(ff.wanderPhase * 1.2) * 10;
+        const pulse = Math.sin(ff.pulsePhase);
+        const alpha = Math.max(0.1, 0.45 + pulse * 0.45) * ffAlpha;
+
+        ctx.fillStyle = ff.color;
+        ctx.globalAlpha = alpha;
+        ctx.beginPath();
+        ctx.arc(curX, curY, ff.size * (0.85 + pulse * 0.3), 0, Math.PI * 2);
+        ctx.fill();
+
+        if (pulse > 0.4) {
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(curX, curY, ff.size * 0.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+      ctx.restore();
+    }
+
+    function updateAndDrawTouchSpores(ctx, masterAlpha) {
+      if (ecoTouchSpores.length === 0) return;
+      ctx.save();
+      for (let i = ecoTouchSpores.length - 1; i >= 0; i--) {
+        const sp = ecoTouchSpores[i];
+        sp.wobble += sp.wobbleSpeed;
+        sp.x += sp.vx + Math.sin(sp.wobble) * 0.6;
+        sp.y += sp.vy;
+        sp.vy *= 0.98;
+        sp.alpha -= sp.decay;
+
+        if (sp.alpha <= 0) {
+          ecoTouchSpores.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, sp.alpha * masterAlpha);
+        ctx.fillStyle = sp.color;
+        ctx.shadowColor = sp.color;
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (sp.alpha > 0.4) {
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(sp.x, sp.y, sp.size * 0.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+      ctx.restore();
+    }
+
+    function updateAndDrawEcoLeaves(ctx, progress, time, masterAlpha) {
+      if (ecoLeaves.length < 18 && Math.random() < 0.25) {
+        const isHighDrifter = Math.random() < (0.15 + progress * 0.65);
+        const liftFactor = isHighDrifter ? (1.05 + progress * 0.75) : 1.0;
+        const decayDivisor = isHighDrifter ? (1.4 + progress * 2.8) : 1.0;
+
+        ecoLeaves.push({
+          x: 20 + Math.random() * (ecoWidth - 40),
+          y: ecoHeight + 10,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: -(0.55 + Math.random() * 0.85) * liftFactor,
+          size: 2.6 + Math.random() * 2.2,
+          wobble: Math.random() * Math.PI * 2,
+          wobbleSpeed: 0.018 + Math.random() * 0.024,
+          swayAmp: 0.4 + Math.random() * 0.5,
+          rotation: Math.random() * Math.PI * 2,
+          vRot: (Math.random() - 0.5) * 0.03,
+          color: Math.random() > 0.35 ? '#39ff14' : (Math.random() > 0.5 ? '#86efac' : '#00f3ff'),
+          goldGlint: progress > 0.5 && Math.random() < 0.35,
+          life: 1.0,
+          decay: (0.0016 + Math.random() * 0.0022) / decayDivisor
+        });
+      }
+
+      ctx.save();
+      for (let i = ecoLeaves.length - 1; i >= 0; i--) {
+        const leaf = ecoLeaves[i];
+        leaf.wobble += leaf.wobbleSpeed;
+        leaf.x += leaf.vx + Math.sin(leaf.wobble) * leaf.swayAmp;
+        leaf.y += leaf.vy;
+        leaf.rotation += leaf.vRot;
+        leaf.life -= leaf.decay;
+
+        if (leaf.life <= 0 || leaf.y < 16) {
+          ecoLeaves.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.translate(leaf.x, leaf.y);
+        ctx.rotate(leaf.rotation);
+
+        const depthAlpha = Math.min(1.0, (ecoHeight - leaf.y) / 60);
+        ctx.globalAlpha = leaf.life * 0.48 * masterAlpha * depthAlpha;
+        ctx.fillStyle = leaf.color;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, leaf.size, leaf.size * 0.45, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (leaf.goldGlint && leaf.life > 0.3) {
+          ctx.fillStyle = '#ffea00';
+          ctx.beginPath();
+          ctx.arc(0, 0, leaf.size * 0.3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+      ctx.restore();
+    }
+
+    function renderAmbientEcoFrame() {
+      if (!ecoCtx) {
+        requestAnimationFrame(renderAmbientEcoFrame);
+        return;
+      }
+
+      ecoCtx.clearRect(0, 0, ecoWidth, ecoHeight);
+
+      const elapsed = (Date.now() - sessionStartTime) % CYCLE_DURATION_MS;
+      const progress = elapsed / CYCLE_DURATION_MS;
+      const time = Date.now() * 0.002;
+
+      if (elapsed < lastElapsed) {
+        ecoLeaves.length = 0;
+        ecoFireflies.length = 0;
+        resetEcoEagle();
+      }
+      lastElapsed = elapsed;
+
+      let masterAlpha = 1.0;
+      if (elapsed > FADE_START_MS) {
+        masterAlpha = Math.max(0, 1.0 - (elapsed - FADE_START_MS) / (CYCLE_DURATION_MS - FADE_START_MS));
+      } else if (elapsed < 15000) {
+        masterAlpha = Math.min(1.0, elapsed / 15000);
+      }
+
+      const curMins = Math.floor(elapsed / 60000);
+      const curSecs = Math.floor((elapsed % 60000) / 1000);
+      const timeStr = `${String(curMins).padStart(2, '0')}:${String(curSecs).padStart(2, '0')}`;
+
+      let stageName = 'SOIL GERMINATION';
+      if (progress >= 0.85) stageName = 'ANCIENT CANOPY';
+      else if (progress >= 0.55) stageName = 'CLIMAX BIOSPHERE';
+      else if (progress >= 0.35) stageName = 'CANOPY MATURITY';
+      else if (progress >= 0.15) stageName = 'POLLINATOR ASCENT';
+
+      const telemetryStr = `SYSTEM ONLINE // BIOSPHERE CYCLE: ${timeStr} (${stageName})`;
+      if (telemetryStr !== lastTelemetryStr && ecoTelemetryEl) {
+        ecoTelemetryEl.textContent = telemetryStr;
+        lastTelemetryStr = telemetryStr;
+      }
+
+      if (masterAlpha > 0.001) {
+        drawEcoVines(ecoCtx, progress, time, masterAlpha);
+        drawEcoTrees(ecoCtx, progress, time, masterAlpha);
+        drawEcoRooks(ecoCtx, progress, time, masterAlpha);
+        updateAndDrawEcoEagle(ecoCtx, progress, time, masterAlpha);
+        drawEcoPollinators(ecoCtx, progress, time, masterAlpha);
+        drawEcoFireflies(ecoCtx, progress, time, masterAlpha);
+        updateAndDrawEcoLeaves(ecoCtx, progress, time, masterAlpha);
+      }
+
+      updateAndDrawTouchSpores(ecoCtx, masterAlpha);
+
+      requestAnimationFrame(renderAmbientEcoFrame);
+    }
+
+    requestAnimationFrame(renderAmbientEcoFrame);
+
     updateBgmVolumeDisplay();
     updateSoundToggleUI();
   </script>
