@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>PermaGrower AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#5D5CDE',
+            'green-accent': '#80d99e',
+            'green-light': '#a3fcb2',
+            'green-info': '#7dd3a0',
+            'green-advice': '#4db070',
+            'green-visualize': '#95e3ad'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap');
+    :root {
+      color-scheme: light dark;
+    }
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    .gradient-bg { background: linear-gradient(135deg, #80d99e, #a3fcb2); }
+    .gradient-info { background: linear-gradient(135deg, #60a5fa, #93c5fd); }
+    .gradient-advice { background: linear-gradient(135deg, #10b981, #34d399, #6ee7b7); }
+    .gradient-visualize { background: linear-gradient(135deg, #95e3ad, #aae8bd); }
+
+    .dynamic-btn {
+      position: relative;
+      overflow: hidden;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      letter-spacing: 0.025em;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.08);
+      touch-action: manipulation;
+    }
+    .dynamic-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px 0 rgba(0, 0, 0, 0.14);
+    }
+    .dynamic-btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-daily-check {
+      background: linear-gradient(135deg, #ef4444, #dc2626, #b91c1c);
+      animation: subtle-pulse 3s ease-in-out infinite;
+    }
+    .btn-seasonal { background: linear-gradient(135deg, #5D5CDE, #4338ca, #3730a3); }
+    .btn-personal { background: linear-gradient(135deg, #80d99e, #4ade80, #22c55e); }
+    .btn-advice-nav { background: linear-gradient(135deg, #10b981, #34d399, #6ee7b7); }
+
+    @keyframes subtle-pulse {
+      0%, 100% { box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      50% { box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1), 0 0 0 5px rgba(239, 68, 68, 0.2); }
+    }
+
+    /* AI Output Typographic Rhythm & Generous Section Spacing */
+    .ai-output {
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+    .ai-output p {
+      margin-bottom: 1.1em;
+    }
+    .ai-output h1 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      margin-top: 1.7em;
+      margin-bottom: 0.6em;
+      color: #15803d;
+    }
+    .dark .ai-output h1 { color: #86efac; }
+    .ai-output h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+      color: #166534;
+    }
+    .dark .ai-output h2 { color: #a7f3d0; }
+    .ai-output h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-top: 1.3em;
+      margin-bottom: 0.4em;
+      color: #1f2937;
+    }
+    .dark .ai-output h3 { color: #e5e7eb; }
+    .ai-output ul, .ai-output ol {
+      margin: 1em 0;
+      padding-left: 1.5em;
+    }
+    .ai-output li {
+      margin-bottom: 0.6em;
+    }
+    .ai-output strong {
+      font-weight: 700;
+      color: #111827;
+    }
+    .dark .ai-output strong {
+      color: #f9fafb;
+    }
+    .ai-output blockquote {
+      border-left: 4px solid #10b981;
+      padding: 0.75em 1.2em;
+      margin: 1.4em 0;
+      background: rgba(16, 185, 129, 0.08);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: #374151;
+    }
+    .dark .ai-output blockquote {
+      background: rgba(16, 185, 129, 0.15);
+      color: #d1d5db;
+    }
+  </style>
+</head>
+<body class="bg-gray-200/90 dark:bg-[#111317] text-gray-900 dark:text-gray-100 min-h-screen transition-colors">
+  <div id="root"></div>
+
+  <!-- React 18 & Babel Standalone (Safari, Chrome, Firefox, iOS, Android compatible) -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const STORAGE_KEY_SETTINGS = 'permagrower_ai_settings';
+    const STORAGE_KEY_DATA = 'permagrower_profile_logbook';
+    const STORAGE_KEY_THEME = 'permagrower_theme';
+    const STORAGE_KEY_SOUND = 'permagrower_sound';
+
+    const DEFAULT_GEMINI_MODELS = [
+      'gemini-2.5-flash',
+      'gemini-2.5-pro',
+      'gemini-3.8-flash',
+      'gemini-4-argon',
+      'gemini-2.0-flash',
+      'gemini-1.5-flash'
+    ];
+
+    const DEFAULT_OPENROUTER_MODELS = [
+      'anthropic/claude-3.7-sonnet',
+      'anthropic/claude-3.5-sonnet',
+      'meta-llama/llama-3.3-70b-instruct',
+      'deepseek/deepseek-r1',
+      'openai/gpt-4o',
+      'openai/gpt-4o-mini',
+      'google/gemini-2.5-flash'
+    ];
+
+    const SUGGESTION_TOPICS = [
+      { value: 'companion-plants', label: 'What companion plants should I grow with my vegetables and fruit trees?' },
+      { value: 'trees-support-species', label: 'What trees and support species would work well in my growing space and climate?' },
+      { value: 'fruit-tree-guilds', label: 'What should I plant under my fruit trees to create a productive guild?' },
+      { value: 'soil-building', label: 'How can I build healthy soil naturally without chemical inputs?' },
+      { value: 'nitrogen-fixers', label: 'What nitrogen-fixing plants can I use to improve my soil fertility?' },
+      { value: 'ground-covers', label: 'What are the best ground covers and living mulches for my area?' },
+      { value: 'food-forest-design', label: 'How do I design a food forest or polyculture system for my space?' },
+      { value: 'perennial-vegetables', label: 'What perennial vegetables and herbs can I grow for low-maintenance food production?' },
+      { value: 'water-management', label: 'How can I manage water naturally through swales, mulching, and plant selection?' },
+      { value: 'beneficial-insects', label: 'What plants attract beneficial insects and support biodiversity in my garden?' },
+      { value: 'succession-planting', label: 'How do I plan seasonal succession planting for continuous harvests?' },
+      { value: 'natural-pest-management', label: 'What are effective natural methods for pest and disease management?' },
+      { value: 'edge-zones', label: 'How can I create productive edge zones and maximize my growing space?' },
+      { value: 'pioneer-species', label: 'What pioneer species should I plant to rehabilitate degraded or bare soil?' },
+      { value: 'transition-regenerative', label: 'How do I transition from conventional gardening to regenerative practices step by step?' }
+    ];
+
+    const INSPIRING_QUOTES = [
+      "It is not the strongest of the species that survives, but the one most adaptable to change. - Charles Darwin",
+      "In every walk with nature, one receives far more than they seek. - John Muir",
+      "Permaculture is a philosophy of working with, rather than against nature. - Bill Mollison",
+      "The care of the Earth is our most ancient and most worthy responsibility. - Wendell Berry",
+      "The best time to plant a tree was 20 years ago. The second best time is now. - Chinese Proverb",
+      "To plant a garden is to believe in tomorrow. - Audrey Hepburn",
+      "All gardening is landscape painting. - William Kent",
+      "A society grows great when old men plant trees whose shade they know they shall never sit in. - Greek Proverb",
+      "The glory of gardening: hands in the dirt, head in the sun, heart with nature. - Alfred Austin",
+      "Diversity creates stability. - David Holmgren",
+      "Nature does not hurry, yet everything is accomplished. - Lao Tzu",
+      "The soil is much more important than the seed. Growing is about creating conditions, not forcing results. - Charles Dowding",
+      "Patience is the gardener's greatest tool after the spade. - Monty Don",
+      "The secret to agriculture is not to fight nature but to cooperate with it. - Ernst Gotsch"
+    ];
+
+    const GENERAL_TIPS = [
+      "🌳 Tree Guilds: Plant nitrogen-fixing shrubs like comfrey around fruit trees to create beneficial plant communities that support each other's growth.",
+      "🌿 Observe & Interact: Spend time observing your garden through all seasons before making major changes - understanding comes before action.",
+      "🌸 Beneficial Flowers: Plant nasturtiums as trap crops for aphids, and marigolds to deter nematodes and many garden pests.",
+      "🌳 Tree Spacing: Plant fruit trees considering their mature size - dwarf varieties need 6-8 feet, standard trees need 25-30 feet apart.",
+      "🦋 Edge Effect: Create diverse edges where different habitats meet - these transition zones support the most biodiversity.",
+      "🌱 Use Small & Slow Solutions: Start with small garden experiments and expand gradually - this builds knowledge and prevents overwhelming yourself.",
+      "🐛 Beneficial Insects: Leave some 'messy' areas with native plants and hollow stems where beneficial insects can overwinter.",
+      "🥦 Brassica Rotation: Never plant cabbage family crops in the same spot two years running to prevent soil-borne diseases.",
+      "🚫 Stop Disturbing Soil: Instead of digging, layer organic matter on top and let earthworms do the mixing - they work 24/7 for free.",
+      "🍃 Zone Your Energy: Place high-maintenance plants closest to your house where you'll naturally tend them more often.",
+      "🔄 Stack Functions: Choose plants that serve multiple purposes - fruit trees provide food, shade, windbreak, and wildlife habitat all at once.",
+      "💧 Catch & Store Energy: Position rain barrels, swales, and mulch where gravity naturally brings water and organic matter."
+    ];
+
+    const COSY_PENDING_PHRASES = [
+      "🌱 Fermenting comfrey tea & composting your query...",
+      "🌿 Mulching ideas and consulting the mycelial network...",
+      "🐝 Buzzing through pollinator pathways for advice...",
+      "🌾 Consulting companion guild wisdom, please hold...",
+      "☀️ Photosynthesizing your custom garden guidance...",
+      "🥕 Digging into the root zone for natural solutions...",
+      "🌧️ Harvesting rainwater thoughts & brewing organic answers...",
+      "🐛 Listening to the earthworms aerate the soil...",
+      "🌻 Turning towards the sun to gather insights..."
+    ];
+
+    function getRandomPendingPhrase() {
+      return COSY_PENDING_PHRASES[Math.floor(Math.random() * COSY_PENDING_PHRASES.length)];
+    }
+
+    // Web Audio API tactile organic click sound
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function playClick() {
+      if (!soundEnabled) return;
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        if (!audioCtx) audioCtx = new AudioCtx();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(620, now);
+        osc.frequency.exponentialRampToValueAtTime(240, now + 0.038);
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.042);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.045);
+      } catch (e) {}
+    }
+
+    function parseMarkdown(text) {
+      if (!text) return '';
+      let r = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      
+      // Tables
+      r = r.replace(/((?:\|[^\n]+\|\r?\n)+)/g, match => {
+        const rows = match.trim().split('\n').map(x => x.trim()).filter(Boolean);
+        if (rows.length < 2) return match;
+        const isHeaderSep = /^\|[\s\-:]+(\|[\s\-:]+)+\|?$/.test(rows[1]);
+        let t = '<div class="overflow-x-auto my-4 rounded-xl border border-gray-300 dark:border-gray-600"><table class="min-w-full divide-y divide-gray-300 dark:divide-gray-600 text-sm text-left">';
+        let startIdx = 0;
+        if (isHeaderSep) {
+          const headers = rows[0].split('|').slice(1, -1).map(h => h.trim());
+          t += '<thead class="bg-gray-200 dark:bg-gray-800 font-bold"><tr>';
+          headers.forEach(h => t += `<th class="px-4 py-2">${h}</th>`);
+          t += '</tr></thead><tbody class="divide-y divide-gray-300 dark:divide-gray-600 bg-white dark:bg-gray-700/60">';
+          startIdx = 2;
+        } else {
+          t += '<tbody class="divide-y divide-gray-300 dark:divide-gray-600 bg-white dark:bg-gray-700/60">';
+        }
+        for (let i = startIdx; i < rows.length; i++) {
+          const cols = rows[i].split('|').slice(1, -1).map(c => c.trim());
+          t += '<tr class="hover:bg-gray-100/60 dark:hover:bg-gray-600/40">';
+          cols.forEach(c => t += `<td class="px-4 py-2">${c}</td>`);
+          t += '</tr>';
+        }
+        t += '</tbody></table></div>';
+        return t;
+      });
+
+      r = r.replace(/^###\s+(.*$)/gim, '<h3>$1</h3>');
+      r = r.replace(/^##\s+(.*$)/gim, '<h2>$1</h2>');
+      r = r.replace(/^#\s+(.*$)/gim, '<h1>$1</h1>');
+      r = r.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+      r = r.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      r = r.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      r = r.replace(/^&gt;\s+(.*$)/gim, '<blockquote>$1</blockquote>');
+      r = r.replace(/^(?:---|\*\*\*|___)\s*$/gim, '<div class="my-6 border-t border-emerald-300/60 dark:border-emerald-800/60 flex items-center justify-center"><span class="px-2 text-emerald-600">🌱</span></div>');
+      r = r.replace(/^[\-\*]\s+(.*$)/gim, '<li class="my-1 leading-relaxed">$1</li>');
+      r = r.replace(/^(\d+)\.\s+(.*$)/gim, '<li class="my-1 leading-relaxed list-decimal ml-4">$2</li>');
+      r = r.replace(/((?:<li class="my-1 leading-relaxed">.*<\/li>\s*)+)/g, '<ul class="my-3 pl-4 space-y-1">$1</ul>');
+      
+      const paragraphs = r.split(/\n{2,}/);
+      return paragraphs.map(p => {
+        const trimmed = p.trim();
+        if (!trimmed) return '';
+        if (trimmed.startsWith('<h') || trimmed.startsWith('<ul') || trimmed.startsWith('<ol') || trimmed.startsWith('<blockquote') || trimmed.startsWith('<div') || trimmed.startsWith('<table')) {
+          return trimmed;
+        }
+        return `<p>${trimmed.replace(/\n/g, '<br/>')}</p>`;
+      }).join('');
+    }
+
+    function App() {
+      const [activeTab, setActiveTab] = useState('profile');
+      
+      // Persistent Dark Mode
+      const [isDark, setIsDark] = useState(() => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY_THEME);
+          if (saved) return saved === 'dark';
+          return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        } catch { return false; }
+      });
+
+      useEffect(() => {
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+          document.body.classList.add('dark');
+          try { localStorage.setItem(STORAGE_KEY_THEME, 'dark'); } catch {}
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.body.classList.remove('dark');
+          try { localStorage.setItem(STORAGE_KEY_THEME, 'light'); } catch {}
+        }
+      }, [isDark]);
+
+      // Sound toggle state
+      const [soundOn, setSoundOn] = useState(() => {
+        try {
+          const s = localStorage.getItem(STORAGE_KEY_SOUND);
+          const enabled = s === null ? true : s === 'true';
+          soundEnabled = enabled;
+          return enabled;
+        } catch { return true; }
+      });
+
+      const toggleSound = () => {
+        const next = !soundOn;
+        setSoundOn(next);
+        soundEnabled = next;
+        try { localStorage.setItem(STORAGE_KEY_SOUND, next ? 'true' : 'false'); } catch {}
+        if (next) playClick();
+      };
+
+      const [quote, setQuote] = useState(() => INSPIRING_QUOTES[Math.floor(Math.random() * INSPIRING_QUOTES.length)]);
+      const [adviceTip, setAdviceTip] = useState(() => GENERAL_TIPS[Math.floor(Math.random() * GENERAL_TIPS.length)]);
+      const [chatTip, setChatTip] = useState(() => GENERAL_TIPS[Math.floor(Math.random() * GENERAL_TIPS.length)]);
+      const [currentDateTime, setCurrentDateTime] = useState(() => new Date().toLocaleDateString(navigator.language || 'en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }));
+
+      // Custom dialog modal
+      const [dialog, setDialog] = useState(null);
+      const showAlert = (message) => new Promise(resolve => setDialog({ type: 'alert', message, onResolve: () => { setDialog(null); resolve(); } }));
+      const showConfirm = (message) => new Promise(resolve => setDialog({ type: 'confirm', message, onResolve: (v) => { setDialog(null); resolve(v); } }));
+
+      // Profile & Logbook data
+      const [profile, setProfile] = useState(() => {
+        try {
+          const s = localStorage.getItem(STORAGE_KEY_DATA);
+          return s ? (JSON.parse(s).profile || { name: '', projectName: '', location: '', space: '', goals: '', approach: '' }) : { name: '', projectName: '', location: '', space: '', goals: '', approach: '' };
+        } catch { return { name: '', projectName: '', location: '', space: '', goals: '', approach: '' }; }
+      });
+
+      const [logEntries, setLogEntries] = useState(() => {
+        try {
+          const s = localStorage.getItem(STORAGE_KEY_DATA);
+          return s ? (JSON.parse(s).logEntries || []) : [];
+        } catch { return []; }
+      });
+
+      const [backupDismissed, setBackupDismissed] = useState(false);
+
+      const [aiSettings, setAiSettings] = useState(() => {
+        try {
+          const s = localStorage.getItem(STORAGE_KEY_SETTINGS);
+          if (s) return JSON.parse(s);
+        } catch {}
+        return {
+          provider: 'gemini',
+          geminiApiKey: '',
+          openRouterApiKey: '',
+          selectedModels: {
+            text: 'gemini-2.5-flash',
+            vision: 'gemini-2.5-flash',
+            audio: 'gemini-2.5-flash',
+            reasoning: 'gemini-2.5-pro',
+            imageGen: 'gemini-2.5-flash'
+          },
+          availableGeminiModels: DEFAULT_GEMINI_MODELS,
+          availableOpenRouterModels: DEFAULT_OPENROUTER_MODELS
+        };
+      });
+
+      useEffect(() => {
+        try { localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify({ profile, logEntries })); } catch {}
+      }, [profile, logEntries]);
+
+      useEffect(() => {
+        try { localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(aiSettings)); } catch {}
+      }, [aiSettings]);
+
+      // Form & Logbook view states
+      const [logEntryText, setLogEntryText] = useState('');
+      const [isFullLogbookView, setIsFullLogbookView] = useState(false);
+      const [searchQuery, setSearchQuery] = useState('');
+      const [timeFilter, setTimeFilter] = useState('all-time');
+      const [entriesPerPage, setEntriesPerPage] = useState(25);
+      const [currentPage, setCurrentPage] = useState(1);
+      const [adviceMessages, setAdviceMessages] = useState([]);
+      const [chatMessages, setChatMessages] = useState([]);
+      const [aiQuestion, setAiQuestion] = useState('');
+      const [configStatus, setConfigStatus] = useState('');
+      const [isTestingConfig, setIsTestingConfig] = useState(false);
+
+      // Visualize tab state
+      const [visualPrompt, setVisualPrompt] = useState('');
+      const [visualResult, setVisualResult] = useState('');
+      const [uploadedVisualImage, setUploadedVisualImage] = useState(null);
+      const [isVisualLoading, setIsVisualLoading] = useState(false);
+      const [visualPendingMsg, setVisualPendingMsg] = useState('');
+
+      // In-Browser Audio Recording (MediaRecorder API)
+      const [isRecording, setIsRecording] = useState(false);
+      const [recSeconds, setRecSeconds] = useState(0);
+      const [recTarget, setRecTarget] = useState(null);
+      const mediaRecRef = useRef(null);
+      const audioChunksRef = useRef([]);
+      const timerIntervalRef = useRef(null);
+      const mediaStreamRef = useRef(null);
+
+      // Uploaded photo for Smart Advice / Diagnostics
+      const [uploadedImage, setUploadedImage] = useState(null);
+
+      const startRecording = async (target) => {
+        playClick();
+        try {
+          if (!navigator.mediaDevices?.getUserMedia) {
+            showAlert('Microphone not supported on this browser.');
+            return;
+          }
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaStreamRef.current = stream;
+          audioChunksRef.current = [];
+
+          let mimeType = 'audio/webm';
+          if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported) {
+            if (MediaRecorder.isTypeSupported('audio/webm')) mimeType = 'audio/webm';
+            else if (MediaRecorder.isTypeSupported('audio/mp4')) mimeType = 'audio/mp4';
+          }
+
+          const recorder = new MediaRecorder(stream);
+          mediaRecRef.current = recorder;
+
+          recorder.ondataavailable = (e) => {
+            if (e.data && e.data.size > 0) audioChunksRef.current.push(e.data);
+          };
+
+          recorder.onstop = () => {
+            const blob = new Blob(audioChunksRef.current, { type: mimeType });
+            const r = new FileReader();
+            r.onloadend = () => {
+              if (target === 'logbook') {
+                const now = new Date();
+                setLogEntries(prev => [{
+                  id: Date.now(),
+                  date: now.toLocaleDateString(),
+                  time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                  content: `🎙️ Voice Note (${recSeconds}s) recorded at ${now.toLocaleTimeString()}`
+                }, ...prev]);
+                showAlert('✓ Voice log recorded and added to entries!');
+              }
+            };
+            r.readAsDataURL(blob);
+            mediaStreamRef.current?.getTracks().forEach(t => t.stop());
+            mediaStreamRef.current = null;
+          };
+
+          recorder.start(250);
+          setIsRecording(true);
+          setRecTarget(target);
+          setRecSeconds(0);
+          timerIntervalRef.current = setInterval(() => setRecSeconds(s => s + 1), 1000);
+        } catch (err) {
+          showAlert(`Microphone error: ${err.message || 'Permission denied'}`);
+        }
+      };
+
+      const stopRecording = () => {
+        playClick();
+        if (mediaRecRef.current && mediaRecRef.current.state !== 'inactive') {
+          mediaRecRef.current.stop();
+        }
+        if (timerIntervalRef.current) {
+          clearInterval(timerIntervalRef.current);
+          timerIntervalRef.current = null;
+        }
+        setIsRecording(false);
+      };
+
+      // =========================================================================
+      // Unified BYOK Execution Engine with Real-Time SSE Streaming
+      // =========================================================================
+      async function executeAICall(prompt, task = 'text', attachment = null, onChunk = null) {
+        const provider = aiSettings.provider;
+        const model = aiSettings.selectedModels?.[task] || (provider === 'gemini' ? 'gemini-2.5-flash' : 'anthropic/claude-3.5-sonnet');
+
+        if (provider === 'gemini') {
+          const key = aiSettings.geminiApiKey?.trim();
+          if (!key) throw new Error('Missing Google Gemini API Key. Please enter your key in ⚙️ Configure.');
+          const cleanModel = model.replace(/^models\//, '');
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${cleanModel}:streamGenerateContent?key=${key}&alt=sse`;
+          
+          const parts = [];
+          if (attachment && attachment.dataBase64) {
+            let b64 = attachment.dataBase64;
+            if (b64.includes(';base64,')) b64 = b64.split(';base64,')[1];
+            parts.push({
+              inlineData: {
+                mimeType: attachment.mimeType || 'image/jpeg',
+                data: b64
+              }
+            });
+          }
+          parts.push({ text: prompt });
+
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ role: 'user', parts }] })
+          });
+
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            let msg = err.error?.message || `Gemini Error ${res.status}`;
+            if (res.status === 429 || msg.toLowerCase().includes('quota') || msg.toLowerCase().includes('rate limit')) {
+              msg = `⚠️ Rate Limit or Quota Reached for model "${cleanModel}" (HTTP 429).\n💡 Remedy: Try switching to another model (e.g. gemini-2.5-flash) in ⚙️ Configure or wait 20s before retrying.\n\nDetails: ${msg}`;
+            }
+            throw new Error(msg);
+          }
+
+          const reader = res.body?.getReader();
+          if (!reader) throw new Error('Streaming not supported in this browser.');
+
+          const decoder = new TextDecoder('utf-8');
+          let accumulated = '';
+          let buffer = '';
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (trimmed.startsWith('data: ')) {
+                const jsonStr = trimmed.slice(6);
+                if (jsonStr === '[DONE]') continue;
+                try {
+                  const parsed = JSON.parse(jsonStr);
+                  const chunk = parsed.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
+                  if (chunk) {
+                    accumulated += chunk;
+                    if (onChunk) onChunk(accumulated);
+                  }
+                } catch {}
+              }
+            }
+          }
+          return accumulated;
+        } else {
+          // OpenRouter SSE streaming
+          const key = aiSettings.openRouterApiKey?.trim();
+          if (!key) throw new Error('Missing OpenRouter API Key. Please enter your key in ⚙️ Configure.');
+          const messages = [];
+          if (attachment && attachment.dataBase64) {
+            let dataUrl = attachment.dataBase64;
+            if (!dataUrl.startsWith('data:')) {
+              dataUrl = `data:${attachment.mimeType || 'image/jpeg'};base64,${dataUrl}`;
+            }
+            messages.push({
+              role: 'user',
+              content: [
+                { type: 'text', text: prompt },
+                { type: 'image_url', image_url: { url: dataUrl } }
+              ]
+            });
+          } else {
+            messages.push({ role: 'user', content: prompt });
+          }
+
+          const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${key}`,
+              'HTTP-Referer': window.location.origin,
+              'X-Title': 'PermaGrower'
+            },
+            body: JSON.stringify({
+              model: model || 'anthropic/claude-3.5-sonnet',
+              messages,
+              stream: true
+            })
+          });
+
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            let msg = err.error?.message || `OpenRouter Error ${res.status}`;
+            if (res.status === 429 || msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('credit')) {
+              msg = `⚠️ OpenRouter Rate Limit or Credit Issue for "${model}" (${res.status}).\n💡 Remedy: Check your balance at openrouter.ai or choose another model in ⚙️ Configure.\n\nDetails: ${msg}`;
+            }
+            throw new Error(msg);
+          }
+
+          const reader = res.body?.getReader();
+          if (!reader) throw new Error('Streaming not supported.');
+
+          const decoder = new TextDecoder('utf-8');
+          let accumulated = '';
+          let buffer = '';
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (trimmed.startsWith('data: ')) {
+                const jsonStr = trimmed.slice(6);
+                if (jsonStr === '[DONE]') continue;
+                try {
+                  const parsed = JSON.parse(jsonStr);
+                  const chunk = parsed.choices?.[0]?.delta?.content || '';
+                  if (chunk) {
+                    accumulated += chunk;
+                    if (onChunk) onChunk(accumulated);
+                  }
+                } catch {}
+              }
+            }
+          }
+          return accumulated;
+        }
+      }
+
+      // Stream advice request helper
+      async function requestAdvice(prompt, label = 'Advice', attachment = uploadedImage) {
+        const cosy = getRandomPendingPhrase();
+        const id = Date.now();
+        setAdviceMessages(prev => [{ id, label, content: `${cosy}\n\n*Please wait, cultivating response...*`, isLoading: true }, ...prev]);
+        try {
+          const r = await executeAICall(prompt, 'text', attachment, (accumulated) => {
+            setAdviceMessages(prev => prev.map(m => m.id === id ? { ...m, content: accumulated, isLoading: false } : m));
+          });
+          setAdviceMessages(prev => prev.map(m => m.id === id ? { ...m, content: r, isLoading: false } : m));
+        } catch (err) {
+          setAdviceMessages(prev => prev.map(m => m.id === id ? { ...m, content: `**Error:** ${err.message}`, isLoading: false } : m));
+        }
+      }
+
+      // Stream chat request helper
+      async function requestChat() {
+        if (!aiQuestion.trim()) return;
+        const q = aiQuestion.trim();
+        setAiQuestion('');
+        const cosy = getRandomPendingPhrase();
+        const id = Date.now();
+        setChatMessages(prev => [...prev, { id, q, a: `${cosy}\n\n*Please wait, response processing...*`, isLoading: true }]);
+        try {
+          const prompt = `You are PG, an encouraging expert permaculture growing mentor. Answer with spacing between sections:\n${q}`;
+          const r = await executeAICall(prompt, 'text', null, (accumulated) => {
+            setChatMessages(prev => prev.map(m => m.id === id ? { ...m, a: accumulated, isLoading: false } : m));
+          });
+          setChatMessages(prev => prev.map(m => m.id === id ? { ...m, a: r, isLoading: false } : m));
+        } catch (err) {
+          setChatMessages(prev => prev.map(m => m.id === id ? { ...m, a: `**Error:** ${err.message}`, isLoading: false } : m));
+        }
+      }
+
+      // 1-Click Vision Diagnostic Presets
+      async function runVisionDiagnostic(type, target) {
+        playClick();
+        if (!uploadedImage) {
+          return showAlert('Please upload a garden photo first using "📷 Upload Photo".');
+        }
+        let prompt = '';
+        let title = '';
+        if (type === 'pest') {
+          title = '🐛 Pest & Predators Diagnostic';
+          prompt = `Analyze this garden photo for pests, insects, or plant damage. Identify species, beneficial predators, and 3-5 organic IPM permaculture remedies.`;
+        } else if (type === 'disease') {
+          title = '🍂 Foliage & Blight Diagnostic';
+          prompt = `Examine foliage symptoms in this image (spots, yellowing, wilting, curling, powdery mildew). Provide disease identification and natural remedies.`;
+        } else if (type === 'soil') {
+          title = '🪨 Soil Health & Mulch Diagnostic';
+          prompt = `Assess soil structure, moisture, compaction, mulch coverage, and organic matter in this image. Recommend regenerative practices.`;
+        } else if (type === 'plant_id') {
+          title = '🌿 Plant ID & Guild Recommendations';
+          prompt = `Identify the plant shown. Provide common name, botanical name, ecological niche, and recommend 3-4 companion plants for a permaculture guild.`;
+        }
+        await requestAdvice(prompt, title, uploadedImage);
+      }
+
+      // Filtered Logbook Entries
+      const filteredEntries = logEntries.filter(e => {
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase();
+          if (!e.content.toLowerCase().includes(q) && !e.date.includes(q)) return false;
+        }
+        if (timeFilter !== 'all-time') {
+          const d = new Date(e.date);
+          const diffDays = (Date.now() - d.getTime()) / (1000 * 3600 * 24);
+          if (timeFilter === 'week' && diffDays > 7) return false;
+          if (timeFilter === 'month' && diffDays > 30) return false;
+          if (timeFilter === 'year' && d.getFullYear() !== new Date().getFullYear()) return false;
+        }
+        return true;
+      });
+
+      const totalPages = Math.max(1, Math.ceil(filteredEntries.length / entriesPerPage));
+      const paginatedEntries = filteredEntries.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage);
+
+      const isKeyActive = aiSettings.provider === 'gemini'
+        ? Boolean(aiSettings.geminiApiKey?.trim())
+        : Boolean(aiSettings.openRouterApiKey?.trim());
+
+      return (
+        <div className="container mx-auto px-4 py-6 max-w-4xl">
+          {/* Header */}
+          <header className="text-center mb-8 relative">
+            {/* Top-right Status Pill, Sound Toggle & Dark/Light Mode */}
+            <div className="flex flex-wrap justify-end items-center gap-2 mb-3">
+              {/* Active Model & Key Status Badge */}
+              {isKeyActive ? (
+                <button
+                  onClick={() => { playClick(); setActiveTab('configure'); }}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700/80 text-xs font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors shadow-xs"
+                  title="AI Key & Model Active - Tap to Configure"
+                >
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                  <span className="font-bold text-emerald-800 dark:text-emerald-300 capitalize">{aiSettings.provider}:</span>
+                  <span className="text-emerald-700 dark:text-emerald-400 font-mono truncate max-w-[130px]">
+                    {aiSettings.selectedModels.text}
+                  </span>
+                  <span className="hidden sm:inline-block text-[10px] bg-emerald-200 dark:bg-emerald-800 text-emerald-900 dark:text-emerald-200 px-1.5 py-0.5 rounded font-bold">
+                    Active
+                  </span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => { playClick(); setActiveTab('configure'); }}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/80 text-xs font-semibold hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors shadow-xs animate-pulse"
+                  title="No API Key Set - Tap to Enter Your Key"
+                >
+                  <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
+                  <span className="font-bold text-amber-800 dark:text-amber-300 capitalize">{aiSettings.provider}:</span>
+                  <span className="text-amber-700 dark:text-amber-400 font-semibold truncate max-w-[120px]">
+                    No Key Added
+                  </span>
+                  <span className="text-[10px] bg-amber-200 dark:bg-amber-800 text-amber-900 dark:text-amber-200 px-1.5 py-0.5 rounded font-bold">
+                    Configure
+                  </span>
+                </button>
+              )}
+
+              {/* Sound Toggle Button */}
+              <button
+                onClick={toggleSound}
+                className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#1e2430] border border-gray-300 dark:border-gray-600 text-xs font-bold shadow-xs hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                title={soundOn ? 'Sound Effects Enabled (Click to Mute)' : 'Sound Effects Muted (Click to Enable)'}
+              >
+                {soundOn ? '🔊 Sound ON' : '🔇 Muted'}
+              </button>
+
+              {/* Theme Toggle Button */}
+              <button
+                onClick={() => { playClick(); setIsDark(!isDark); }}
+                className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#1e2430] border border-gray-300 dark:border-gray-600 text-xs font-bold shadow-xs hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                title="Toggle Theme"
+              >
+                {isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}
+              </button>
+            </div>
+
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">
+              <span className="text-emerald-600 dark:text-[#80d99e]">🌱 PermaGrower 🌱</span>
+            </h1>
+            <p className="text-base md:text-lg text-gray-700 dark:text-gray-300">
+              Your AI-powered growing companion: Track, Learn, Grow
+              <br />
+              <em className="text-sm italic text-green-700 dark:text-green-300 cursor-pointer" onClick={() => { playClick(); setQuote(INSPIRING_QUOTES[Math.floor(Math.random() * INSPIRING_QUOTES.length)]); }}>{quote}</em>
+            </p>
+            <div className="mt-3 text-xs md:text-sm text-blue-700 dark:text-blue-400 font-semibold">
+              {currentDateTime} | Language: {navigator.language}
+            </div>
+          </header>
+
+          {/* Navigation Menu */}
+          <div className="flex flex-wrap justify-center gap-2.5 mb-8">
+            <button onClick={() => { playClick(); setActiveTab('profile'); }} className={`nav-btn gradient-info text-gray-900 px-4 py-2 rounded-xl font-bold text-sm shadow-xs ${activeTab === 'profile' ? 'ring-2 ring-blue-600 dark:ring-white scale-105' : ''}`}>🌍 Your Info</button>
+            <button onClick={() => { playClick(); setActiveTab('logbook'); }} className={`nav-btn gradient-bg text-gray-900 px-4 py-2 rounded-xl font-bold text-sm shadow-xs ${activeTab === 'logbook' ? 'ring-2 ring-green-600 dark:ring-white scale-105' : ''}`}>📘 Logbook</button>
+            <button onClick={() => { playClick(); setActiveTab('advice'); }} className={`nav-btn dynamic-btn btn-advice-nav text-gray-900 px-4 py-2 font-bold text-sm ${activeTab === 'advice' ? 'ring-2 ring-emerald-600 dark:ring-white scale-105' : ''}`}>🧠 Smart Advice</button>
+            <button onClick={() => { playClick(); setActiveTab('ai-chat'); }} className={`nav-btn gradient-advice text-gray-900 px-4 py-2 rounded-xl font-bold text-sm shadow-xs ${activeTab === 'ai-chat' ? 'ring-2 ring-emerald-600 dark:ring-white scale-105' : ''}`}>🤖 AI Chat</button>
+            <button onClick={() => { playClick(); setActiveTab('visualize'); }} className={`nav-btn gradient-visualize text-gray-900 px-4 py-2 rounded-xl font-bold text-sm shadow-xs ${activeTab === 'visualize' ? 'ring-2 ring-green-600 dark:ring-white scale-105' : ''}`}>🎨 Visualize</button>
+            <button onClick={() => { playClick(); setActiveTab('configure'); }} className={`nav-btn bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-xl font-bold text-sm shadow-xs ${activeTab === 'configure' ? 'ring-2 ring-indigo-400 dark:ring-white scale-105' : ''}`}>⚙️ Configure</button>
+          </div>
+
+          {/* Tab 1: Profile */}
+          {activeTab === 'profile' && (
+            <div className="bg-white dark:bg-[#1e2430] border border-gray-300 dark:border-gray-700/80 rounded-2xl p-6 shadow-md space-y-4">
+              <h2 className="text-2xl font-bold text-emerald-600 dark:text-[#80d99e]">🌍 Load/Save Your Info</h2>
+
+              {/* Automated Backup Reminder */}
+              {logEntries.length >= 3 && !backupDismissed && (
+                <div className="bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/80 rounded-xl p-3.5 mb-4 flex flex-wrap items-center justify-between gap-3 text-sm">
+                  <div className="flex items-center gap-2.5 text-amber-900 dark:text-amber-200">
+                    <span className="text-xl shrink-0">💾</span>
+                    <div>
+                      <span className="font-bold">Logbook Backup Reminder:</span> You have {logEntries.length} entries saved in your browser storage. Download a backup file to protect your data.
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        playClick();
+                        const blob = new Blob([JSON.stringify({ profile, logEntries }, null, 2)], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'Permagrower-info.json';
+                        a.click();
+                        setBackupDismissed(true);
+                        showAlert('✓ Permagrower-info.json backup downloaded!');
+                      }}
+                      className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg shadow-xs"
+                    >
+                      📥 Backup JSON
+                    </button>
+                    <button onClick={() => setBackupDismissed(true)} className="text-gray-400 hover:text-gray-200 text-xs px-1">✕</button>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={() => {
+                    playClick();
+                    const inp = document.createElement('input');
+                    inp.type = 'file';
+                    inp.accept = '.json,.txt';
+                    inp.onchange = (e) => {
+                      const file = e.target.files[0];
+                      if (!file) return;
+                      const reader = new FileReader();
+                      reader.onload = (ev) => {
+                        try {
+                          const d = JSON.parse(ev.target.result);
+                          if (d.profile) setProfile(d.profile);
+                          else setProfile(d);
+                          if (Array.isArray(d.logEntries)) setLogEntries(d.logEntries);
+                          showAlert('✓ Profile & Logbook loaded successfully!');
+                        } catch { showAlert('Invalid file format.'); }
+                      };
+                      reader.readAsText(file);
+                    };
+                    inp.click();
+                  }}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-xl font-bold text-sm hover:bg-blue-700"
+                >
+                  📁 Load from File
+                </button>
+                <button
+                  onClick={async () => {
+                    playClick();
+                    setActiveTab('advice');
+                    await requestAdvice(`Give me 3 pressing seasonal gardening tasks and 2 permaculture reminders for ${profile.location || 'temperate climate'} for today (${new Date().toLocaleDateString()}).`, 'Today\'s Tips');
+                  }}
+                  className="dynamic-btn btn-daily-check text-white px-4 py-2 font-bold text-sm"
+                >
+                  🔔 Tips/Reminders for Today
+                </button>
+              </div>
+
+              <input value={profile.name} onChange={e => setProfile({...profile, name: e.target.value})} placeholder="First Name" className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-[#1a202c] text-sm" />
+              <input value={profile.projectName} onChange={e => setProfile({...profile, projectName: e.target.value})} placeholder="Title of Project... distinguish your growing space zone or goals" className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-[#1a202c] text-sm" />
+              <input value={profile.location} onChange={e => setProfile({...profile, location: e.target.value})} placeholder="Location or Climate Zone (e.g. Zone 8b, Mediterranean, etc.)" className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-[#1a202c] text-sm" />
+              <textarea value={profile.space} onChange={e => setProfile({...profile, space: e.target.value})} placeholder="Describe your growing space (size, conditions, slope, aspect, soil)..." rows="3" className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-[#1a202c] text-sm"></textarea>
+              <textarea value={profile.goals} onChange={e => setProfile({...profile, goals: e.target.value})} placeholder="Your growing goals and aspirations..." rows="2" className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-[#1a202c] text-sm"></textarea>
+              <textarea value={profile.approach} onChange={e => setProfile({...profile, approach: e.target.value})} placeholder="Your approach, constraints, or preferences (no-till, water harvesting, etc.)..." rows="2" className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-[#1a202c] text-sm"></textarea>
+              
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={() => {
+                    playClick();
+                    const blob = new Blob([JSON.stringify({ profile, logEntries }, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Permagrower-info.json';
+                    a.click();
+                    showAlert('✓ Permagrower-info.json saved to your device!');
+                  }}
+                  className="bg-[#5D5CDE] text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-sm hover:opacity-90"
+                >
+                  💾 Save to File
+                </button>
+                <button
+                  onClick={async () => {
+                    playClick();
+                    if (await showConfirm('Are you sure you want to reset all profile and logbook data?')) {
+                      setProfile({ name: '', projectName: '', location: '', space: '', goals: '', approach: '' });
+                      setLogEntries([]);
+                      showAlert('Data cleared.');
+                    }
+                  }}
+                  className="bg-red-600 text-white px-4 py-2 rounded-xl font-bold text-sm hover:bg-red-700"
+                >
+                  🗑️ Reset All Data
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Tab 2: Logbook */}
+          {activeTab === 'logbook' && (
+            <div className="bg-white dark:bg-[#1e2430] border border-gray-300 dark:border-gray-700/80 rounded-2xl p-6 shadow-md space-y-4">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-emerald-600 dark:text-[#80d99e]">📘 Logbook</h2>
+                <button
+                  onClick={() => { playClick(); setIsFullLogbookView(!isFullLogbookView); }}
+                  className="bg-blue-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-blue-700"
+                >
+                  {isFullLogbookView ? '← Back to Entry View' : '📖 View Full Logbook'}
+                </button>
+              </div>
+
+              {!isFullLogbookView ? (
+                <>
+                  <textarea
+                    value={logEntryText}
+                    onChange={e => setLogEntryText(e.target.value)}
+                    placeholder="What did you do in your growing space today? (e.g. Sowed carrots in kitchen zone, layered comfrey mulch around apple guild)..."
+                    rows="4"
+                    className="w-full p-3 border-2 border-emerald-500/50 rounded-xl bg-white dark:bg-[#1a202c] text-sm"
+                  />
+                  <div className="flex flex-wrap gap-3 items-center">
+                    <button
+                      onClick={() => {
+                        playClick();
+                        if (!logEntryText.trim()) return showAlert('Please enter some text.');
+                        setLogEntries([{ id: Date.now(), date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), content: logEntryText.trim() }, ...logEntries]);
+                        setLogEntryText('');
+                        showAlert('✓ Entry added!');
+                      }}
+                      className="bg-[#5D5CDE] text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:opacity-90"
+                    >
+                      Add Entry
+                    </button>
+
+                    {/* Microphone Recording Button */}
+                    {isRecording && recTarget === 'logbook' ? (
+                      <div className="flex items-center gap-2 bg-red-100 dark:bg-red-950/60 border border-red-300 dark:border-red-700 rounded-xl px-3 py-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping inline-block" />
+                        <span className="text-xs font-mono font-bold text-red-700 dark:text-red-300">
+                          ● REC {Math.floor(recSeconds / 60)}:{(recSeconds % 60).toString().padStart(2, '0')}
+                        </span>
+                        <button onClick={stopRecording} className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">⏹ Done</button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => startRecording('logbook')}
+                        className="bg-rose-600 text-white px-4 py-2 rounded-xl font-bold text-sm hover:bg-rose-700 flex items-center gap-1.5"
+                      >
+                        🎙️ Record Voice Note
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="bg-gray-100/90 dark:bg-[#283243] p-4 rounded-xl border border-gray-300 dark:border-gray-600 space-y-3">
+                    <h3 className="font-bold text-sm text-gray-800 dark:text-gray-200">Recent Entries ({logEntries.length})</h3>
+                    {logEntries.slice(0, 5).map(e => (
+                      <div key={e.id} className="bg-white dark:bg-[#1e2430] p-3 rounded-lg border-l-4 border-[#80d99e] shadow-xs">
+                        <div className="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-1">{e.date} at {e.time}</div>
+                        <div className="text-sm whitespace-pre-wrap">{e.content}</div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                /* Full View */
+                <div className="space-y-4">
+                  <div className="flex flex-wrap gap-2 items-center bg-gray-100/90 dark:bg-[#283243] p-3 rounded-xl border border-gray-300 dark:border-gray-600">
+                    <input
+                      type="search"
+                      value={searchQuery}
+                      onChange={e => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                      placeholder="🔍 Search entries..."
+                      className="flex-1 min-w-[200px] p-2 rounded-lg border border-gray-300 dark:border-gray-600 text-xs bg-white dark:bg-[#1a202c]"
+                    />
+                    <select
+                      value={timeFilter}
+                      onChange={e => { setTimeFilter(e.target.value); setCurrentPage(1); }}
+                      className="p-2 rounded-lg border border-gray-300 dark:border-gray-600 text-xs bg-white dark:bg-[#1a202c] font-bold"
+                    >
+                      <option value="all-time">All Time</option>
+                      <option value="week">Last 7 Days</option>
+                      <option value="month">Last 30 Days</option>
+                      <option value="year">This Year</option>
+                    </select>
+                    <button
+                      onClick={() => {
+                        playClick();
+                        const { jsPDF } = window.jspdf;
+                        const doc = new jsPDF();
+                        doc.text("PermaGrower Logbook", 14, 20);
+                        let y = 30;
+                        filteredEntries.forEach((e) => {
+                          if (y > 270) { doc.addPage(); y = 20; }
+                          doc.text(`[${e.date} ${e.time}] ${e.content}`, 14, y);
+                          y += 10;
+                        });
+                        doc.save("PermaGrower_Logbook.pdf");
+                      }}
+                      className="bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-bold"
+                    >
+                      Export PDF
+                    </button>
+                  </div>
+
+                  <div className="space-y-2">
+                    {paginatedEntries.map(e => (
+                      <div key={e.id} className="bg-white dark:bg-[#1a202c] p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xs">
+                        <div className="flex justify-between items-center text-xs text-gray-500 font-bold mb-1">
+                          <span>{e.date} at {e.time}</span>
+                          <button onClick={() => { playClick(); setLogEntries(logEntries.filter(x => x.id !== e.id)); }} className="text-red-500 hover:text-red-700">Delete</button>
+                        </div>
+                        <p className="text-sm whitespace-pre-wrap">{e.content}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {totalPages > 1 && (
+                    <div className="flex justify-center items-center gap-2 pt-2">
+                      <button disabled={currentPage <= 1} onClick={() => { playClick(); setCurrentPage(p => p - 1); }} className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs font-bold disabled:opacity-40">← Newer</button>
+                      <span className="text-xs font-bold">Page {currentPage} of {totalPages}</span>
+                      <button disabled={currentPage >= totalPages} onClick={() => { playClick(); setCurrentPage(p => p + 1); }} className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs font-bold disabled:opacity-40">Older →</button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Tab 3: Smart Advice */}
+          {activeTab === 'advice' && (
+            <div className="bg-white dark:bg-[#1e2430] border border-gray-300 dark:border-gray-700/80 rounded-2xl p-6 shadow-md space-y-4">
+              {/* Green Permaculture Tip Banner */}
+              <div className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-950/60 dark:to-green-900/60 border-l-4 border-emerald-500 rounded-xl p-4 shadow-xs">
+                <div className="flex items-start">
+                  <span className="text-2xl mr-3 shrink-0">💡</span>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="text-sm font-bold text-green-900 dark:text-green-200">Permaculture Tip</h3>
+                      <button
+                        onClick={() => {
+                          playClick();
+                          setAdviceTip(GENERAL_TIPS[Math.floor(Math.random() * GENERAL_TIPS.length)]);
+                        }}
+                        className="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold"
+                        title="Get a new tip"
+                      >
+                        🔄 New Tip
+                      </button>
+                    </div>
+                    <p className="text-sm text-green-800 dark:text-green-300 font-medium">{adviceTip}</p>
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-bold text-emerald-600 dark:text-[#80d99e]">🧠 Smart Advice</h2>
+              <div className="flex flex-wrap gap-2.5">
+                <button
+                  onClick={async () => {
+                    playClick();
+                    await requestAdvice(`Give me 3 pressing seasonal tasks and 2 permaculture checks for ${profile.location || 'temperate climate'} today (${new Date().toLocaleDateString()}). Include practical steps and an inspiring quote.`, 'Daily Reminders');
+                  }}
+                  className="dynamic-btn btn-daily-check text-white px-4 py-2 font-bold text-sm"
+                >
+                  🔔 Tips/Reminders for Today
+                </button>
+                <button
+                  onClick={async () => {
+                    playClick();
+                    await requestAdvice(`Provide comprehensive seasonal advice for ${profile.location || 'temperate climate'} in ${new Date().toLocaleString('default', { month: 'long' })}. Include soil, irrigation, companion guild, and pruning recommendations.`, 'Seasonal Advice');
+                  }}
+                  className="dynamic-btn btn-seasonal text-white px-4 py-2 font-bold text-sm"
+                >
+                  Get Seasonal Advice
+                </button>
+                <button
+                  onClick={async () => {
+                    playClick();
+                    await requestAdvice(`Review my garden profile and logs to give me personalized regenerative advice:\nProfile: ${JSON.stringify(profile)}\nLogs: ${JSON.stringify(logEntries.slice(0, 8))}`, 'Personalized Guidance');
+                  }}
+                  className="dynamic-btn btn-personal text-gray-900 px-4 py-2 font-bold text-sm"
+                >
+                  Get Personal Advice
+                </button>
+              </div>
+
+              {/* Image & Audio Upload with 1-Click Diagnostics */}
+              <div className="bg-gray-100/90 dark:bg-[#283243] p-4 rounded-xl border border-gray-300 dark:border-gray-600 space-y-3">
+                <div className="flex flex-wrap gap-2 items-center">
+                  <button
+                    onClick={() => {
+                      playClick();
+                      const inp = document.createElement('input');
+                      inp.type = 'file';
+                      inp.accept = 'image/*';
+                      inp.onchange = (e) => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+                        const r = new FileReader();
+                        r.onload = (ev) => {
+                          setUploadedImage({ name: file.name, mimeType: file.type || 'image/jpeg', dataBase64: ev.target.result });
+                          showAlert(`✓ Image uploaded: ${file.name}`);
+                        };
+                        r.readAsDataURL(file);
+                      };
+                      inp.click();
+                    }}
+                    className="bg-green-600 text-white px-3.5 py-2 rounded-xl text-xs font-bold hover:bg-green-700"
+                  >
+                    {uploadedImage ? `✓ Photo: ${uploadedImage.name}` : '📷 Upload Photo'}
+                  </button>
+
+                  {uploadedImage && (
+                    <button
+                      onClick={() => { playClick(); setUploadedImage(null); }}
+                      className="text-xs bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 px-2 py-1 rounded-lg font-bold"
+                    >
+                      ✕ Remove Photo
+                    </button>
+                  )}
+
+                  {/* Voice recording button */}
+                  {isRecording && recTarget === 'advice' ? (
+                    <div className="flex items-center gap-2 bg-red-100 dark:bg-red-950/60 border border-red-300 dark:border-red-700 rounded-xl px-3 py-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping inline-block" />
+                      <span className="text-xs font-mono font-bold text-red-700 dark:text-red-300">
+                        ● REC {Math.floor(recSeconds / 60)}:{(recSeconds % 60).toString().padStart(2, '0')}
+                      </span>
+                      <button onClick={stopRecording} className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">⏹ Done</button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => startRecording('advice')}
+                      className="bg-rose-600 text-white px-3.5 py-2 rounded-xl text-xs font-bold hover:bg-rose-700 flex items-center gap-1.5"
+                    >
+                      🎙️ Record Audio
+                    </button>
+                  )}
+                </div>
+
+                {/* 1-Click Vision Diagnostic Presets */}
+                <div className="pt-2 border-t border-gray-300 dark:border-gray-600">
+                  <div className="text-xs font-bold text-gray-700 dark:text-gray-300 mb-2">🔬 1-Click Vision Diagnostics (Photo Analysis):</div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <button onClick={() => runVisionDiagnostic('pest', 'advice')} className="p-2 rounded-lg bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-left hover:bg-red-100 transition-colors">
+                      <div className="font-bold text-xs text-red-700 dark:text-red-300">🐛 Pest & Predators</div>
+                      <div className="text-[10px] text-gray-600 dark:text-gray-400">ID insects & IPM</div>
+                    </button>
+                    <button onClick={() => runVisionDiagnostic('disease', 'advice')} className="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-left hover:bg-amber-100 transition-colors">
+                      <div className="font-bold text-xs text-amber-700 dark:text-amber-300">🍂 Foliage & Blight</div>
+                      <div className="text-[10px] text-gray-600 dark:text-gray-400">Spots & deficiencies</div>
+                    </button>
+                    <button onClick={() => runVisionDiagnostic('soil', 'advice')} className="p-2 rounded-lg bg-stone-100 dark:bg-stone-900/40 border border-stone-200 dark:border-stone-700 text-left hover:bg-stone-200 transition-colors">
+                      <div className="font-bold text-xs text-stone-700 dark:text-stone-300">🪨 Soil & Mulch</div>
+                      <div className="text-[10px] text-gray-600 dark:text-gray-400">Structure & moisture</div>
+                    </button>
+                    <button onClick={() => runVisionDiagnostic('plant_id', 'advice')} className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-left hover:bg-emerald-100 transition-colors">
+                      <div className="font-bold text-xs text-emerald-700 dark:text-emerald-300">🌿 Plant ID & Guilds</div>
+                      <div className="text-[10px] text-gray-600 dark:text-gray-400">Species & companions</div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Suggestions dropdown */}
+              <div className="flex flex-wrap gap-2 items-center bg-gray-100/90 dark:bg-[#283243] p-3 rounded-xl border border-gray-300 dark:border-gray-600">
+                <select
+                  id="suggestionSelect"
+                  className="flex-1 p-2 rounded-lg border border-gray-300 dark:border-gray-600 text-xs bg-white dark:bg-[#1a202c]"
+                >
+                  {SUGGESTION_TOPICS.map(t => <option key={t.value} value={t.label}>{t.label}</option>)}
+                </select>
+                <button
+                  onClick={async () => {
+                    playClick();
+                    const sel = document.getElementById('suggestionSelect').value;
+                    await requestAdvice(`You are a master permaculture consultant. Provide comprehensive, practical guidance on: ${sel}\nProfile Context: ${JSON.stringify(profile)}`, sel);
+                  }}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-blue-700"
+                >
+                  Get Guidance
+                </button>
+              </div>
+
+              <div className="bg-gray-100/90 dark:bg-[#283243] p-4 rounded-xl border border-gray-300 dark:border-gray-600 min-h-36 space-y-4">
+                {adviceMessages.length === 0 ? (
+                  <p className="text-gray-500 italic text-sm py-8 text-center">Welcome! Click an option above to get AI-powered growing advice tailored to your space.</p>
+                ) : (
+                  adviceMessages.map(m => (
+                    <div key={m.id} className="bg-white dark:bg-[#1e2430] p-5 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-xs">
+                      {m.label && <div className="text-xs font-bold text-emerald-700 dark:text-emerald-400 mb-2">{m.label}</div>}
+                      <div className="ai-output" dangerouslySetInnerHTML={{ __html: parseMarkdown(m.content) }} />
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Tab 4: AI Chat */}
+          {activeTab === 'ai-chat' && (
+            <div className="bg-white dark:bg-[#1e2430] border border-gray-300 dark:border-gray-700/80 rounded-2xl p-6 shadow-md space-y-4">
+              {/* Green Permaculture Tip Banner */}
+              <div className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-950/60 dark:to-green-900/60 border-l-4 border-emerald-500 rounded-xl p-4 shadow-xs">
+                <div className="flex items-start">
+                  <span className="text-2xl mr-3 shrink-0">💡</span>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="text-sm font-bold text-green-900 dark:text-green-200">Permaculture Tip</h3>
+                      <button
+                        onClick={() => {
+                          playClick();
+                          setChatTip(GENERAL_TIPS[Math.floor(Math.random() * GENERAL_TIPS.length)]);
+                        }}
+                        className="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold"
+                        title="Get a new tip"
+                      >
+                        🔄 New Tip
+                      </button>
+                    </div>
+                    <p className="text-sm text-green-800 dark:text-green-300 font-medium">{chatTip}</p>
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-bold text-emerald-600 dark:text-[#80d99e]">🤖 Chat with PG (PermaGrower)</h2>
+              <textarea
+                value={aiQuestion}
+                onChange={e => setAiQuestion(e.target.value)}
+                placeholder="Ask me anything about gardening, permaculture, plant care, companion guilds, pest balance..."
+                rows="3"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-[#1a202c] text-sm"
+              />
+              <div className="flex flex-wrap gap-2 items-center">
+                <button
+                  onClick={() => { playClick(); requestChat(); }}
+                  className="bg-[#5D5CDE] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:opacity-90"
+                >
+                  Ask PermaGrower
+                </button>
+
+                {isRecording && recTarget === 'chat' ? (
+                  <div className="flex items-center gap-2 bg-red-100 dark:bg-red-950/60 border border-red-300 dark:border-red-700 rounded-xl px-3 py-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping inline-block" />
+                    <span className="text-xs font-mono font-bold text-red-700 dark:text-red-300">
+                      ● REC {Math.floor(recSeconds / 60)}:{(recSeconds % 60).toString().padStart(2, '0')}
+                    </span>
+                    <button onClick={stopRecording} className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">⏹ Done</button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => startRecording('chat')}
+                    className="bg-rose-600 text-white px-3.5 py-2 rounded-xl text-xs font-bold hover:bg-rose-700 flex items-center gap-1.5"
+                  >
+                    🎙️ Voice Question
+                  </button>
+                )}
+              </div>
+
+              <div className="bg-gray-100/90 dark:bg-[#283243] p-4 rounded-xl border border-gray-300 dark:border-gray-600 min-h-48 space-y-4">
+                {chatMessages.length === 0 ? (
+                  <p className="text-gray-500 italic text-sm py-12 text-center">👋🌱 Hi! I'm PG, your AI growing assistant. Ask me anything about your garden!</p>
+                ) : (
+                  chatMessages.map(m => (
+                    <div key={m.id} className="space-y-2">
+                      <div className="bg-[#5D5CDE] text-white p-3 rounded-2xl rounded-br-xs ml-auto max-w-[85%] text-sm font-semibold">{m.q}</div>
+                      <div className="bg-white dark:bg-[#1a202c] p-5 rounded-2xl rounded-bl-xs border border-gray-200 dark:border-gray-700 shadow-xs ai-output" dangerouslySetInnerHTML={{ __html: parseMarkdown(m.a) }} />
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Tab 5: Visualize */}
+          {activeTab === 'visualize' && (
+            <div className="bg-white dark:bg-[#1e2430] border border-gray-300 dark:border-gray-700/80 rounded-2xl p-6 shadow-md space-y-4">
+              <h2 className="text-2xl font-bold text-emerald-600 dark:text-[#80d99e]">🎨 Space Design &amp; Visualization</h2>
+              <textarea
+                value={visualPrompt}
+                onChange={e => setVisualPrompt(e.target.value)}
+                placeholder="Describe what you'd like to visualize (e.g. 500 sq ft permaculture garden with Zone 1 salad beds, swales, central apple tree guild)..."
+                rows="4"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-[#1a202c] text-sm"
+              />
+
+              {/* Upload Image for Visualise */}
+              <div className="bg-gray-100/90 dark:bg-[#283243] p-4 rounded-xl border border-gray-300 dark:border-gray-600 space-y-3">
+                <div className="flex flex-wrap gap-2 items-center">
+                  <button
+                    onClick={() => {
+                      playClick();
+                      const inp = document.createElement('input');
+                      inp.type = 'file';
+                      inp.accept = 'image/*';
+                      inp.onchange = (e) => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+                        const r = new FileReader();
+                        r.onload = (ev) => {
+                          setUploadedVisualImage({ name: file.name, mimeType: file.type || 'image/jpeg', dataBase64: ev.target.result });
+                          showAlert(`✓ Garden visual image loaded: ${file.name}`);
+                        };
+                        r.readAsDataURL(file);
+                      };
+                      inp.click();
+                    }}
+                    className="bg-green-600 text-white px-3.5 py-2 rounded-xl text-xs font-bold hover:bg-green-700"
+                  >
+                    {uploadedVisualImage ? `✓ Attached: ${uploadedVisualImage.name}` : '📷 Upload Garden Image / Map / Sketch'}
+                  </button>
+
+                  {uploadedVisualImage && (
+                    <button
+                      onClick={() => { playClick(); setUploadedVisualImage(null); }}
+                      className="text-xs bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 px-2 py-1 rounded-lg font-bold"
+                    >
+                      ✕ Remove Image
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => {
+                      playClick();
+                      navigator.clipboard.writeText(visualPrompt || visualResult);
+                      showAlert('✓ Text copied to clipboard!');
+                    }}
+                    className="bg-gray-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-gray-600"
+                  >
+                    📋 Copy Text
+                  </button>
+                </div>
+
+                {/* Thumbnail Preview if Image Attached */}
+                {uploadedVisualImage && (
+                  <div className="mt-2 flex items-center gap-3 bg-white dark:bg-[#1a202c] p-2 rounded-xl border border-gray-200 dark:border-gray-700">
+                    <img src={uploadedVisualImage.dataBase64} alt="Garden Plan" className="w-16 h-16 object-cover rounded-lg border" />
+                    <div className="text-xs">
+                      <div className="font-bold">{uploadedVisualImage.name}</div>
+                      <div className="text-gray-500">Ready for layout &amp; permaculture analysis</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-2.5">
+                <button
+                  onClick={async () => {
+                    playClick();
+                    setIsVisualLoading(true);
+                    const cosy = getRandomPendingPhrase();
+                    setVisualPendingMsg(`${cosy}\n\n*Please wait, cultivating visual space layout...*`);
+                    setVisualResult('');
+                    try {
+                      const p = visualPrompt || profile.space || 'Standard suburban backyard garden with vegetable beds and fruit trees';
+                      const prompt = `Create a detailed ASCII / emoji garden layout map and permaculture zone design for:\n${p}\nInclude Zones 0 to 5, key guilds, water swales, windbreaks, and paths.`;
+                      const r = await executeAICall(prompt, 'text', uploadedVisualImage, (acc) => setVisualResult(acc));
+                      setVisualResult(r);
+                    } catch (e) {
+                      setVisualResult(`**Error:** ${e.message}`);
+                    } finally {
+                      setIsVisualLoading(false);
+                      setVisualPendingMsg('');
+                    }
+                  }}
+                  className="bg-[#5D5CDE] text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:opacity-90"
+                >
+                  Generate Space Layout
+                </button>
+
+                <button
+                  onClick={async () => {
+                    playClick();
+                    if (!uploadedVisualImage) return showAlert('Please upload an image, map, or sketch first.');
+                    setIsVisualLoading(true);
+                    const cosy = getRandomPendingPhrase();
+                    setVisualPendingMsg(`${cosy}\n\n*Please wait, analyzing garden photo/map...*`);
+                    setVisualResult('');
+                    try {
+                      const prompt = `Analyze this garden photograph, aerial map, or sketch:
+1. Identify existing zones, sun exposure hints, water flow contours, and plant groupings.
+2. Critique space efficiency and propose 3-5 specific permaculture interventions.`;
+                      const r = await executeAICall(prompt, 'vision', uploadedVisualImage, (acc) => setVisualResult(acc));
+                      setVisualResult(r);
+                    } catch (e) {
+                      setVisualResult(`**Error:** ${e.message}`);
+                    } finally {
+                      setIsVisualLoading(false);
+                      setVisualPendingMsg('');
+                    }
+                  }}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-blue-700"
+                >
+                  🔍 Analyze &amp; Describe
+                </button>
+
+                <button
+                  onClick={async () => {
+                    playClick();
+                    setIsVisualLoading(true);
+                    const cosy = getRandomPendingPhrase();
+                    setVisualPendingMsg(`${cosy}\n\n*Please wait, suggesting adjustments...*`);
+                    setVisualResult('');
+                    try {
+                      const prompt = `Provide actionable permaculture design adjustments for this space:\n${visualPrompt || profile.space || 'Home garden'}\nFocus on stacking functions, natural pest predators, and zero-waste composting.`;
+                      const r = await executeAICall(prompt, 'text', uploadedVisualImage, (acc) => setVisualResult(acc));
+                      setVisualResult(r);
+                    } catch (e) {
+                      setVisualResult(`**Error:** ${e.message}`);
+                    } finally {
+                      setIsVisualLoading(false);
+                      setVisualPendingMsg('');
+                    }
+                  }}
+                  className="bg-amber-600 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-amber-700"
+                >
+                  🎯 Suggest Adjustments
+                </button>
+
+                <button
+                  onClick={async () => {
+                    playClick();
+                    setIsVisualLoading(true);
+                    const cosy = getRandomPendingPhrase();
+                    setVisualPendingMsg(`${cosy}\n\n*Please wait, creating concise summary...*`);
+                    setVisualResult('');
+                    try {
+                      const prompt = `Convert this garden layout description into a bulleted, concise action checklist with dimensions, plants, and zone locations:\n${visualResult || visualPrompt || profile.space}`;
+                      const r = await executeAICall(prompt, 'text', null, (acc) => setVisualResult(acc));
+                      setVisualResult(r);
+                    } catch (e) {
+                      setVisualResult(`**Error:** ${e.message}`);
+                    } finally {
+                      setIsVisualLoading(false);
+                      setVisualPendingMsg('');
+                    }
+                  }}
+                  className="bg-purple-600 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-purple-700"
+                >
+                  📝 Make More Concise
+                </button>
+
+                <button
+                  onClick={async () => {
+                    playClick();
+                    setIsVisualLoading(true);
+                    const cosy = getRandomPendingPhrase();
+                    setVisualPendingMsg(`${cosy}\n\n*Please wait, compiling logbook inventory...*`);
+                    setVisualResult('');
+                    try {
+                      const prompt = `Extract all planted crops, interventions, and harvests from this garden logbook into an organized visual guild inventory with emojis:\n${JSON.stringify(logEntries)}`;
+                      const r = await executeAICall(prompt, 'reasoning', null, (acc) => setVisualResult(acc));
+                      setVisualResult(r);
+                    } catch (e) {
+                      setVisualResult(`**Error:** ${e.message}`);
+                    } finally {
+                      setIsVisualLoading(false);
+                      setVisualPendingMsg('');
+                    }
+                  }}
+                  className="bg-green-700 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-green-800"
+                >
+                  📊 Visualize Logbook
+                </button>
+              </div>
+
+              {/* Pending state banner */}
+              {isVisualLoading && visualPendingMsg && !visualResult && (
+                <div className="bg-emerald-50 dark:bg-emerald-950/40 p-5 rounded-xl border border-emerald-300 dark:border-emerald-700 shadow-xs ai-output" dangerouslySetInnerHTML={{ __html: parseMarkdown(visualPendingMsg) }} />
+              )}
+
+              {/* Result Container */}
+              {visualResult && (
+                <div className="bg-gray-100/90 dark:bg-[#283243] p-5 rounded-xl border border-gray-300 dark:border-gray-600 ai-output" dangerouslySetInnerHTML={{ __html: parseMarkdown(visualResult) }} />
+              )}
+            </div>
+          )}
+
+          {/* Tab 6: Configure (Full BYOK Settings) */}
+          {activeTab === 'configure' && (
+            <div className="bg-white dark:bg-[#1e2430] border border-gray-300 dark:border-gray-700/80 rounded-2xl p-6 shadow-md space-y-6">
+              <h2 className="text-2xl font-bold text-emerald-600 dark:text-[#80d99e]">⚙️ AI Model Configuration (BYOK)</h2>
+              
+              <div className="bg-blue-50 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-700 rounded-xl p-4 text-xs text-blue-900 dark:text-blue-200">
+                💡 <strong>Bring Your Own Key (BYOK):</strong> Your API keys are saved directly into your browser's private local storage. They never leave your device except when sending HTTPS queries directly to Google or OpenRouter.
+              </div>
+
+              {/* Provider Selection */}
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={() => { playClick(); setAiSettings({...aiSettings, provider: 'gemini'}); }}
+                  className={`p-4 rounded-xl border-2 font-bold text-left ${aiSettings.provider === 'gemini' ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/40 ring-1 ring-emerald-500' : 'border-gray-300 dark:border-gray-600'}`}
+                >
+                  ✨ Google Gemini
+                  <p className="text-xs font-normal text-gray-500 mt-1">Official Google endpoint with Gemini 2.5 &amp; 3 series.</p>
+                </button>
+                <button
+                  onClick={() => { playClick(); setAiSettings({...aiSettings, provider: 'openrouter'}); }}
+                  className={`p-4 rounded-xl border-2 font-bold text-left ${aiSettings.provider === 'openrouter' ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/40 ring-1 ring-indigo-500' : 'border-gray-300 dark:border-gray-600'}`}
+                >
+                  🌐 OpenRouter
+                  <p className="text-xs font-normal text-gray-500 mt-1">Access Claude 3.7, Llama 3.3, DeepSeek R1, GPT-4o.</p>
+                </button>
+              </div>
+
+              {/* API Key Inputs */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold mb-1">Google Gemini API Key</label>
+                  <input
+                    type="password"
+                    value={aiSettings.geminiApiKey}
+                    onChange={e => setAiSettings({...aiSettings, geminiApiKey: e.target.value})}
+                    placeholder="AIzaSy..."
+                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-[#1a202c] font-mono text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold mb-1">OpenRouter API Key</label>
+                  <input
+                    type="password"
+                    value={aiSettings.openRouterApiKey}
+                    onChange={e => setAiSettings({...aiSettings, openRouterApiKey: e.target.value})}
+                    placeholder="sk-or-v1-..."
+                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-[#1a202c] font-mono text-sm"
+                  />
+                </div>
+              </div>
+
+              {/* Full Task Model Dropdowns */}
+              <div className="space-y-4 pt-2 border-t border-gray-200 dark:border-gray-700">
+                <h3 className="font-bold text-base text-gray-900 dark:text-gray-100">Specific Role Model Assignments</h3>
+
+                {/* 1. Text Model */}
+                <div className="p-3 bg-gray-50 dark:bg-[#252c3b] rounded-xl border border-gray-200 dark:border-gray-700">
+                  <label className="block text-xs font-bold text-gray-800 dark:text-gray-200 mb-1">🤖 Text AI Model (Advice, Chat, Tips)</label>
+                  <select
+                    value={aiSettings.selectedModels.text}
+                    onChange={e => setAiSettings({...aiSettings, selectedModels: {...aiSettings.selectedModels, text: e.target.value}})}
+                    className="w-full p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1a202c] text-xs font-mono"
+                  >
+                    {(aiSettings.provider === 'gemini' ? DEFAULT_GEMINI_MODELS : DEFAULT_OPENROUTER_MODELS).map(m => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 2. Image Analysis Model */}
+                <div className="p-3 bg-gray-50 dark:bg-[#252c3b] rounded-xl border border-gray-200 dark:border-gray-700">
+                  <label className="block text-xs font-bold text-gray-800 dark:text-gray-200 mb-1">🔍 Image Analysis AI Model (Photo Diagnosis &amp; Plant ID)</label>
+                  <select
+                    value={aiSettings.selectedModels.vision}
+                    onChange={e => setAiSettings({...aiSettings, selectedModels: {...aiSettings.selectedModels, vision: e.target.value}})}
+                    className="w-full p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1a202c] text-xs font-mono"
+                  >
+                    {(aiSettings.provider === 'gemini' ? DEFAULT_GEMINI_MODELS : DEFAULT_OPENROUTER_MODELS).map(m => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 3. Image Generation / Space Layout Model */}
+                <div className="p-3 bg-gray-50 dark:bg-[#252c3b] rounded-xl border border-gray-200 dark:border-gray-700">
+                  <label className="block text-xs font-bold text-gray-800 dark:text-gray-200 mb-1">🎨 Image Generation AI Model (Visualizations &amp; Space Layouts)</label>
+                  <select
+                    value={aiSettings.selectedModels.imageGen}
+                    onChange={e => setAiSettings({...aiSettings, selectedModels: {...aiSettings.selectedModels, imageGen: e.target.value}})}
+                    className="w-full p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1a202c] text-xs font-mono"
+                  >
+                    {(aiSettings.provider === 'gemini' ? DEFAULT_GEMINI_MODELS : DEFAULT_OPENROUTER_MODELS).map(m => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 4. Audio Analysis Model */}
+                <div className="p-3 bg-gray-50 dark:bg-[#252c3b] rounded-xl border border-gray-200 dark:border-gray-700">
+                  <label className="block text-xs font-bold text-gray-800 dark:text-gray-200 mb-1">🎧 Audio Analysis AI Model (Voice Log Notes)</label>
+                  <select
+                    value={aiSettings.selectedModels.audio}
+                    onChange={e => setAiSettings({...aiSettings, selectedModels: {...aiSettings.selectedModels, audio: e.target.value}})}
+                    className="w-full p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1a202c] text-xs font-mono"
+                  >
+                    {(aiSettings.provider === 'gemini' ? DEFAULT_GEMINI_MODELS : DEFAULT_OPENROUTER_MODELS).map(m => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 5. Advanced Analysis Model */}
+                <div className="p-3 bg-gray-50 dark:bg-[#252c3b] rounded-xl border border-gray-200 dark:border-gray-700">
+                  <label className="block text-xs font-bold text-gray-800 dark:text-gray-200 mb-1">🧙‍♂️ Advanced Analysis AI Model (Complex Guild Reasoning &amp; Statistics)</label>
+                  <select
+                    value={aiSettings.selectedModels.reasoning}
+                    onChange={e => setAiSettings({...aiSettings, selectedModels: {...aiSettings.selectedModels, reasoning: e.target.value}})}
+                    className="w-full p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1a202c] text-xs font-mono"
+                  >
+                    {(aiSettings.provider === 'gemini' ? DEFAULT_GEMINI_MODELS : DEFAULT_OPENROUTER_MODELS).map(m => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-3 pt-3">
+                <button
+                  onClick={() => {
+                    playClick();
+                    setConfigStatus('✅ Configuration saved in your browser localStorage!');
+                    setTimeout(() => setConfigStatus(''), 4000);
+                  }}
+                  className="bg-[#5D5CDE] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:opacity-90 shadow-sm"
+                >
+                  💾 Save AI Configuration
+                </button>
+
+                <button
+                  disabled={isTestingConfig}
+                  onClick={async () => {
+                    playClick();
+                    setIsTestingConfig(true);
+                    setConfigStatus('🧪 Testing connection to selected model...');
+                    try {
+                      const res = await executeAICall('Respond with exactly: Connection successful! Permaculture ready.', 'text');
+                      setConfigStatus(`✅ Connection test passed! Model replied: "${res.trim()}"`);
+                    } catch (e) {
+                      setConfigStatus(`❌ Connection test failed: ${e.message}`);
+                    } finally {
+                      setIsTestingConfig(false);
+                    }
+                  }}
+                  className="bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-emerald-700 disabled:opacity-50"
+                >
+                  {isTestingConfig ? 'Testing...' : '🧪 Test Configuration'}
+                </button>
+
+                <button
+                  onClick={() => {
+                    playClick();
+                    const isGem = aiSettings.provider === 'gemini';
+                    setAiSettings(prev => ({
+                      ...prev,
+                      selectedModels: {
+                        text: isGem ? 'gemini-2.5-flash' : 'anthropic/claude-3.5-sonnet',
+                        vision: isGem ? 'gemini-2.5-flash' : 'anthropic/claude-3.5-sonnet',
+                        audio: isGem ? 'gemini-2.5-flash' : 'anthropic/claude-3.5-sonnet',
+                        reasoning: isGem ? 'gemini-2.5-pro' : 'anthropic/claude-3.7-sonnet',
+                        imageGen: isGem ? 'gemini-2.5-flash' : 'anthropic/claude-3.5-sonnet'
+                      }
+                    }));
+                    setConfigStatus('🔄 Reset to default recommended models.');
+                    setTimeout(() => setConfigStatus(''), 3000);
+                  }}
+                  className="bg-gray-500 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-gray-600"
+                >
+                  🔄 Reset Defaults
+                </button>
+              </div>
+
+              {configStatus && (
+                <div className={`p-3 rounded-xl text-xs font-bold ${configStatus.includes('❌') ? 'bg-red-100 text-red-800 dark:bg-red-950/60 dark:text-red-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'}`}>
+                  {configStatus}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Dialog Modal */}
+          {dialog && (
+            <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
+              <div className="bg-white dark:bg-[#1e2430] p-6 rounded-2xl max-w-md w-full border border-gray-300 dark:border-gray-600 shadow-2xl">
+                <p className="text-sm mb-4 whitespace-pre-wrap">{dialog.message}</p>
+                <div className="flex justify-end gap-2">
+                  {dialog.type === 'confirm' && (
+                    <button onClick={() => { playClick(); dialog.onResolve(false); }} className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-xl text-xs font-bold">Cancel</button>
+                  )}
+                  <button onClick={() => { playClick(); dialog.onResolve(true); }} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold">OK</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Footer */}
+          <footer className="text-center mt-12 pb-6 text-xs text-gray-500 dark:text-gray-400">
+            Made with 💚 in 2025+ by Ade&apos;s Press • Standalone Offline-Capable PermaGrower AI
+          </footer>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
