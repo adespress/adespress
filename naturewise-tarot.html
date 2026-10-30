@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="NatureWise Tarot" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="theme-color" content="#0d1912" />
+  <meta name="google" content="translate" />
+  <meta name="translatable" content="yes" />
+  <title>NatureWise Tarot — Fountellion Deck &amp; Oracle</title>
+  <meta name="description" content="Draw wisdom and ecological insight from the 22 Major Arcana cards of the Fountellion Tarot deck. Works standalone offline or enhanced with auto-detected Gemini and OpenRouter AI models." />
+  <meta property="og:title" content="NatureWise Tarot — Fountellion Deck &amp; Oracle" />
+  <meta property="og:description" content="Draw wisdom and ecological insight from the 22 Major Arcana cards of the Fountellion Tarot deck. Works standalone offline or enhanced with auto-detected Gemini and OpenRouter AI models." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js"></script>
+  <style>
+    :root {
+      --font-display: 'Cinzel', Georgia, serif;
+      --font-serif: 'Lora', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    html, body {
+      font-family: var(--font-sans);
+      background-color: #0d1912;
+      background-image: radial-gradient(circle at 50% 0%, rgba(27, 67, 50, 0.55) 0%, rgba(13, 25, 18, 0.98) 70%);
+      color: #e8efe9;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+    button, a, select, input, textarea {
+      touch-action: manipulation;
+    }
+    p, h1, h2, h3, h4, li, blockquote, span, button, a {
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+    .font-display { font-family: var(--font-display); }
+    .font-serif-prose { font-family: var(--font-serif); }
+    .card-inverted { transform: rotate(180deg); }
+    .backdrop-safari {
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+    .prose-out h2, .prose-out h3, .prose-out h4 {
+      font-family: var(--font-display);
+      color: #fde68a;
+      font-weight: 600;
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .prose-out p, .prose-out li {
+      font-family: var(--font-serif);
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+    .prose-out ul, .prose-out ol { padding-left: 1.25rem; list-style: disc; }
+    @media print {
+      html, body {
+        background: #ffffff !important;
+        color: #111827 !important;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-emerald-800/60 selection:text-emerald-100">
+  <!-- Strict 3-Zone Top Bar -->
+  <header class="sticky top-0 z-30 bg-[#0d1912]/90 backdrop-safari border-b border-emerald-900/60 no-print">
+    <div class="max-w-5xl mx-auto w-full flex items-center justify-between gap-3 sm:gap-6 px-6 sm:px-10 md:px-14 lg:px-16 py-4">
+      <a href="#spread" onclick="switchTab('spread'); return false;" class="font-display text-lg sm:text-xl font-bold tracking-wider text-amber-200 whitespace-nowrap shrink-0">
+        NatureWise Tarot
+      </a>
+      <nav class="hidden md:flex items-center gap-5 lg:gap-6 text-sm font-medium text-stone-300">
+        <a href="#spread" onclick="switchTab('spread'); return false;" class="hover:text-emerald-200 transition-colors whitespace-nowrap shrink-0">Spread</a>
+        <a href="#reader" onclick="switchTab('reader'); return false;" class="hover:text-indigo-200 transition-colors whitespace-nowrap shrink-0">Consult Greenwise</a>
+        <a href="#book" onclick="switchTab('book'); return false;" class="hover:text-purple-200 transition-colors whitespace-nowrap shrink-0">Book of Insight</a>
+        <a href="#about" onclick="switchTab('about'); return false;" class="hover:text-amber-200 transition-colors whitespace-nowrap shrink-0">Deck Lore</a>
+        <a href="#settings" onclick="switchTab('settings'); return false;" class="hover:text-sky-200 transition-colors whitespace-nowrap shrink-0">Settings</a>
+      </nav>
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <button id="topKeyBadge" onclick="switchTab('settings')" class="px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-medium rounded-lg border transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 bg-[#2a1d12] text-amber-200 border-amber-500/45">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span>No AI Key · Enter in Settings</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="md:hidden flex items-center justify-around gap-1 px-2 py-2 bg-[#0a140e] border-b border-emerald-900/60 text-xs font-medium text-stone-300 overflow-x-auto no-print">
+    <button onclick="switchTab('spread')" class="px-2.5 py-1.5 rounded-md whitespace-nowrap">Spread</button>
+    <button onclick="switchTab('reader')" class="px-2.5 py-1.5 rounded-md whitespace-nowrap">Consult Greenwise</button>
+    <button onclick="switchTab('book')" class="px-2.5 py-1.5 rounded-md whitespace-nowrap">Book</button>
+    <button onclick="switchTab('about')" class="px-2.5 py-1.5 rounded-md whitespace-nowrap">Lore</button>
+    <button onclick="switchTab('settings')" class="px-2.5 py-1.5 rounded-md whitespace-nowrap">Settings</button>
+  </nav>
+
+  <!-- Centralized Content Container -->
+  <main id="appContainer" class="flex-1 max-w-5xl w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-16 py-10 sm:py-12 min-w-0"></main>
+
+  <!-- Printable Sheet Modal Container -->
+  <div id="printableModalRoot"></div>
+
+  <footer class="border-t border-emerald-900/50 py-6 px-6 sm:px-10 md:px-14 text-center text-xs text-stone-400 no-print">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p>
+        <strong>Ade's Press 2025+</strong> ·
+        <a href="https://paragraph.com/@adespress" target="_blank" rel="noopener noreferrer" class="underline text-amber-300 hover:text-amber-200">Read Ade's Press on Paragraph</a>
+      </p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a href="https://paragraph.com/@fountellion" target="_blank" rel="noopener noreferrer" class="underline hover:text-emerald-300">Fountellion Game World</a>
+        <span>·</span>
+        <a href="https://paragraph.com/@fountellion/fountellion-tarot" target="_blank" rel="noopener noreferrer" class="underline hover:text-emerald-300">Fountellion Tarot on Permaweb</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const TAROT_CARDS = [{"number":0,"roman":"0","name":"The Red Player","traditional":"The Fool","meaning":"Represents innocence, spontaneity, and new beginnings. The Red Player signifies the start of a natural journey, where players enter the world with curiosity and a sense of adventure.","invertedMeaning":"Missteps at the outset. Naïveté becomes recklessness. A disconnection from nature's guidance. Beware of acting without awareness or respect for your environment. This may be a time when your natural instincts are clouded, leading to poor judgment in new ventures or relationships.","arweaveUrl":"https://dyjqdoaytkyzx4yx5z2edwy32xgun2nwlw3ud4jejhzqa72bi5wq.arweave.net/HhMBuBiasZvzF-50Qdsb1c1G6bZdt0HxJEnzAH9BR20","element":"Air · Dawn Breath","ecologicalTheme":"Pioneer species & first footsteps on Fountain Island","symbolism":"A crimson-cloaked traveler stepping onto an untamed shoreline, carrying unshaped potential, wild seeds, and open sensory awareness."},{"number":1,"roman":"I","name":"The Guardian","traditional":"The Magician","meaning":"Symbolizes power, transformation, and the ability to manifest one's desires. The Guardian card reflects a role in guiding players and teaching them about their energy and powers within the realm of nature.","invertedMeaning":"Power misused or blocked. Manifestation without intention. Losing connection to purpose. Your natural gifts may be ignored or exploited. This is a time when your abilities may feel scattered or when others may take advantage of your willingness to help without giving back.","arweaveUrl":"https://wugsin76lkezaemtd3rxx2e7ebyhnyy3mbmkwcsdv4v4yyotcu7a.arweave.net/tQ0kN_5aiZARkx7je-ifIHB24xtgWKsKQ68rzGHTFT4","element":"Ether & Sun · Focused Will","ecologicalTheme":"Conscious stewardship & channeling elemental forces","symbolism":"Greenwise standing amidst living roots and luminous canopy light, bridging earth, water, air, and fire through mindful craft."},{"number":2,"roman":"II","name":"The Damselfly","traditional":"The High Priestess","meaning":"Signifies intuition, mystery, and accessing hidden knowledge. The Damselfly card represents the mystical aspect of nature, reflecting the deeper insights and secrets players can uncover.","invertedMeaning":"Intuition clouded. Secrets hidden too deeply. Mistrust in the natural cycles. You may be resisting the wisdom that waits in stillness. This suggests a need to quiet the mental noise and allow your inner knowing to surface through patience and meditation.","arweaveUrl":"https://jczvhc52ig2vm2453zpnlzhshsvsttd5s3neygkdno7camkm6kda.arweave.net/SLNTi7pBtVZrnd5e1eTyPKspzH2W2kwZQ2u-IDFM8oY","element":"Water · Stillness & Reflection","ecologicalTheme":"Riparian threshold between unseen depths and sunlit air","symbolism":"Iridescent wings poised over a mirror-still forest pool, symbolizing liminal perception and the quiet voice beneath surface ripples."},{"number":3,"roman":"III","name":"The Green Player","traditional":"The Empress","meaning":"Represents nurturing, permaculture, abundance, and fertility. The Green Player embodies the natural world and the harmony players can achieve by embracing its ecosystem. It is the sustainable things in your life.","invertedMeaning":"Overgrowth or depletion. Unsustainable habits. Neglecting self-care or your ecosystem. Time to re-evaluate what you nurture. You may be giving too much to others while neglecting yourself, or allowing growth without proper boundaries and structure.","arweaveUrl":"https://khlqlcbpdien3xycajcnzlo2hmxkejbwa2dkkrpjbvs72asxpwfq.arweave.net/UdcFiC8aCN3fAgJE3K3aOy6iJDYGhqVF6Q1l_QJXfYs","element":"Earth · Living Soil","ecologicalTheme":"Permaculture guilds, polyculture abundance & regeneration","symbolism":"A figure woven into a thriving food forest where blossoms, mycelium, and clear water nourish one another in reciprocal balance."},{"number":4,"roman":"IV","name":"The Game of Nature","traditional":"The Emperor","meaning":"Symbolizes authority, structure, and control. The Game of Nature card reflects the players' role as bound players within their environment, where their choices influence the balance of the virtual ecosystem.","invertedMeaning":"Oppressive control. Rigidity in systems. Ecological imbalance. Your environment may be reflecting an inner lack of harmony or trust. This calls for examining whether you're forcing solutions instead of allowing natural order to emerge, or if you're being controlled by external forces that don't serve your highest good.","arweaveUrl":"https://cuzsrgqdkuo5wkf5n6dblv5pu7xnxfwqw542suwdnyipqhse6qea.arweave.net/FTMomgNVHdsovW-GFdevp-7bltC3ealSw24Q-B5E9Ag","element":"Earth & Stone · Natural Law","ecologicalTheme":"Watershed boundaries, trophic structure & ecological order","symbolism":"Ancient terraced stone and overarching canopy patterns showing that true authority arises from respecting natural laws."},{"number":5,"roman":"V","name":"The Bleak Lord","traditional":"The Pope","meaning":"Represents conformity, authority, mental obsession and external influences. The Bleak Lord card reflects the danger posed by obsessive or unsustainable mental ideas within the game of nature, urging players to remain true to themselves.","invertedMeaning":"Blind conformity. Toxic ideologies. The mind overpowering the heart. You may be caught in systems that exploit rather than nurture. This suggests breaking free from limiting beliefs or authority figures who demand obedience without wisdom or compassion.","arweaveUrl":"https://hu5hqp2hzopqvrpazbahtdhk5esmhexebttj4tonxjldvfyuqk6q.arweave.net/PTp4P0fLnwrF4MhAeYzq6STDkuQM5p5NzbpWOpcUgr0","element":"Iron & Fog · Rigid Dogma","ecologicalTheme":"Monoculture mentality vs. living biodiversity","symbolism":"A austere figure of rigid geometry reminding the seeker to question synthetic dogmas and return to authentic living truth."},{"number":6,"roman":"VI","name":"The Emberfolk","traditional":"The Lovers","meaning":"Signifies love, harmony, goodness and choice. The Emberfolk card represents the connection between players and the island's inhabitants, highlighting the importance of collaboration and relationships.","invertedMeaning":"Disconnection, fractured relationships, or choices made out of fear. Trust and unity with others -- and with the land -- may be strained. This calls for healing wounds in partnerships and reconnecting with community values that honor both personal growth and collective wellbeing.","arweaveUrl":"https://gqc3nwrkgdwm5os3fa7z73ee35d2artkyavjggscauflokl2q5ca.arweave.net/NAW22iow7M66Wyg_n-yE30egRmrAKpMaQgUKtyl6h0Q","element":"Warm Hearth · Symbiosis","ecologicalTheme":"Mutualism, kinship & conscious community choice","symbolism":"Islanders gathered by a warm hearth beneath ancient boughs, embodying cooperative trust and heart-aligned choices."},{"number":7,"roman":"VII","name":"The Colours of Progression","traditional":"The Chariot","meaning":"Symbolizes determination, willpower, and overcoming obstacles. The Colours of Progression card reflects players' journey through the different regions, driven by their desire to unlock insights and progress.","invertedMeaning":"Stagnation or misdirected effort. Pushing forward without wisdom or awareness. Progress becomes burnout when not in sync with nature. This calls for reassessing your direction and slowing down to ensure your actions align with your deeper values and natural rhythms.","arweaveUrl":"https://jyfx6zx55xbb5tnt7tkxaa35ta6bbl4kysxo4qwnzimk6c34szaa.arweave.net/Tgt_Zv3twh7Ns_zVcAN9mDwQr4rEru5CzcoYrwt8lkA","element":"Spectrum Light · Directed Momentum","ecologicalTheme":"Succession stages from bare rock to old-growth forest","symbolism":"Bands of vibrant natural color arcing across the island terrain, charting purposeful advancement through balanced forces."},{"number":8,"roman":"VIII","name":"The Long-Eared Owl","traditional":"Justice","meaning":"Represents fairness, balance, and truth. The Owl card symbolizes the role and use of knowledge and the nature of the entire island. It's also the quest for justice within nature, where players aim to restore equilibrium and protect biodiversity.","invertedMeaning":"Justice denied or evaded. Ecological harm ignored. Truth is being distorted. Your voice may be needed to restore balance. This signals a time when fairness has been compromised and where speaking truth to power becomes essential for restoring natural order.","arweaveUrl":"https://jgzcwss2d3k2jy7rpon4k54kdomqax2fmsbi4g77xlvtyagvpc6q.arweave.net/SbIrSloe1aTj8XubxXeKG5kAX0Vkgo4b_7rrPADVeL0","element":"Night Air · Clear Sight","ecologicalTheme":"Predator-prey equilibrium & unflinching ecological truth","symbolism":"A silent owl perched in twilight branches, hearing the slightest imbalance in the forest and calling for reciprocity."},{"number":9,"roman":"IX","name":"The Ruined Monastery","traditional":"The Hermit","meaning":"Signifies introspection, solitude, and inner guidance. The Ruined Monastery card reflects moments of self-discovery and contemplation within the game, where players seek wisdom from within.","invertedMeaning":"Isolation that numbs rather than heals. Withdrawal from growth. Dwelling too long in the past. Let go and re-engage with the living world. This suggests you may be avoiding necessary connections or hiding from opportunities for meaningful growth and renewal.","arweaveUrl":"https://y27p3scynowmid2zkxan6lqbiytucjalwxxgoil2x3aj7fz5bcqa.arweave.net/xr79yFhrrMQPWVXA3y4BRidBJAu17mcher7An5c9CKA","element":"Moss & Stone · Sanctuary","ecologicalTheme":"Rewilding of ancient ruins & quiet inner germination","symbolism":"Ivy-draped stone arches reclaimed by ferns and starlight, offering a quiet cloister where inner truth is heard."},{"number":10,"roman":"X","name":"The Routes to the North","traditional":"The Wheel of Fortune","meaning":"Symbolizes cycles, destiny, and change. The Routes to the North card reflects the ever-evolving nature of the planet, where players navigate through different paths and experiences.","invertedMeaning":"Resistance to change. Fate feared or denied. You are avoiding a necessary turning point. The forest changes -- and so must you. This suggests clinging to old patterns or fighting against life's natural cycles when adaptation would serve you better.","arweaveUrl":"https://gdrak2ovw56hevgyxdsuyvzpphzf7zn27dbazqmsb7r6omuuvlrq.arweave.net/MOIFadW3fHJU2LjlTFcvefJf5br4wgzBkg_j5zKUquM","element":"Wind & Compass · Seasonal Turning","ecologicalTheme":"Migration corridors, planetary cycles & shifting weather","symbolism":"diverging mountain trails winding toward the aurora-lit north, reminding travelers that every season opens a new route."},{"number":11,"roman":"XI","name":"The Stones at the Fountain","traditional":"Strength","meaning":"Represents inner strength, heart, permanence, courage, and resilience. The Stones at the Fountain card embodies the challenges players face and the inner power they possess to overcome obstacles.","invertedMeaning":"Inner strength weakened. Courage overshadowed by fear. You may be placing your trust in the wrong support. Return to heart-truths. This invites you to reconnect with your authentic source of power rather than relying on external validation or temporary fixes.","arweaveUrl":"https://sxrjw35t2bnu5wbqb5misidxuv42wb3eyq54ixi773qgrchxm6ya.arweave.net/leKbb7PQW07YMA9YiSB3pXmrB2TEO8RdH_7gaIj3Z7A","element":"Bedrock & Spring · Enduring Heart","ecologicalTheme":"Deep mineral foundations & patient water shaping stone","symbolism":"Standing megaliths ringing the island spring, unmoved by storms yet cradling crystal-clear living waters."},{"number":12,"roman":"XII","name":"The Doorway","traditional":"The Hanged Man","meaning":"Signifies surrender, new perspectives, and letting go. The Doorway card reflects moments of transformation and surrender within the game, where players must embrace change to progress.","invertedMeaning":"Surrender avoided. New perspectives rejected. You cling to an outdated view that blocks your evolution. Look inward, not away. This suggests resistance to letting go of control and allowing life's deeper currents to guide you toward necessary transformation.","arweaveUrl":"https://qenjybhrz3mwc7s6dmxq2tjfnkgeuj73pbzu3jinktyi3aom72ja.arweave.net/gRqcBPHO2WF-XhsvDU0laoxKJ_t4c02lDVTwjYHM_pI","element":"Threshold Mist · Inverted Sight","ecologicalTheme":"Chrysalis suspension & seeing the ecosystem upside-down","symbolism":"An archway of intertwined boughs opening onto an unfamiliar dimension, inviting pause before crossing."},{"number":13,"roman":"XIII","name":"The Shaper of Nature","traditional":"Death","meaning":"Symbolizes transformation, rebirth, and new beginnings. The Shaper of Nature card signifies the evolving nature, and the opportunities for players to embrace change and adapt.","invertedMeaning":"Stagnation in transformation. Death without rebirth. You are resisting the composting of what no longer serves. You may need to actively engage with letting go - whether that's decluttering physical spaces, releasing old grudges, or acknowledging that certain relationships or situations have run their course. Trust the cycles, but also participate in them by consciously choosing what to release.","arweaveUrl":"https://oubrccce4rh7sik67asdspkdshc7dsnmftrwrxufola7i5uvwiga.arweave.net/dQMRCETkT_khXvgkOT1DkcXxyaws42jehXLB9HaVsgw","element":"Autumn Leaf & Humus · Compost & Rebirth","ecologicalTheme":"Nutrient cycling, fungal decomposition & forest renewal","symbolism":"Fallen leaves dissolving into rich dark humus from which luminous new shoots emerge in the eternal cycle of life."},{"number":14,"roman":"XIV","name":"The Dreamspire","traditional":"Temperance","meaning":"Represents the perception of glory and power. The Dreamspire card symbolizes the need for balance and moderation as players strive to achieve Insights and restore equilibrium.","invertedMeaning":"Imbalance. Overreaching. Striving for illusions of grandeur. Your pursuit of insight may be out of sync with deeper needs. You may be chasing achievements or recognition that don't align with your authentic self, or pushing toward goals without considering their true cost. Take time to reassess what truly matters to you versus what looks impressive to others.","arweaveUrl":"https://smxlihic33puwf4usozicovk7gy6xgf4zu3w6dzn4fxprz53wviq.arweave.net/ky60HQLe30sXlJOygTqq-bHrmLzNN28PLeFu-Oe7tVE","element":"Cloud & Peak · Alchemy of Balance","ecologicalTheme":"Dynamic homeostasis between skyward ambition and deep roots","symbolism":"A soaring spire rising through mist, teaching that visionary height requires grounded equilibrium."},{"number":15,"roman":"XV","name":"The Stoker","traditional":"The Devil","meaning":"Signifies temptation, bondage, and materialism. The Stoker card reflects the allure of power and control within the game, warning players against succumbing to negative influences, but also encouraging preparation and action.","invertedMeaning":"Enslavement to desire. Seduced by control or fear. Ignoring your deeper agency. Time to cut cords from toxic habits or systems. You may need to examine what or who holds power over your choices and decisions. This could involve breaking free from addictive patterns, manipulative relationships, or systems that diminish your autonomy and authentic expression.","arweaveUrl":"https://5g3zl7nryk4p4ny2kshu7lyynuetv6c62nbgaoreyfxt547mbcna.arweave.net/6beV_bHCuP43GlSPT68YbQk6-F7TQmA6JMFvPvPsCJo","element":"Furnace & Smoke · Consuming Fire","ecologicalTheme":"Extractive burnout vs. disciplined tending of energy","symbolism":"A relentless furnace keeper stoking hungry flames, warning against extractive habits while teaching mastery over raw energy."},{"number":16,"roman":"XVI","name":"The Spiral Tower","traditional":"The Tower","meaning":"Symbolizes chaos, upheaval, and sudden change. The Spiral Tower card represents moments of confrontation with illusion, deception and disruption within nature (and the human mind), forcing players to adapt to unexpected challenges, possibly by recalling more timeless, natural forces.","invertedMeaning":"Collapse without awareness. A refusal to see the lesson in upheaval. Holding on to illusions. Nature has spoken -- have you listened? You may be avoiding necessary changes or ignoring warning signs that transformation is needed. Sometimes we need to actively participate in letting structures fall that no longer serve us, rather than clinging to what feels familiar but has become stagnant.","arweaveUrl":"https://46k5yy4quk7ldzxg4rxpeivgkcp54falxcdjvemr4vu4ncw2m6qa.arweave.net/55XcY5CivrHm5uRu8iKmUJ_eFAu4hpqRkeVpxoraZ6A","element":"Lightning & Tempest · Sudden Clearing","ecologicalTheme":"Wildfire & storm disturbance opening the canopy for new life","symbolism":"A spiraling stone tower struck by elemental sky-fire, shattering false constructs so timeless truth can breathe."},{"number":17,"roman":"XVII","name":"The Insight in the Chakra","traditional":"The Star","meaning":"Represents hope, inspiration, and spiritual insight. The Insight in the Chakra card signifies the moments of clarity and inspiration players experience as they unlock insights and gain deeper understanding.","invertedMeaning":"Hope fading. Disconnect from inner light. Spiritual insight lost to distraction. Find stillness and reconnect to your Source. You may need to step away from overwhelming noise and distractions, whether digital, social, or mental, to rediscover your inner clarity and spiritual direction.","arweaveUrl":"https://cxhpgcizykp3r74zt427csniuqpwtgtd5ysu3j2t6frie3blkaoq.arweave.net/Fc7zCRnCn7j_mZ818UmopB9pmmPuJU2nU_FigmwrUB0","element":"Starlight & Dew · Luminous Clarity","ecologicalTheme":"Bioluminescence, celestial navigation & cellular coherence","symbolism":"A radiant lotus-star of energy aligning body, earth, and cosmos in serene post-storm renewal."},{"number":18,"roman":"XVIII","name":"The Blue Forge","traditional":"The Moon","meaning":"Signifies illusion, intuition, and the subconscious. The Blue Forge card reflects the dreamlike aspects of the Game of Life and the need for players to trust their intuition as they navigate the world.","invertedMeaning":"Lost in illusion. Intuition misread. The subconscious overwhelms or is blocked. Re-ground through touch, soil, breath. You may be caught in confusing dreams or unclear emotions that cloud your judgment. Step away from abstract thinking and reconnect with your physical body and the tangible world around you.","arweaveUrl":"https://gwnacfuud5yi76rclgxcctvx2x6a3qbot7n6nvsyvhn7supzjyma.arweave.net/NZoBFpQfcI_6IlmuIU631fwNwC6f2-bWWKnb-VH5Thg","element":"Moonlight & Indigo Flame · Subconscious Craft","ecologicalTheme":"Nocturnal rhythms, tidal pulls & dream-work","symbolism":"A cobalt-glowing forge under lunar mist where unseen feelings and intuitions are tempered into wisdom."},{"number":19,"roman":"XIX","name":"The Village of Embertime","traditional":"The Sun","meaning":"Symbolizes success, vitality, and joy. The Village of Embertime card embodies the moments of celebration and fulfilment players experience as they connect with the Emberfolk and the village.","invertedMeaning":"Joy delayed or false. Vitality suppressed. Are you celebrating too soon -- or not at all? You may need to seek social or environmental contact and more nurturing before fully re-joining the rhythms of real community support, or to feel such effects that you most likely, are lacking.","arweaveUrl":"https://pk5grpi6hccfavcrhc2oppow3z4i7jy4a7j4xq5w6nxovexy5ska.arweave.net/erpovR44hFBUUTi0573W3niPpxwH08vDtvNu6pL47JQ","element":"Golden Sun · Harvest & Vitality","ecologicalTheme":"Photosynthetic peak, harvest festivals & shared abundance","symbolism":"Sun-drenched timber dwellings and thriving gardens where community warmth and natural vitality flourish."},{"number":20,"roman":"XX","name":"The Fall of the Tower","traditional":"Judgment","meaning":"Represents transformation, awakening, and self-reflection. The Fall of the Tower card signifies a pivotal moment of realization and transformation as players confront their inner conflicts, and dreams.","invertedMeaning":"Awakening postponed. Judgment turned inward in blame. The moment for transformation is at hand -- do not sleep through it. You may be caught in self-criticism or waiting for external validation instead of trusting your own inner knowing. The call to awakening is present, but fear or doubt may be holding you back from answering it.","arweaveUrl":"https://rvndm3aej7zdr2hmoqifwg6g4cyzi4ddh6uadmu53v6h6t7eblfq.arweave.net/jVo2bARP8jjo7HQQWxvG4LGUcGM_qAGynd18f0_kCss","element":"Clarion Wind · Great Awakening","ecologicalTheme":"Seed dormancy breaking after winter fire & reclamation","symbolism":"Old walls giving way to open sky and rising birds, marking the moment of honest reckoning and liberation."},{"number":21,"roman":"XXI","name":"The Confluence","traditional":"The World","meaning":"Signifies completion, wholeness, and unity. The Confluence card represents the culmination of players' journey in Life, where they achieve a sense of fulfilment and unity with the virtual and natural world.","invertedMeaning":"Wholeness disrupted. Completion stalled. Disconnection from natural flow. The journey continues until you align with the real and the regenerative. You may be trying to force closure or completion before the natural cycle has run its course, or ignoring the ongoing work needed to maintain true harmony with yourself and your environment.","arweaveUrl":"https://zxrpjuoruag4oq7otx5cgktnaytjn3feucqfxg7s24lk2i7lbyfa.arweave.net/zeL00dGgDcdD7p36IyptBiaW7KSgoFub8tcWrSPrDgo","element":"All Elements · Living Wholeness","ecologicalTheme":"Watershed confluence where all streams meet the ocean","symbolism":"Rivers of light and water converging in a harmonious biosphere, celebrating wholeness and regenerative unity."}];
+    const SPREAD_CONFIGS = [{"id":"today","label":"Today's Outlook","shortLabel":"Today","buttonText":"Draw for Today's Outlook","drawnText":"Today's Wisdom Received","readingTitle":"Your Card for Today","personalReadingTitle":"Your Reading for Today","subtitle":"Daily energy, alignment, and natural rhythm","glyph":"I"},{"id":"future","label":"Future Guidance","shortLabel":"Future","buttonText":"Draw for Your Future","drawnText":"Future Insight Received","readingTitle":"Your Future Guidance","personalReadingTitle":"Your Future Reading","subtitle":"Seeds taking root and pathways on the horizon","glyph":"II"},{"id":"journey","label":"Journey (Past, Present, Future)","shortLabel":"Journey","buttonText":"Draw for Your Journey (Past, Present, Future)","drawnText":"Journey Wisdom Received","readingTitle":"Your Journey Wisdom","personalReadingTitle":"Your Journey Reading","subtitle":"Continuity across seasons of growth, rest, and renewal","glyph":"III"},{"id":"guidance","label":"Guidance & Insight","shortLabel":"Guidance","buttonText":"Draw for Guidance & Insight","drawnText":"Guidance Wisdom Received","readingTitle":"Your Guidance Card","personalReadingTitle":"Your Guidance Reading","subtitle":"Spiritual direction within the Game of Life","glyph":"IV"},{"id":"challenge","label":"Challenges & Concerns","shortLabel":"Challenge","buttonText":"Draw to Face Challenges & Concerns","drawnText":"Challenge Wisdom Received","readingTitle":"Your Challenge Card","personalReadingTitle":"Your Challenge Reading","subtitle":"Adapting obstacles into resilient regeneration","glyph":"V"}];
+    const SPREAD_PRESETS = [{"id":"5-card","name":"5-Card Naturalist Spread","shortName":"5-Card Full Spread","description":"Complete five-fold reading: Today’s Outlook, Future Guidance, Journey, Spiritual Guidance, and Challenges.","slots":["today","future","journey","guidance","challenge"]},{"id":"1-card","name":"Single Daily Card Draw","shortName":"Single Daily Card","description":"A quick, focused single-card draw for Today’s Outlook and immediate daily alignment.","slots":["today"]},{"id":"3-card","name":"3-Card Past / Present / Future Draw","shortName":"3-Card Triad Draw","description":"Explore your Present Outlook, your Journey across Past-Present-Future seasons, and your Future Horizon.","slots":["today","journey","future"]},{"id":"2-card","name":"2-Card Guidance & Challenge Draw","shortName":"2-Card Balance Draw","description":"Pair Spiritual Guidance & Insight with how to transform current Challenges & Concerns.","slots":["guidance","challenge"]}];
+    let TEXT_MODELS = [{"id":"gemini-auto-flash","name":"Google Gemini — Auto-Select Latest Balanced Model","provider":"gemini","type":"text","description":"Automatically routes to the latest available high-speed multimodal Gemini model for daily tarot readings, vision analysis, and Greenwise counsel.","supportsVision":true,"isRecommended":true},{"id":"gemini-auto-pro","name":"Google Gemini — Auto-Select Latest Deep Synthesis Model","provider":"gemini","type":"text","description":"Automatically routes to the latest available flagship Gemini reasoning model for multi-card Overall Insight synthesis and philosophical ecology.","supportsVision":true},{"id":"openrouter/auto","name":"OpenRouter — Auto-Select Latest Flagship Model","provider":"openrouter","type":"text","description":"Automatically routes to the highest-ranked current multimodal model on OpenRouter, or select any specific auto-detected model below.","supportsVision":true,"isRecommended":true},{"id":"offline-naturalist","name":"Fountellion Naturalist Engine (Built-In · No AI Required)","provider":"offline","type":"text","description":"Complete deterministic ecological & tarot synthesis engine built directly into the deck. Works 100% offline with zero external API calls.","supportsVision":true,"isRecommended":true}];
+    let IMAGE_MODELS = [{"id":"gemini-auto-image","name":"Google Gemini — Auto-Select Latest Card Image Model","provider":"gemini","type":"image","description":"Automatically routes to the latest available Gemini image generation model to manifest custom botanical and traditional tarot card illustrations.","isRecommended":true},{"id":"openrouter-auto-image","name":"OpenRouter — Auto-Select Latest Card Image Model","provider":"openrouter","type":"image","description":"Automatically routes to the latest available OpenRouter image generation model for custom painterly and symbolic tarot artwork.","isRecommended":true},{"id":"offline-botanical-svg","name":"Sacred Botanical Woodcut Renderer (Built-In · No AI)","provider":"offline","type":"image","description":"Generates bespoke, high-resolution sacred geometry & botanical woodcut tarot illustrations locally in your browser without AI.","isRecommended":true}];
+    const DEFAULT_ART_STYLE = "in a fantasy folk art style. The image should blend natural elements with mystical symbolism, featuring earthy colors, intricate patterns, and nature motifs like leaves, trees, animals, and celestial elements. The style should be reminiscent of vintage folk art with a magical, enchanted forest aesthetic. Include subtle fantasy elements and spiritual symbolism appropriate for a nature-based tarot deck.";
+    const GREENWISE_IMAGE_URL = "https://wugsin76lkezaemtd3rxx2e7ebyhnyy3mbmkwcsdv4v4yyotcu7a.arweave.net/tQ0kN_5aiZARkx7je-ifIHB24xtgWKsKQ68rzGHTFT4";
+    const ABOUT_IMAGE_URL = "https://jyfx6zx55xbb5tnt7tkxaa35ta6bbl4kysxo4qwnzimk6c34szaa.arweave.net/Tgt_Zv3twh7Ns_zVcAN9mDwQr4rEru5CzcoYrwt8lkA";
+
+    const SPREAD_SHADES = {
+      today: {
+        idle: 'bg-[#102619]/95 hover:bg-[#153121] border-emerald-800/70 hover:border-emerald-500/60',
+        drawn: 'bg-[#163423] border-amber-400/55 hover:border-amber-300',
+      },
+      future: {
+        idle: 'bg-[#12281f]/95 hover:bg-[#173429] border-teal-800/70 hover:border-teal-500/60',
+        drawn: 'bg-[#17362a] border-amber-400/55 hover:border-amber-300',
+      },
+      journey: {
+        idle: 'bg-[#15291b]/95 hover:bg-[#1b3523] border-green-800/70 hover:border-green-500/60',
+        drawn: 'bg-[#1c3825] border-amber-400/55 hover:border-amber-300',
+      },
+      guidance: {
+        idle: 'bg-[#0e231d]/95 hover:bg-[#143028] border-emerald-700/65 hover:border-emerald-400/60',
+        drawn: 'bg-[#15332b] border-amber-400/55 hover:border-amber-300',
+      },
+      challenge: {
+        idle: 'bg-[#112521]/95 hover:bg-[#17322d] border-teal-700/65 hover:border-teal-400/60',
+        drawn: 'bg-[#18352f] border-amber-400/55 hover:border-amber-300',
+      },
+    };
+
+    // Web Audio API Sound Synthesizer (Safari / iOS webkitAudioContext compatible)
+    let audioCtx = null;
+    let lastWhooshTimestamp = 0;
+    function getAudioCtx() {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      if (!audioCtx) {
+        try { audioCtx = new AC(); } catch (e) { return null; }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+      return audioCtx;
+    }
+
+    function playClickSound(force) {
+      if (!force && !state.soundEnabled) return;
+      if (!force && Date.now() - lastWhooshTimestamp < 90) return;
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      try {
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const clickGain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(1650, now);
+        osc.frequency.exponentialRampToValueAtTime(240, now + 0.016);
+        clickGain.gain.setValueAtTime(0.085, now);
+        clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.018);
+        osc.connect(clickGain);
+        clickGain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.02);
+
+        const snapSize = Math.max(1, Math.floor(ctx.sampleRate * 0.008));
+        const snapBuffer = ctx.createBuffer(1, snapSize, ctx.sampleRate);
+        const snapData = snapBuffer.getChannelData(0);
+        for (let i = 0; i < snapSize; i++) {
+          snapData[i] = (Math.random() * 2 - 1) * (1 - i / snapSize);
+        }
+        const snapSource = ctx.createBufferSource();
+        snapSource.buffer = snapBuffer;
+        const hpFilter = ctx.createBiquadFilter();
+        hpFilter.type = 'highpass';
+        hpFilter.frequency.setValueAtTime(1800, now);
+        const snapGain = ctx.createGain();
+        snapGain.gain.setValueAtTime(0.05, now);
+        snapGain.gain.exponentialRampToValueAtTime(0.001, now + 0.008);
+        snapSource.connect(hpFilter);
+        hpFilter.connect(snapGain);
+        snapGain.connect(ctx.destination);
+        snapSource.start(now);
+        snapSource.stop(now + 0.009);
+      } catch (e) {}
+    }
+
+    function playSoftWhoosh(durationSec, peakFreq) {
+      if (!state.soundEnabled) return;
+      lastWhooshTimestamp = Date.now();
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      try {
+        const now = ctx.currentTime;
+        const bufferSize = Math.max(1, Math.floor(ctx.sampleRate * durationSec));
+        const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let b0 = 0, b1 = 0, b2 = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.997 * b0 + white * 0.029;
+          b1 = 0.985 * b1 + white * 0.032;
+          b2 = 0.95 * b2 + white * 0.048;
+          const pink = b0 + b1 + b2 + white * 0.18;
+          output[i] = pink * Math.sin((i / bufferSize) * Math.PI);
+        }
+        const noiseSource = ctx.createBufferSource();
+        noiseSource.buffer = noiseBuffer;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.Q.setValueAtTime(1.35, now);
+        filter.frequency.setValueAtTime(210, now);
+        filter.frequency.exponentialRampToValueAtTime(peakFreq, now + durationSec * 0.45);
+        filter.frequency.exponentialRampToValueAtTime(180, now + durationSec);
+        const whooshGain = ctx.createGain();
+        whooshGain.gain.setValueAtTime(0.002, now);
+        whooshGain.gain.linearRampToValueAtTime(0.075, now + durationSec * 0.4);
+        whooshGain.gain.exponentialRampToValueAtTime(0.0008, now + durationSec);
+        noiseSource.connect(filter);
+        filter.connect(whooshGain);
+        whooshGain.connect(ctx.destination);
+        noiseSource.start(now);
+        noiseSource.stop(now + durationSec + 0.01);
+      } catch (e) {}
+    }
+
+    function playCardDrawSound() {
+      playSoftWhoosh(0.26, 820);
+    }
+
+    function playCardShuffleSound() {
+      playSoftWhoosh(0.32, 940);
+    }
+
+    function playReadingChimeSound() {
+      playSoftWhoosh(0.28, 760);
+    }
+
+    document.addEventListener('click', function(e) {
+      const target = e.target;
+      if (target && target.closest && target.closest('button, a, select, [role="tab"]')) {
+        playClickSound(false);
+      }
+    }, { passive: true });
+
+    let state = {
+      activeTab: 'spread',
+      settingsSubTab: 'wisdom',
+      selectedPresetId: localStorage.getItem('nw_spread_preset') || '5-card',
+      selectedSlot: 'today',
+      drawnSpread: {},
+      overallInsight: '',
+      deeperAnalysisMap: {},
+      deeperChatMap: {},
+      readerMessages: [],
+      wisdomEntries: [],
+      personalNotes: localStorage.getItem('nw_personal_notes') || '',
+      modalCardNumber: null,
+      modalInverted: false,
+      isPrintableOpen: false,
+      imageNotice: '',
+      requiresKeyForImage: false,
+      aiKeyNotice: '',
+      soundEnabled: localStorage.getItem('nw_sound_enabled') !== 'false',
+      profile: { firstName: '', age: '', location: '', otherInfo: '' },
+      aiConfig: {
+        geminiKey: localStorage.getItem('nw_gemini_key') || '',
+        openrouterKey: localStorage.getItem('nw_openrouter_key') || '',
+        textModel: (function() {
+          const saved = localStorage.getItem('nw_selected_text_model');
+          return (!saved || saved === 'gemini-3.8-flash') ? 'gemini-auto-flash' : saved;
+        })(),
+        imageModel: (function() {
+          const saved = localStorage.getItem('nw_selected_image_model');
+          return (!saved || saved === 'gemini-3.1-flash-lite-image') ? 'gemini-auto-image' : saved;
+        })(),
+        customArtStyle: localStorage.getItem('nw_custom_art_style') || DEFAULT_ART_STYLE,
+      }
+    };
+
+    function toggleSound() {
+      state.soundEnabled = !state.soundEnabled;
+      localStorage.setItem('nw_sound_enabled', String(state.soundEnabled));
+      if (state.soundEnabled) playClickSound(true);
+      render();
+    }
+
+    function updateTopKeyBadge() {
+      const btn = document.getElementById('topKeyBadge');
+      if (!btn) return;
+      const hasG = Boolean((state.aiConfig.geminiKey || '').trim());
+      const hasO = Boolean((state.aiConfig.openrouterKey || '').trim());
+      const hasAny = hasG || hasO;
+      btn.className = 'px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-medium rounded-lg border transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 ' +
+        (hasAny ? 'bg-[#122a1d] text-emerald-200 border-emerald-500/45' : 'bg-[#2a1d12] text-amber-200 border-amber-500/45');
+      btn.innerHTML = '<span class="w-2 h-2 rounded-full ' + (hasAny ? 'bg-emerald-400' : 'bg-amber-400') + '"></span><span>' +
+        (hasAny ? ('AI Key Active (' + (hasG && hasO ? 'Both' : hasG ? 'Gemini' : 'OpenRouter') + ')') : 'No AI Key · Enter in Settings') + '</span>';
+    }
+
+    function getActivePreset() {
+      return SPREAD_PRESETS.find(p => p.id === state.selectedPresetId) || SPREAD_PRESETS[0];
+    }
+
+    function formatDateOrdinal(d) {
+      const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      const day = d.getDate();
+      const s = (day % 10 === 1 && day !== 11) ? 'st' : (day % 10 === 2 && day !== 12) ? 'nd' : (day % 10 === 3 && day !== 13) ? 'rd' : 'th';
+      return months[d.getMonth()] + ' ' + day + s + ', ' + d.getFullYear();
+    }
+
+    function getContextualReading(card, readingType, isInverted) {
+      const contexts = {
+        today: "### Today's Outlook\nThrough **" + card.name + "** (" + card.traditional + "), this card reveals the energy and mindset that will serve you best throughout your day. Pay attention to how this energy manifests in your daily interactions and spontaneous moments.",
+        future: "### Future Path\nThrough **" + card.name + "** (" + card.traditional + "), this reading reveals possible pathways emerging on your horizon from seeds taking root in your life.",
+        journey: "### Journey Across Seasons\nThrough **" + card.name + "** (" + card.traditional + "), this card illuminates the deeper patterns weaving through your past experiences, present circumstances, and future potential.",
+        guidance: "### Spiritual Guidance\nThrough **" + card.name + "** (" + card.traditional + "), this card offers spiritual direction for your current position within the Game of Life.",
+        challenge: "### Navigating Challenges\nThrough **" + card.name + "** (" + card.traditional + "), this card shows how to adapt your challenges into growth opportunities and reveals your inner resilience."
+      };
+      let out = contexts[readingType] || contexts.today;
+      if (isInverted) {
+        out += "\n\n**Inverted Orientation:** Today calls for turning inward, tending roots, and honoring inner reflection before outward action.";
+      }
+      return out;
+    }
+
+    function escXml(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function makeSvgCard(card, mode) {
+      const sub = escXml(mode === 'traditional' ? ('Major Arcana ' + card.roman) : (card.roman + ' · ' + card.traditional));
+      const title = escXml(mode === 'traditional' ? card.traditional : card.name);
+      const elem = escXml(card.element);
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><rect width="512" height="512" fill="#0d2618" rx="24"/><rect x="20" y="20" width="472" height="472" rx="16" fill="none" stroke="#d4a359" stroke-width="2"/><circle cx="256" cy="220" r="110" fill="none" stroke="#d4a359" stroke-width="1.5"/><text x="256" y="70" text-anchor="middle" fill="#d4a359" font-family="Georgia,serif" font-size="16">' + sub + '</text><text x="256" y="228" text-anchor="middle" fill="#fff" font-family="Georgia,serif" font-size="26" font-weight="bold">' + escXml(card.roman) + '</text><text x="256" y="420" text-anchor="middle" fill="#fff" font-family="Georgia,serif" font-size="20" font-weight="bold">' + title + '</text><text x="256" y="448" text-anchor="middle" fill="#74c69d" font-family="Georgia,serif" font-size="12">' + elem + '</text></svg>';
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    async function resolveStandaloneGeminiModel(requestedId, kind) {
+      if (requestedId && !requestedId.startsWith('gemini-auto') && !requestedId.includes('/')) {
+        return requestedId;
+      }
+      const key = (state.aiConfig.geminiKey || '').trim();
+      if (key) {
+        try {
+          const gRes = await fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + encodeURIComponent(key));
+          if (gRes.ok) {
+            const gData = await gRes.json();
+            if (Array.isArray(gData.models)) {
+              const valid = gData.models
+                .map(m => (m.name || '').replace('models/', ''))
+                .filter(id => id && !id.includes('1.5') && !id.includes('2.0') && !id.includes('embedding') && !id.includes('tts') && !id.includes('aqa'));
+              if (kind === 'image') {
+                const imgMatch = valid.find(id => id.toLowerCase().includes('image') || id.toLowerCase().includes('imagen') || id.toLowerCase().includes('banana'));
+                if (imgMatch) return imgMatch;
+              } else {
+                if (requestedId === 'gemini-auto-pro') {
+                  const proMatch = valid.find(id => id.toLowerCase().includes('pro') || id.toLowerCase().includes('argon'));
+                  if (proMatch) return proMatch;
+                }
+                const flashMatch = valid.find(id => id.toLowerCase().includes('flash') && !id.toLowerCase().includes('image'));
+                if (flashMatch) return flashMatch;
+                if (valid.length > 0) return valid[0];
+              }
+            }
+          }
+        } catch (e) {}
+      }
+      const detectedPool = (kind === 'image' ? IMAGE_MODELS : TEXT_MODELS).filter(m => m.provider === 'gemini' && !m.id.startsWith('gemini-auto'));
+      if (detectedPool.length > 0) return detectedPool[0].id;
+      return kind === 'image' ? 'gemini-2.5-flash-image' : 'gemini-2.5-flash';
+    }
+
+    async function callAiOrLocal(prompt, localFallbackFn) {
+      const m = TEXT_MODELS.find(x => x.id === state.aiConfig.textModel) || TEXT_MODELS[0];
+      if (m.provider === 'offline') {
+        state.aiKeyNotice = '';
+        return localFallbackFn();
+      }
+
+      if (m.provider === 'gemini') {
+        if (!state.aiConfig.geminiKey.trim()) {
+          state.aiKeyNotice = 'Unable to consult Gemini AI without an API key — enter your key in Settings. (Showing built-in Fountellion Naturalist reading below.)';
+          return localFallbackFn();
+        }
+        try {
+          const targetGeminiId = await resolveStandaloneGeminiModel(m.id, 'text');
+          const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(targetGeminiId) + ':generateContent?key=' + encodeURIComponent(state.aiConfig.geminiKey);
+          const r = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+          });
+          if (r.ok) {
+            const j = await r.json();
+            const txt = j.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (txt) {
+              state.aiKeyNotice = '';
+              return txt;
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (m.provider === 'openrouter') {
+        if (!state.aiConfig.openrouterKey.trim()) {
+          state.aiKeyNotice = 'Unable to consult OpenRouter AI without an API key — enter your key in Settings. (Showing built-in Fountellion Naturalist reading below.)';
+          return localFallbackFn();
+        }
+        try {
+          const targetOrModel = (m.id && m.id.includes('/')) ? m.id : 'openrouter/auto';
+          const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + state.aiConfig.openrouterKey,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ model: targetOrModel, messages: [{ role: 'user', content: prompt }] })
+          });
+          if (r.ok) {
+            const j = await r.json();
+            const txt = j.choices?.[0]?.message?.content;
+            if (txt) {
+              state.aiKeyNotice = '';
+              return txt;
+            }
+          }
+        } catch (e) {}
+      }
+
+      return localFallbackFn();
+    }
+
+    async function manifestCardArt(mode, forceOffline) {
+      const rec = state.drawnSpread[state.selectedSlot];
+      if (!rec) return;
+      const im = IMAGE_MODELS.find(x => x.id === state.aiConfig.imageModel) || IMAGE_MODELS[0];
+      if (forceOffline || im.provider === 'offline') {
+        rec.customImageUrl = makeSvgCard(rec.card, mode);
+        state.requiresKeyForImage = false;
+        state.imageNotice = 'Manifested sacred botanical emblem (Built-In Offline Renderer).';
+        playCardDrawSound();
+        render();
+        return;
+      }
+      const hasKey = (im.provider === 'gemini' && state.aiConfig.geminiKey.trim()) || (im.provider === 'openrouter' && state.aiConfig.openrouterKey.trim());
+      if (!hasKey) {
+        state.requiresKeyForImage = true;
+        state.imageNotice = 'Unable to manifest without the power of AI — enter your key in Settings.';
+        render();
+        return;
+      }
+      state.requiresKeyForImage = false;
+      state.imageNotice = 'Summoning custom card artwork...';
+      render();
+      const artPrompt = mode === 'naturewise'
+        ? ('A mystical tarot card illustration of "' + rec.card.name + '" (traditionally ' + rec.card.traditional + ') ' + state.aiConfig.customArtStyle + '. No text or words in the image.')
+        : ('A traditional tarot card illustration of "' + rec.card.traditional + '" in classic Rider-Waite-Smith tarot deck style. No text or words in the image.');
+      if (im.provider === 'openrouter') {
+        try {
+          let targetOrImg = im.id;
+          if (!targetOrImg || targetOrImg === 'openrouter-auto-image' || !targetOrImg.includes('/')) {
+            const detectedOrImg = IMAGE_MODELS.find(x => x.provider === 'openrouter' && x.id.includes('/'));
+            targetOrImg = detectedOrImg ? detectedOrImg.id : 'black-forest-labs/flux-1.1-pro';
+          }
+          const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + state.aiConfig.openrouterKey,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              model: targetOrImg,
+              modalities: ['image', 'text'],
+              messages: [{ role: 'user', content: artPrompt }]
+            })
+          });
+          if (r.ok) {
+            const j = await r.json();
+            const imgUrl = j.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+            if (imgUrl) {
+              rec.customImageUrl = imgUrl;
+              state.imageNotice = 'Manifested card artwork.';
+              playCardDrawSound();
+              render();
+              return;
+            }
+          }
+        } catch (e) {}
+      }
+      if (im.provider === 'gemini') {
+        try {
+          const targetGemImg = await resolveStandaloneGeminiModel(im.id, 'image');
+          const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(targetGemImg) + ':generateContent?key=' + encodeURIComponent(state.aiConfig.geminiKey);
+          const r = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: artPrompt }] }] })
+          });
+          if (r.ok) {
+            const j = await r.json();
+            const parts = j.candidates?.[0]?.content?.parts || [];
+            for (const p of parts) {
+              if (p.inlineData && p.inlineData.data) {
+                rec.customImageUrl = 'data:' + (p.inlineData.mimeType || 'image/png') + ';base64,' + p.inlineData.data;
+                state.imageNotice = 'Manifested card artwork.';
+                playCardDrawSound();
+                render();
+                return;
+              }
+            }
+          }
+        } catch (e) {}
+      }
+      rec.customImageUrl = makeSvgCard(rec.card, mode);
+      state.imageNotice = 'Manifested sacred botanical card emblem.';
+      playCardDrawSound();
+      render();
+    }
+
+    function drawSlot(slotId, forceRedraw) {
+      playCardDrawSound();
+      state.imageNotice = '';
+      state.requiresKeyForImage = false;
+      if (!state.drawnSpread[slotId] || forceRedraw) {
+        const card = TAROT_CARDS[Math.floor(Math.random() * TAROT_CARDS.length)];
+        const inverted = Math.random() < 0.5;
+        const reading = getContextualReading(card, slotId, inverted);
+        state.drawnSpread[slotId] = {
+          card,
+          inverted,
+          readingType: slotId,
+          date: formatDateOrdinal(new Date()),
+          reading
+        };
+        delete state.deeperAnalysisMap[slotId];
+        state.wisdomEntries.unshift({
+          id: Date.now() + '-' + slotId,
+          readingType: slotId,
+          card,
+          inverted,
+          date: formatDateOrdinal(new Date()),
+          reading
+        });
+      }
+      state.selectedSlot = slotId;
+      state.activeTab = 'card-viewer';
+      render();
+    }
+
+    async function openDeeperReading() {
+      const rec = state.drawnSpread[state.selectedSlot];
+      if (!rec) return;
+      playReadingChimeSound();
+      const c = rec.card;
+      const localAnalysis = '### 1. Symbolic Elements & Nature Connections\n**' + c.name + '** (*Major Arcana ' + c.roman + ' · ' + c.traditional + '*) is governed by **' + c.element + '** and reflects *' + c.ecologicalTheme + '*.\n\n' + c.symbolism + '\n\n### 2. Traditional Tarot Synthesis\n> "' + (rec.inverted ? c.invertedMeaning : c.meaning) + '"\n\n### 3. Contextual Guidance\n' + rec.reading;
+      if (!state.deeperAnalysisMap[state.selectedSlot]) {
+        state.deeperAnalysisMap[state.selectedSlot] = localAnalysis;
+      }
+      state.activeTab = 'deeper';
+      render();
+      const prompt = 'Provide a 5-part Fountellion tarot analysis for ' + c.name + ' (' + c.traditional + ') drawn ' + (rec.inverted ? 'Inverted' : 'Upright') + '.';
+      const text = await callAiOrLocal(prompt, () => localAnalysis);
+      state.deeperAnalysisMap[state.selectedSlot] = text;
+      render();
+    }
+
+    async function askDeeperQuestion() {
+      const inp = document.getElementById('deeperQuestionInput');
+      if (!inp || !inp.value.trim()) return;
+      const rec = state.drawnSpread[state.selectedSlot] || Object.values(state.drawnSpread)[0];
+      if (!rec) return;
+      playReadingChimeSound();
+      const q = inp.value.trim();
+      inp.value = '';
+      if (!state.deeperChatMap[state.selectedSlot]) state.deeperChatMap[state.selectedSlot] = [];
+      state.deeperChatMap[state.selectedSlot].push({ speaker: 'You', role: 'user', text: q });
+      render();
+      const c = rec.card;
+      const reply = await callAiOrLocal(
+        'The seeker drew ' + c.name + ' (' + c.traditional + ') ' + (rec.inverted ? 'Inverted' : 'Upright') + ' and asks: "' + q + '". Provide warm ecological and spiritual tarot guidance.',
+        () => 'Reflecting on **' + c.name + '** (*' + c.traditional + '*), its ecological theme of **' + c.ecologicalTheme + '** speaks directly to your question (*"' + q + '"*). ' + (rec.inverted ? c.invertedMeaning : c.meaning)
+      );
+      state.deeperChatMap[state.selectedSlot].push({ speaker: "Nature's Wisdom", role: 'assistant', text: reply });
+      render();
+    }
+
+    async function generateOverall() {
+      playCardShuffleSound();
+      const preset = getActivePreset();
+      const configs = SPREAD_CONFIGS.filter(s => preset.slots.includes(s.id));
+      configs.forEach(s => { if (!state.drawnSpread[s.id]) drawSlot(s.id, false); });
+      const entries = configs.map(s => ({ cfg: s, rec: state.drawnSpread[s.id] }));
+      const localSynthesis = '### Unified ' + preset.name + ' Synthesis (' + formatDateOrdinal(new Date()) + ')\n\n' +
+        entries.map((e, i) => (i+1) + '. **' + e.cfg.label + ' — ' + e.rec.card.name + ' (' + e.rec.card.traditional + ' · ' + (e.rec.inverted ? 'Inverted' : 'Upright') + '):** ' + (e.rec.inverted ? e.rec.card.invertedMeaning : e.rec.card.meaning)).join('\n\n') +
+        '\n\n### Regenerative Action Step\nWalk gently with these archetypes today, balancing outward stewardship with quiet inner reflection.';
+      state.overallInsight = localSynthesis;
+      state.activeTab = 'overall';
+      render();
+      const prompt = 'Synthesize these Fountellion tarot cards: ' + entries.map(e => e.cfg.label + ': ' + e.rec.card.name + (e.rec.inverted ? ' (Inverted)' : ' (Upright)')).join(', ');
+      const text = await callAiOrLocal(prompt, () => localSynthesis);
+      state.overallInsight = text;
+      state.wisdomEntries.unshift({
+        id: 'overall-' + Date.now(),
+        readingType: 'overall-insight',
+        date: formatDateOrdinal(new Date()),
+        reading: text
+      });
+      render();
+    }
+
+    async function askGreenwise() {
+      const inp = document.getElementById('readerInput');
+      if (!inp || !inp.value.trim()) return;
+      playReadingChimeSound();
+      const q = inp.value.trim();
+      inp.value = '';
+      state.readerMessages.push({ speaker: 'You', role: 'user', text: q });
+      render();
+      const c = TAROT_CARDS[q.length % TAROT_CARDS.length];
+      const reply = await callAiOrLocal('As Greenwise the naturalist tarot reader, answer: ' + q, () => {
+        return 'Greetings, seeker. Hearing your inquiry (*"' + q + '"*), I turn **' + c.name + '** (' + c.traditional + ') from the Fountellion deck:\n\n> "' + c.meaning + '"\n\nLet the ecological lesson of *' + c.ecologicalTheme.toLowerCase() + '* guide your next step in patience and harmony.';
+      });
+      state.readerMessages.push({ speaker: 'Greenwise · Card Reader', role: 'assistant', text: reply });
+      render();
+    }
+
+    function saveBookTxt(onlyOverall) {
+      let out = 'NATUREWISE TAROT - BOOK OF INSIGHT\nGenerated: ' + formatDateOrdinal(new Date()) + '\n==================================================\n\n';
+      if (state.personalNotes) out += 'PERSONAL NOTES:\n' + state.personalNotes + '\n\n';
+      const list = onlyOverall ? state.wisdomEntries.filter(e => e.readingType === 'overall-insight') : state.wisdomEntries;
+      list.forEach((e, i) => {
+        out += (i + 1) + '. ' + (e.card ? (e.card.name + ' (' + e.card.traditional + ')') : 'OVERALL INSIGHT') + ' [' + e.date + ']\n' + e.reading + '\n\n';
+      });
+      const blob = new Blob([out], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = onlyOverall ? 'NatureWiseTarotBook-Insight.txt' : 'NatureWiseTarotBook.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function switchTab(tab, subTab) {
+      state.activeTab = tab;
+      if (subTab) state.settingsSubTab = subTab;
+      state.modalCardNumber = null;
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openLoreModal(num) {
+      playCardDrawSound();
+      state.modalCardNumber = num;
+      state.modalInverted = false;
+      render();
+    }
+
+    function closeLoreModal() {
+      state.modalCardNumber = null;
+      render();
+    }
+
+    function openPrintableModal() {
+      state.isPrintableOpen = true;
+      renderPrintableModal();
+    }
+
+    function closePrintableModal() {
+      state.isPrintableOpen = false;
+      renderPrintableModal();
+    }
+
+    function renderPrintableModal() {
+      const mRoot = document.getElementById('printableModalRoot');
+      if (!mRoot) return;
+      if (!state.isPrintableOpen) {
+        mRoot.innerHTML = '';
+        return;
+      }
+      const preset = getActivePreset();
+      const configs = SPREAD_CONFIGS.filter(s => preset.slots.includes(s.id));
+      const drawn = configs.map(cfg => ({ cfg, rec: state.drawnSpread[cfg.id] })).filter(x => Boolean(x.rec));
+      mRoot.innerHTML = `
+        <div onclick="closePrintableModal()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-safari overflow-y-auto">
+          <div onclick="event.stopPropagation()" class="w-full max-w-4xl rounded-3xl bg-[#102118] border border-amber-400/50 p-6 sm:p-8 space-y-6 my-8 max-h-[90vh] overflow-y-auto">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-800/60 pb-4 no-print">
+              <div>
+                <p class="text-xs uppercase tracking-widest text-amber-300">Printable / PDF Reading Card Sheet</p>
+                <h2 class="font-display text-2xl font-bold text-stone-100">${preset.name} — Reading Sheet</h2>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-amber-300 text-stone-950 font-semibold text-xs">Print / Save as PDF</button>
+                <button onclick="closePrintableModal()" class="px-3 py-2 rounded-xl border border-stone-700 text-stone-300 text-xs">✕ Close</button>
+              </div>
+            </div>
+            <div class="space-y-4">
+              ${drawn.length === 0 ? '<p class="text-center py-8 text-stone-300 font-serif-prose italic">Draw at least one card in your spread first to populate your printable reading sheet.</p>' : drawn.map(item => `
+                <div class="p-4 rounded-2xl bg-[#11241a] border border-emerald-800/60 grid sm:grid-cols-12 gap-4 items-start">
+                  <div class="sm:col-span-3 text-center">
+                    <img src="${item.rec.customImageUrl || item.rec.card.arweaveUrl}" onerror="this.src='${makeSvgCard(item.rec.card, 'naturewise')}'" alt="${item.rec.card.name}" referrerpolicy="no-referrer" class="w-28 h-28 mx-auto rounded-xl object-cover border border-amber-500/40 ${item.rec.inverted ? 'card-inverted' : ''}" />
+                  </div>
+                  <div class="sm:col-span-9 space-y-1.5">
+                    <div class="text-xs text-amber-300 uppercase tracking-wider">Position ${item.cfg.glyph} · ${item.cfg.label} (${item.rec.inverted ? 'Inverted' : 'Upright'})</div>
+                    <h3 class="font-display text-lg font-bold text-stone-100">${item.rec.card.name} (${item.rec.card.traditional})</h3>
+                    <p class="font-serif-prose text-xs text-stone-200">${item.rec.inverted ? item.rec.card.invertedMeaning : item.rec.card.meaning}</p>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function autoDetectModels() {
+      const statusEl = document.getElementById('detectStatus');
+      if (statusEl) statusEl.textContent = 'Scanning Gemini & OpenRouter APIs for latest text & image models...';
+      try {
+        const orRes = await fetch('https://openrouter.ai/api/v1/models');
+        if (orRes.ok) {
+          const data = await orRes.json();
+          if (Array.isArray(data.data)) {
+            data.data.forEach(m => {
+              const id = (m.id || '').toLowerCase();
+              const outMods = (m.architecture && m.architecture.output_modalities) || [];
+              const isImg = outMods.includes('image') || id.includes('image') || id.includes('flux') || id.includes('seedream') || id.includes('riverflow');
+              if (isImg) {
+                if (!IMAGE_MODELS.some(im => im.id === m.id)) {
+                  IMAGE_MODELS.push({ id: m.id, name: (m.name || m.id) + ' (OpenRouter)', provider: 'openrouter', type: 'image', description: m.description || 'Auto-detected OpenRouter image model' });
+                }
+              } else if (!TEXT_MODELS.some(tm => tm.id === m.id) && TEXT_MODELS.length < 75) {
+                TEXT_MODELS.push({ id: m.id, name: (m.name || m.id) + ' (OpenRouter)', provider: 'openrouter', type: 'text', description: m.description || 'Auto-detected OpenRouter text model' });
+              }
+            });
+          }
+        }
+        if (state.aiConfig.geminiKey) {
+          const gRes = await fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + encodeURIComponent(state.aiConfig.geminiKey));
+          if (gRes.ok) {
+            const gData = await gRes.json();
+            if (Array.isArray(gData.models)) {
+              gData.models.forEach(m => {
+                const cleanId = (m.name || '').replace('models/', '');
+                if (cleanId && !cleanId.includes('1.5') && !cleanId.includes('2.0')) {
+                  if (cleanId.includes('image') || cleanId.includes('imagen')) {
+                    if (!IMAGE_MODELS.some(im => im.id === cleanId)) {
+                      IMAGE_MODELS.push({ id: cleanId, name: (m.displayName || cleanId) + ' (Gemini)', provider: 'gemini', type: 'image', description: m.description || 'Auto-detected Gemini image model' });
+                    }
+                  } else if (!TEXT_MODELS.some(tm => tm.id === cleanId)) {
+                    TEXT_MODELS.push({ id: cleanId, name: (m.displayName || cleanId) + ' (Gemini)', provider: 'gemini', type: 'text', description: m.description || 'Auto-detected Gemini model' });
+                  }
+                }
+              });
+            }
+          }
+        }
+        render();
+        const afterEl = document.getElementById('detectStatus');
+        if (afterEl) afterEl.textContent = 'Latest Gemini & OpenRouter text and image models auto-detected!';
+      } catch (e) {
+        if (statusEl) statusEl.textContent = 'Using built-in curated model catalog.';
+      }
+    }
+
+    function render() {
+      updateTopKeyBadge();
+      renderPrintableModal();
+      const root = document.getElementById('appContainer');
+      if (!root) return;
+      const preset = getActivePreset();
+      const activeConfigs = SPREAD_CONFIGS.filter(s => preset.slots.includes(s.id));
+
+      if (state.activeTab === 'spread') {
+        const allDrawn = activeConfigs.every(s => Boolean(state.drawnSpread[s.id]));
+        const drawnCount = activeConfigs.filter(s => Boolean(state.drawnSpread[s.id])).length;
+        const owlCard = TAROT_CARDS[8];
+        root.innerHTML = `
+          <div class="space-y-10 min-w-0">
+            <section class="rounded-3xl border border-emerald-800/60 bg-gradient-to-b from-[#13281c] via-[#0f2017] to-[#0b1710] px-6 py-10 sm:px-12 sm:py-12 text-center shadow-2xl">
+              <p class="text-xs uppercase tracking-[0.22em] text-amber-300/90 mb-3">Fountellion Major Arcana · Sanctuary of Confluence</p>
+              <h1 class="font-display text-4xl sm:text-5xl font-bold text-stone-100 mb-6">NatureWise Tarot</h1>
+              <div class="relative w-60 h-60 mx-auto mb-6 rounded-2xl overflow-hidden border border-amber-400/40 shadow-2xl bg-[#110e0b]">
+                <img src="${owlCard.arweaveUrl}" onerror="this.src='${makeSvgCard(owlCard, 'naturewise')}'" alt="The Long-Eared Owl" referrerpolicy="no-referrer" class="w-full h-full object-cover" />
+              </div>
+              <p class="font-serif-prose text-base sm:text-lg text-stone-200 max-w-2xl mx-auto leading-relaxed mb-6">
+                Welcome... player of the Game of Life, within this force of Nature and Change. Pause here for a while... Draw forth wisdom and insight from both a natural &amp; spiritual Tarot deck.
+              </p>
+              <div class="flex flex-wrap items-center justify-center gap-3">
+                <button onclick="switchTab('settings', 'wisdom')" class="px-4 py-2 rounded-lg text-xs font-medium border border-amber-500/45 bg-[#241b12] text-amber-200">
+                  API Keys &amp; AI Settings
+                </button>
+                <button onclick="openPrintableModal()" class="px-4 py-2 rounded-lg text-xs font-medium border border-emerald-700/60 bg-[#12261b] text-emerald-200">
+                  Print / Save Reading Sheet (PDF)
+                </button>
+                <button onclick="playCardShuffleSound(); state.drawnSpread={}; render();" class="px-4 py-2 rounded-lg text-xs font-medium border border-stone-700 bg-[#0d1912] text-stone-300">
+                  Refresh the Cards
+                </button>
+              </div>
+            </section>
+
+            <!-- Spread Preset Selector -->
+            <div class="rounded-2xl border border-emerald-800/60 bg-[#0e1f16]/90 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <span class="text-xs uppercase tracking-widest text-emerald-300 font-semibold">Spread Preset:</span>
+              <div class="flex flex-wrap items-center gap-2">
+                ${SPREAD_PRESETS.map(p => `
+                  <button onclick="state.selectedPresetId='${p.id}'; localStorage.setItem('nw_spread_preset','${p.id}'); render();" class="px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all ${state.selectedPresetId === p.id ? 'bg-[#1a3d29] border-amber-400/70 text-amber-200' : 'bg-[#0b1710] border-emerald-900/60 text-stone-300'}">
+                    ${p.shortName}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              ${activeConfigs.map(cfg => {
+                const drawn = state.drawnSpread[cfg.id];
+                const shade = SPREAD_SHADES[cfg.id] || SPREAD_SHADES.today;
+                return `
+                  <button onclick="drawSlot('${cfg.id}', false)" class="text-left p-6 rounded-2xl border ${drawn ? shade.drawn : shade.idle} transition-all flex flex-col justify-between min-h-[195px] min-w-0 overflow-hidden">
+                    <div class="min-w-0">
+                      <div class="flex items-center justify-between text-xs text-amber-300/90 uppercase tracking-widest mb-2">
+                        <span>Position ${cfg.glyph}</span>
+                        <span>${drawn ? (drawn.inverted ? 'Inverted' : 'Upright') : 'Ready to Draw'}</span>
+                      </div>
+                      <h2 class="font-display text-xl font-bold text-stone-100 mb-1 break-words">${cfg.label}</h2>
+                      <p class="font-serif-prose text-xs sm:text-sm text-stone-300 break-words">${cfg.subtitle}</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-emerald-900/50 text-xs font-semibold ${drawn ? 'text-amber-200' : 'text-emerald-300'} break-words">
+                      ${drawn ? 'Revealed: ' + drawn.card.name + ' (' + drawn.card.traditional + ')' : cfg.buttonText + ' →'}
+                    </div>
+                  </button>
+                `;
+              }).join('')}
+              <div class="p-6 rounded-2xl border border-teal-700/60 bg-gradient-to-br from-[#10292e] via-[#0e2226] to-[#0a181c] flex flex-col justify-between min-h-[195px] min-w-0 overflow-hidden">
+                <div>
+                  <div class="text-xs text-teal-300 uppercase tracking-widest mb-2">Synthesis · ${drawnCount}/${activeConfigs.length} Drawn</div>
+                  <h2 class="font-display text-xl font-bold text-amber-200 mb-1">Your Overall Insight</h2>
+                  <p class="font-serif-prose text-xs sm:text-sm text-stone-200">Weave your ${preset.shortName.toLowerCase()} into a unified naturalist reading.</p>
+                </div>
+                <button onclick="generateOverall()" class="mt-4 w-full py-2 px-4 rounded-lg bg-amber-300 hover:bg-amber-200 text-stone-950 font-semibold text-xs">
+                  ${allDrawn ? 'Open Overall Insight →' : 'Complete Spread & Synthesize →'}
+                </button>
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+              <button onclick="switchTab('reader')" class="p-5 rounded-xl border border-indigo-800/60 bg-[#131b2e]/90 hover:bg-[#19233b] hover:border-indigo-500/60 transition-all text-left min-w-0">
+                <div class="font-display text-sm font-semibold text-indigo-200 mb-1">Personal Card Reader</div>
+                <p class="text-xs text-stone-300/90">Consult Greenwise on any card, life path, or uploaded Book of Insight.</p>
+              </button>
+              <button onclick="switchTab('book')" class="p-5 rounded-xl border border-purple-800/60 bg-[#20152b]/90 hover:bg-[#291b37] hover:border-purple-500/60 transition-all text-left min-w-0">
+                <div class="font-display text-sm font-semibold text-purple-200 mb-1">Books of Insight</div>
+                <p class="text-xs text-stone-300/90">Review drawn readings, write personal reflections, and export as .txt.</p>
+              </button>
+              <button onclick="switchTab('about')" class="p-5 rounded-xl border border-amber-800/60 bg-[#221b14]/90 hover:bg-[#2b2219] hover:border-amber-500/60 transition-all text-left min-w-0">
+                <div class="font-display text-sm font-semibold text-amber-200 mb-1">About the Cards</div>
+                <p class="text-xs text-stone-300/90">Explore Fountellion lore, the 22 Major Arcana, and inspect each card.</p>
+              </button>
+              <button onclick="switchTab('settings', 'art')" class="p-5 rounded-xl border border-slate-700/70 bg-[#161e2b]/90 hover:bg-[#1c2636] hover:border-slate-500/60 transition-all text-left min-w-0">
+                <div class="font-display text-sm font-semibold text-slate-200 mb-1">Adjust Art &amp; Wisdom</div>
+                <p class="text-xs text-stone-300/90">Configure Gemini or OpenRouter BYOK keys, sound effects, and card art.</p>
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      if (state.activeTab === 'card-viewer') {
+        const record = state.drawnSpread[state.selectedSlot] || Object.values(state.drawnSpread)[0];
+        if (!record) { switchTab('spread'); return; }
+        const card = record.card;
+        const imgSrc = record.customImageUrl || card.arweaveUrl;
+        root.innerHTML = `
+          <div class="space-y-6 min-w-0">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <button onclick="switchTab('spread')" class="px-4 py-2 text-xs font-medium rounded-lg border border-emerald-800 text-stone-200">← Back to Spread</button>
+              <div class="flex gap-2">
+                <button onclick="openPrintableModal()" class="px-4 py-2 text-xs font-medium rounded-lg border border-amber-500/45 bg-[#241b12] text-amber-200">Print / Save PDF</button>
+                <button onclick="drawSlot('${state.selectedSlot}', true)" class="px-4 py-2 text-xs font-medium rounded-lg border border-amber-500/40 text-amber-200">Draw New Card for Position</button>
+              </div>
+            </div>
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+              <div class="lg:col-span-5 bg-[#112218] border border-emerald-800/60 rounded-2xl p-6 text-center space-y-4 min-w-0">
+                <img src="${imgSrc}" onerror="this.src='${makeSvgCard(card, 'naturewise')}'" alt="${card.name}" referrerpolicy="no-referrer" class="w-full max-w-sm mx-auto aspect-square object-cover rounded-xl ${record.inverted ? 'card-inverted' : ''}" />
+                <div class="flex flex-wrap justify-center gap-2">
+                  <button onclick="openDeeperReading()" class="px-5 py-2 rounded-lg bg-amber-300 text-stone-950 font-semibold text-xs">Interpret this Card</button>
+                  <button onclick="manifestCardArt('naturewise', false)" class="px-3 py-2 rounded-lg border border-emerald-700 text-emerald-200 text-xs">Manifest Unique Image</button>
+                  <button onclick="manifestCardArt('traditional', false)" class="px-3 py-2 rounded-lg border border-stone-700 text-stone-200 text-xs">Manifest Traditional</button>
+                </div>
+                ${state.imageNotice ? `
+                  <div class="p-3 rounded-xl border ${state.requiresKeyForImage ? 'border-amber-500/60 bg-[#261b10] text-amber-100' : 'border-emerald-800/50 bg-[#0b1710] text-emerald-300'} text-xs space-y-2">
+                    <p>${state.imageNotice}</p>
+                    ${state.requiresKeyForImage ? `
+                      <div class="flex flex-wrap justify-center gap-2 pt-1">
+                        <button onclick="switchTab('settings', 'wisdom')" class="px-3 py-1.5 rounded-lg bg-amber-300 text-stone-950 font-semibold">Enter API Key in Settings →</button>
+                        <button onclick="manifestCardArt('naturewise', true)" class="px-3 py-1.5 rounded-lg border border-emerald-700 text-emerald-200">Use Offline Botanical Emblem</button>
+                      </div>
+                    ` : ''}
+                  </div>
+                ` : ''}
+              </div>
+              <div class="lg:col-span-7 space-y-6 min-w-0">
+                <div class="bg-[#112218] border border-emerald-800/60 rounded-2xl p-6 min-w-0">
+                  <p class="text-xs uppercase tracking-widest text-amber-300/90">Major Arcana ${card.roman} · ${card.traditional} · ${record.inverted ? 'INVERTED' : 'UPRIGHT'}</p>
+                  <h2 class="font-display text-3xl font-bold text-stone-100 mt-1 mb-4">‘${card.name}’</h2>
+                  <h3 class="font-display text-base font-semibold text-amber-200 mb-2">Core Meaning</h3>
+                  <p class="font-serif-prose text-stone-200 leading-relaxed">${record.inverted ? card.invertedMeaning : card.meaning}</p>
+                </div>
+                <div class="bg-[#112218] border border-emerald-800/60 rounded-2xl p-6 prose-out min-w-0">
+                  ${marked.parse(record.reading)}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      if (state.activeTab === 'deeper') {
+        const record = state.drawnSpread[state.selectedSlot] || Object.values(state.drawnSpread)[0];
+        if (!record) { switchTab('spread'); return; }
+        const analysis = state.deeperAnalysisMap[state.selectedSlot] || 'Analyzing the deeper wisdom...';
+        const chatTurns = state.deeperChatMap[state.selectedSlot] || [];
+        root.innerHTML = `
+          <div class="max-w-4xl mx-auto space-y-6 min-w-0">
+            <div class="flex items-center justify-between">
+              <button onclick="switchTab('card-viewer')" class="px-4 py-2 text-xs font-medium rounded-lg border border-emerald-800 text-stone-200">← Return to Card Reading</button>
+              <button onclick="switchTab('spread')" class="px-4 py-2 text-xs font-medium rounded-lg border border-emerald-800 text-stone-200">Back to Main Menu</button>
+            </div>
+            ${state.aiKeyNotice ? `
+              <div class="p-4 rounded-xl border border-amber-500/60 bg-[#261b10] text-amber-100 text-xs flex flex-wrap items-center justify-between gap-2">
+                <span>${state.aiKeyNotice}</span>
+                <button onclick="switchTab('settings', 'wisdom')" class="px-3 py-1.5 rounded-lg bg-amber-300 text-stone-950 font-semibold">Enter API Key in Settings →</button>
+              </div>
+            ` : ''}
+            <div class="bg-[#112218] border border-emerald-800/60 rounded-2xl p-8 prose-out min-w-0">
+              <h2 class="font-display text-2xl font-bold text-amber-200 mb-4">Deeper Reading Analysis: ${record.card.name}</h2>
+              ${marked.parse(analysis)}
+            </div>
+            <div class="bg-[#112218] border border-emerald-800/60 rounded-2xl p-6 sm:p-8 space-y-4 min-w-0">
+              <h3 class="font-display text-xl font-bold text-stone-100">Continue the Exploration</h3>
+              <div class="min-h-[120px] max-h-[340px] overflow-y-auto p-4 rounded-xl bg-[#0a150f] border border-emerald-900/70 space-y-3">
+                ${chatTurns.length === 0 ? '<p class="text-center py-6 text-stone-400 font-serif-prose italic text-sm">Ask deeper questions about this card\'s symbolism or how it applies to your situation...</p>' : chatTurns.map(t => `
+                  <div class="p-3.5 rounded-xl ${t.role === 'user' ? 'bg-emerald-950/70 ml-6' : 'bg-[#13261b] border border-amber-500/30 mr-6'} prose-out min-w-0">
+                    <div class="text-xs font-semibold text-amber-300 mb-1">${t.speaker}</div>
+                    ${marked.parse(t.text)}
+                  </div>
+                `).join('')}
+              </div>
+              <textarea id="deeperQuestionInput" rows="3" placeholder="Ask about specific symbols in the card or how this guidance applies to your path..." class="w-full px-4 py-3 rounded-xl bg-[#0a150f] border border-emerald-800/80 text-stone-100 text-sm"></textarea>
+              <div class="flex justify-end">
+                <button onclick="askDeeperQuestion()" class="px-6 py-2 rounded-lg bg-amber-300 text-stone-950 font-semibold text-sm">Explore Deeper</button>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      if (state.activeTab === 'overall') {
+        root.innerHTML = `
+          <div class="max-w-4xl mx-auto space-y-6 min-w-0">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <button onclick="switchTab('spread')" class="px-4 py-2 text-xs font-medium rounded-lg border border-teal-800 bg-[#0d1f24] text-stone-200">← Return to Spread</button>
+              <div class="flex gap-2">
+                <button onclick="openPrintableModal()" class="px-4 py-2 rounded-lg border border-amber-500/45 bg-[#241b12] text-amber-200 text-xs font-semibold">Print / Save PDF</button>
+                <button onclick="generateOverall()" class="px-5 py-2 rounded-lg bg-amber-300 text-stone-950 font-semibold text-xs">Receive Overall Insight</button>
+              </div>
+            </div>
+            ${state.aiKeyNotice ? `
+              <div class="p-4 rounded-xl border border-amber-500/60 bg-[#261b10] text-amber-100 text-xs flex flex-wrap items-center justify-between gap-2">
+                <span>${state.aiKeyNotice}</span>
+                <button onclick="switchTab('settings', 'wisdom')" class="px-3 py-1.5 rounded-lg bg-amber-300 text-stone-950 font-semibold">Enter API Key in Settings →</button>
+              </div>
+            ` : ''}
+            <div class="bg-[#0f2328]/90 border border-teal-800/65 rounded-2xl p-8 prose-out min-w-0">
+              ${marked.parse(state.overallInsight || 'Click "Receive Overall Insight" to synthesize your drawn spread cards.')}
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      if (state.activeTab === 'reader') {
+        root.innerHTML = `
+          <div class="max-w-4xl mx-auto space-y-6 min-w-0">
+            <div class="bg-[#12192b]/90 border border-indigo-900/65 rounded-2xl p-6 sm:p-8 space-y-6 min-w-0">
+              <div class="flex items-center gap-4 pb-4 border-b border-indigo-900/60">
+                <img src="${GREENWISE_IMAGE_URL}" onerror="this.src='${makeSvgCard(TAROT_CARDS[1], 'naturewise')}'" alt="Greenwise" referrerpolicy="no-referrer" class="w-20 h-20 rounded-xl object-cover border border-amber-400/40 shrink-0" />
+                <div class="min-w-0">
+                  <h2 class="font-display text-2xl font-bold text-amber-200">Personal Card Reader — Greenwise</h2>
+                  <p class="font-serif-prose text-sm text-stone-300">Ask Greenwise anything about your cards, life journey, or spiritual balance.</p>
+                </div>
+              </div>
+              <div class="min-h-[240px] max-h-[420px] overflow-y-auto p-4 rounded-xl bg-[#0b101d] border border-indigo-900/70 space-y-4">
+                ${state.readerMessages.length === 0 ? '<p class="text-center py-10 text-stone-400 font-serif-prose italic">Greenwise awaits your questions...</p>' : state.readerMessages.map(m => `
+                  <div class="p-4 rounded-xl ${m.role === 'user' ? 'bg-indigo-950/70 ml-6' : 'bg-[#172038] border border-amber-500/30 mr-6'} prose-out min-w-0">
+                    <div class="text-xs font-semibold text-amber-300 mb-1">${m.speaker}</div>
+                    ${marked.parse(m.text)}
+                  </div>
+                `).join('')}
+              </div>
+              <div class="space-y-3">
+                <textarea id="readerInput" rows="3" placeholder="Ask Greenwise anything..." class="w-full px-4 py-3 rounded-xl bg-[#0b101d] border border-indigo-800 text-stone-100 text-sm"></textarea>
+                <div class="flex justify-end gap-3">
+                  <button onclick="state.readerMessages=[]; render();" class="px-4 py-2 rounded-lg border border-stone-700 text-xs text-stone-300">Clear</button>
+                  <button onclick="askGreenwise()" class="px-6 py-2 rounded-lg bg-amber-300 text-stone-950 font-semibold text-sm">Send Message</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      if (state.activeTab === 'book') {
+        root.innerHTML = `
+          <div class="max-w-4xl mx-auto space-y-6 min-w-0">
+            <div class="bg-[#1b1326]/90 border border-purple-900/65 rounded-2xl p-6 sm:p-8 space-y-5 min-w-0">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <h2 class="font-display text-2xl font-bold text-amber-200">Your Books of Insight</h2>
+                <div class="flex flex-wrap gap-2">
+                  <button onclick="openPrintableModal()" class="px-4 py-2 rounded-lg border border-amber-500/45 bg-[#241b12] text-amber-200 font-semibold text-xs">Print / Save PDF</button>
+                  <button onclick="saveBookTxt(false)" class="px-4 py-2 rounded-lg bg-amber-300 text-stone-950 font-semibold text-xs">Save Readings + Notes (.txt)</button>
+                  <button onclick="saveBookTxt(true)" class="px-4 py-2 rounded-lg border border-purple-700 text-purple-200 font-semibold text-xs">Save Overall Only (.txt)</button>
+                </div>
+              </div>
+              <textarea rows="4" onchange="state.personalNotes=this.value; localStorage.setItem('nw_personal_notes', this.value);" placeholder="Record your personal reflections..." class="w-full px-4 py-3 rounded-xl bg-[#120c1a] border border-purple-900/70 text-stone-100 text-sm font-serif-prose">${state.personalNotes}</textarea>
+              <div class="space-y-3">
+                ${state.wisdomEntries.length === 0 ? '<p class="text-center py-8 text-stone-400 italic font-serif-prose">No cards drawn yet.</p>' : state.wisdomEntries.map(e => `
+                  <div class="p-4 rounded-xl bg-[#120c1a]/90 border border-purple-900/60 prose-out min-w-0">
+                    <div class="text-xs text-amber-300 mb-1">${e.card ? (e.card.name + ' (' + e.card.traditional + ')') : 'Overall Insight'} · ${e.date}</div>
+                    ${marked.parse(e.reading)}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      if (state.activeTab === 'about') {
+        const modalCard = state.modalCardNumber !== null ? TAROT_CARDS.find(c => c.number === state.modalCardNumber) : null;
+        root.innerHTML = `
+          <div class="max-w-4xl mx-auto bg-[#1c1813]/90 border border-amber-900/55 rounded-2xl p-6 sm:p-8 space-y-6 min-w-0">
+            <h2 class="font-display text-3xl font-bold text-amber-200 text-center">The Fountellion Tarot Deck</h2>
+            <div class="text-center">
+              <button onclick="openLoreModal(7)" class="w-60 h-60 mx-auto block rounded-2xl overflow-hidden border border-amber-400/40 shadow-2xl bg-[#110e0b]">
+                <img src="${ABOUT_IMAGE_URL}" onerror="this.src='${makeSvgCard(TAROT_CARDS[7], 'naturewise')}'" alt="The Colours of Progression" referrerpolicy="no-referrer" class="w-full h-full object-cover" />
+              </button>
+              <p class="text-xs text-stone-400 italic mt-2">Click any card below to view its artwork &amp; interpretation</p>
+            </div>
+            <p class="font-serif-prose text-stone-200 leading-relaxed">
+              The card themes originate from <strong>Fountellion</strong> (Fountain Island), an <a href="https://paragraph.com/@fountellion" target="_blank" class="underline text-amber-300">open-world game concept</a> where players learn survival, naturalist, and regenerative permaculture techniques.
+            </p>
+            <p class="font-serif-prose text-stone-200 leading-relaxed">
+              View the full collection on <a href="https://paragraph.com/@fountellion/fountellion-tarot" target="_blank" class="underline text-amber-300">Paragraph &amp; the Arweave Permaweb</a>, and read more from <a href="https://paragraph.com/@adespress" target="_blank" class="underline text-amber-300">Ade's Press on Paragraph</a>.
+            </p>
+            <div class="grid sm:grid-cols-2 gap-2.5 text-xs font-serif-prose text-stone-200 pt-4 border-t border-amber-900/40">
+              ${TAROT_CARDS.map(c => `
+                <button onclick="openLoreModal(${c.number})" class="text-left p-3 rounded-xl bg-[#120f0b] hover:bg-[#241d15] border border-amber-900/40 hover:border-amber-500/60 flex items-center justify-between gap-2 min-w-0">
+                  <span class="min-w-0 break-words"><strong>${c.number}. ${c.name}</strong> <em class="text-stone-400">(${c.traditional})</em></span>
+                  <span class="text-amber-300 shrink-0">View →</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+          ${modalCard ? `
+            <div onclick="closeLoreModal()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-safari">
+              <div onclick="event.stopPropagation()" class="w-full max-w-2xl rounded-2xl bg-[#181410] border border-amber-500/50 p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between border-b border-amber-900/50 pb-3">
+                  <div>
+                    <div class="text-xs text-amber-300 uppercase">Major Arcana ${modalCard.roman}</div>
+                    <h3 class="font-display text-2xl font-bold text-stone-100">${modalCard.name} (${modalCard.traditional})</h3>
+                  </div>
+                  <button onclick="closeLoreModal()" class="px-3 py-1 rounded border border-stone-700 text-xs text-stone-300">✕ Close</button>
+                </div>
+                <div class="grid sm:grid-cols-12 gap-5 items-start">
+                  <div class="sm:col-span-5 text-center space-y-2">
+                    <img src="${modalCard.arweaveUrl}" onerror="this.src='${makeSvgCard(modalCard, 'naturewise')}'" alt="${modalCard.name}" referrerpolicy="no-referrer" class="w-48 h-48 mx-auto rounded-xl object-cover border border-amber-500/40 ${state.modalInverted ? 'card-inverted' : ''}" />
+                    <button onclick="state.modalInverted=!state.modalInverted; render();" class="px-3 py-1 rounded border border-amber-700/60 text-xs text-amber-200">Toggle Upright / Inverted</button>
+                  </div>
+                  <div class="sm:col-span-7 space-y-3 text-sm font-serif-prose">
+                    <div class="p-3 rounded-lg bg-[#120f0b] border border-amber-900/40">
+                      <div class="text-xs font-bold text-amber-300 uppercase mb-1">Symbolism (${modalCard.element})</div>
+                      <p class="text-stone-200">${modalCard.symbolism}</p>
+                    </div>
+                    <div class="p-3 rounded-lg bg-[#112218] border border-emerald-800/50">
+                      <div class="text-xs font-bold text-emerald-300 uppercase mb-1">Upright Meaning</div>
+                      <p class="text-stone-200">${modalCard.meaning}</p>
+                    </div>
+                    <div class="p-3 rounded-lg bg-[#241a10] border border-amber-800/50">
+                      <div class="text-xs font-bold text-amber-300 uppercase mb-1">Inverted Meaning</div>
+                      <p class="text-stone-200">${modalCard.invertedMeaning}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+        `;
+        return;
+      }
+
+      // Settings view with Sound Icon Toggle & BYOK keys
+      root.innerHTML = `
+        <div class="max-w-3xl mx-auto bg-[#131a24]/90 border border-slate-800/80 rounded-2xl p-6 sm:p-8 space-y-6 min-w-0">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="font-display text-2xl font-bold text-amber-200">Wisdom AI (BYOK), Art &amp; Profile Settings</h2>
+              <p id="detectStatus" class="text-xs text-emerald-300 mt-1">Works 100% without AI out-of-the-box, or enter your Gemini / OpenRouter key for live AI synthesis.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="toggleSound()" class="inline-flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-medium transition-colors ${state.soundEnabled ? 'bg-[#12261b] text-emerald-200 border-emerald-600/50' : 'bg-[#171d26] text-stone-400 border-slate-700/70'}" title="Toggle subtle click &amp; card shuffle sounds">
+                <span>${state.soundEnabled ? '🔊 Sounds: On' : '🔇 Sounds: Off'}</span>
+              </button>
+              <button onclick="autoDetectModels()" class="px-4 py-2 text-xs font-medium bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl">Auto-Detect Text &amp; Image Models</button>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="p-4 rounded-xl bg-[#0b131d] border border-sky-800/50 space-y-2">
+              <label class="block text-xs font-semibold text-sky-200">Google Gemini API Key (BYOK)</label>
+              <input type="password" value="${state.aiConfig.geminiKey}" onchange="state.aiConfig.geminiKey=this.value;localStorage.setItem('nw_gemini_key',this.value);updateTopKeyBadge();" placeholder="AIzaSy..." class="w-full px-3 py-2 rounded-lg bg-[#070d14] border border-slate-700 text-sm text-stone-100" />
+            </div>
+            <div class="p-4 rounded-xl bg-[#0b131d] border border-amber-800/50 space-y-2">
+              <label class="block text-xs font-semibold text-amber-200">OpenRouter API Key (BYOK)</label>
+              <input type="password" value="${state.aiConfig.openrouterKey}" onchange="state.aiConfig.openrouterKey=this.value;localStorage.setItem('nw_openrouter_key',this.value);updateTopKeyBadge();" placeholder="sk-or-v1-..." class="w-full px-3 py-2 rounded-lg bg-[#070d14] border border-slate-700 text-sm text-stone-100" />
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs text-stone-300 mb-1">Wisdom Interpretation Model (Gemini / OpenRouter / Offline)</label>
+              <select onchange="state.aiConfig.textModel=this.value;localStorage.setItem('nw_selected_text_model',this.value);" class="w-full px-3 py-2.5 rounded-lg bg-[#0a1610] border border-emerald-800 text-sm text-stone-100">
+                ${TEXT_MODELS.map(m => `<option value="${m.id}" ${state.aiConfig.textModel===m.id?'selected':''}>${m.name}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-stone-300 mb-1">Card Image Generation Model (Gemini / OpenRouter / Offline)</label>
+              <select onchange="state.aiConfig.imageModel=this.value;localStorage.setItem('nw_selected_image_model',this.value);" class="w-full px-3 py-2.5 rounded-lg bg-[#0a1610] border border-emerald-800 text-sm text-stone-100">
+                ${IMAGE_MODELS.map(m => `<option value="${m.id}" ${state.aiConfig.imageModel===m.id?'selected':''}>${m.name}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs text-stone-300 mb-1">Custom Card Art Style Description</label>
+            <textarea rows="2" onchange="state.aiConfig.customArtStyle=this.value;localStorage.setItem('nw_custom_art_style',this.value);" class="w-full px-3 py-2 rounded-lg bg-[#0a1610] border border-emerald-800 text-xs text-stone-100 font-serif-prose">${state.aiConfig.customArtStyle}</textarea>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4 pt-4 border-t border-slate-800">
+            <div>
+              <label class="block text-xs text-stone-300 mb-1">Your First Name (Optional Profile)</label>
+              <input type="text" value="${state.profile.firstName}" onchange="state.profile.firstName=this.value" placeholder="First name" class="w-full px-3 py-2 rounded-lg bg-[#0a1610] border border-emerald-800 text-sm text-stone-100" />
+            </div>
+            <div>
+              <label class="block text-xs text-stone-300 mb-1">Nearest City + Country</label>
+              <input type="text" value="${state.profile.location}" onchange="state.profile.location=this.value" placeholder="e.g., London, UK" class="w-full px-3 py-2 rounded-lg bg-[#0a1610] border border-emerald-800 text-sm text-stone-100" />
+            </div>
+          </div>
+          <div class="pt-4 border-t border-slate-800 flex justify-end">
+            <button onclick="switchTab('spread')" class="px-6 py-2 bg-amber-300 text-stone-950 font-semibold text-sm rounded-lg">Save &amp; Return to Spread</button>
+          </div>
+        </div>
+      `;
+    }
+
+    render();
+  </script>
+</body>
+</html>
